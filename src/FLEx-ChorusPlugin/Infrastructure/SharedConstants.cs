@@ -165,36 +165,6 @@ namespace FLEx_ChorusPlugin.Infrastructure
 		internal const string Anthropology = "Anthropology";
 		internal const string RnGenericRec = "RnGenericRec";
 
-		// Scripture
-		internal const string TranslatedScripture = "TranslatedScripture";
-		internal const string ScriptureReferenceSystem = "ReferenceSystem";
-		internal const string ArchivedDrafts = "ArchivedDrafts";
-		internal const string ArchivedDraft = "ArchivedDraft";
-		internal const string Draft = "Draft";
-		internal const string ScrDraft = "ScrDraft";
-		internal const string ImportSettingsFilename = "Settings." + ImportSetting;
-		internal const string ImportSettings = "ImportSettings";
-		internal const string ImportSetting = "ImportSetting";
-		internal const string ScrImportSet = "ScrImportSet";
-		internal const string Trans = "trans";
-		internal const string Scripture = "Scripture";
-		internal const string Other = "Other";
-		internal const string Srs = "srs";
-		internal const string ScriptureReferenceSystemFilename = ScriptureReferenceSystem + "." + Srs;
-		internal const string ScriptureTranslation = "Translations";
-		internal const string ScriptureTransFilename = ScriptureTranslation + "." + Trans;
-		internal const string NoteCategories = "NoteCategories";
-		internal const string NoteCategoriesListFilename = NoteCategories + "." + List;
-		internal const string bookannotations = "bookannotations";
-		internal const string book = "book";
-		internal const string Book = "Book";
-		internal const string ScrBook = "ScrBook";
-		internal const string Books = "Books";
-		internal const string ScrBookAnnotations = "ScrBookAnnotations";
-		internal const string BookAnnotations = "BookAnnotations";
-		internal const string ScriptureBooks = "ScriptureBooks";
-		internal const string ScrRefSystem = "ScrRefSystem";
-
 		/***** Relocate ones that get added below here. *****/
 	}
 }

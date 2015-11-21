@@ -58,6 +58,7 @@ All*Files.lst
 Download/
 lib/*/Palaso*.dll
 lib/*/Chorus*.exe
+lib/*/Chorus_Help.chm
 lib/*/LibChorus*.dll
 lib/*/Mercurial*.zip
 lib/*/icu*.dll*

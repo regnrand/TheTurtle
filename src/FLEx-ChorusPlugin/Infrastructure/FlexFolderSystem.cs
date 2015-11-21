@@ -82,14 +82,6 @@ namespace FLEx_ChorusPlugin.Infrastructure
 			// Anthropology
 			projectFolderConfiguration.IncludePatterns.Add(Path.Combine("Anthropology", SharedConstants.DataNotebookFilename));
 
-			// Scripture
-			projectFolderConfiguration.IncludePatterns.Add(Path.Combine("Other", SharedConstants.ScriptureReferenceSystemFilename));
-			projectFolderConfiguration.IncludePatterns.Add(Path.Combine("Other", "*.ArchivedDraft"));
-			projectFolderConfiguration.IncludePatterns.Add(Path.Combine("Other", SharedConstants.ScriptureTransFilename));
-			projectFolderConfiguration.IncludePatterns.Add(Path.Combine("Other", SharedConstants.ImportSettingsFilename));
-			projectFolderConfiguration.IncludePatterns.Add(Path.Combine("Other", "Books", "*.bookannotations"));
-			projectFolderConfiguration.IncludePatterns.Add(Path.Combine("Other", "Books", "*.book"));
-
 			// Leftovers
 			// Style file and user-defined lists ought to be covered, above.
 			projectFolderConfiguration.IncludePatterns.Add(Path.Combine("General", SharedConstants.FLExFiltersFilename));

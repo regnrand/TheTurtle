@@ -18,6 +18,7 @@
   </Target>
 
   <Target Name="StampReleaseFiles" DependsOnTargets="VersionNumbers">
+
 	<!-- Copy these so we aren't modifying the original, which then is a pain on dev machines. -->
 	<Copy SourceFiles="$(RootDir)\DistFiles\about.htm" DestinationFolder="$(RootDir)\output\Installer"/>
 	<FileUpdate File="$(RootDir)\output\Installer\about.htm" DatePlaceholder="DEV_RELEASE_DATE" Regex="DEV_VERSION_NUMBER" ReplacementText="$(Version)"/>
