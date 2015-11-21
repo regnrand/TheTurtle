@@ -429,21 +429,6 @@ namespace FwdataTestApp
 						case SharedConstants.pictures:
 							mainRecordName = SharedConstants.CmPicture;
 							break;
-						case SharedConstants.ImportSetting:
-							mainRecordName = SharedConstants.ScrImportSet;
-							break;
-						case SharedConstants.Srs:
-							mainRecordName = SharedConstants.ScrRefSystem;
-							break;
-						case SharedConstants.Trans:
-							mainRecordName = SharedConstants.Scripture;
-							break;
-						case SharedConstants.bookannotations:
-							mainRecordName = SharedConstants.ScrBookAnnotations;
-							break;
-						case SharedConstants.book:
-							mainRecordName = SharedConstants.ScrBook;
-							break;
 						case SharedConstants.Ntbk:
 							optionalElementName = SharedConstants.Header;
 							mainRecordName = SharedConstants.RnGenericRec;

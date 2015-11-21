@@ -12,7 +12,6 @@ using System.Xml.Linq;
 using FLEx_ChorusPlugin.Contexts.Anthropology;
 using FLEx_ChorusPlugin.Contexts.General;
 using FLEx_ChorusPlugin.Contexts.Linguistics;
-using FLEx_ChorusPlugin.Contexts.Scripture;
 using FLEx_ChorusPlugin.Infrastructure;
 using FLEx_ChorusPlugin.Infrastructure.DomainServices;
 using Palaso.Progress;
@@ -30,7 +29,6 @@ namespace FLEx_ChorusPlugin.Contexts
 			// NB: Don't even think of changing the order these methods are called in.
 			LinguisticsDomainServices.WriteNestedDomainData(progress, writeVerbose, pathRoot, wellUsedElements, classData, guidToClassMapping);
 			AnthropologyDomainServices.WriteNestedDomainData(progress, writeVerbose, pathRoot, wellUsedElements, classData, guidToClassMapping);
-			ScriptureDomainServices.WriteNestedDomainData(progress, writeVerbose, pathRoot, wellUsedElements, classData, guidToClassMapping);
 			GeneralDomainServices.WriteNestedDomainData(progress, writeVerbose, pathRoot, wellUsedElements, classData, guidToClassMapping);
 		}
 
@@ -43,7 +41,6 @@ namespace FLEx_ChorusPlugin.Contexts
 			// NB: Don't even think of changing the order these methods are called in.
 			GeneralDomainServices.FlattenDomain(progress, writeVerbose, highLevelData, sortedData, pathRoot);
 			CmObjectFlatteningService.CombineData(retval, sortedData);
-			ScriptureDomainServices.FlattenDomain(progress, writeVerbose, highLevelData, sortedData, pathRoot);
 			CmObjectFlatteningService.CombineData(retval, sortedData);
 			AnthropologyDomainServices.FlattenDomain(progress, writeVerbose, highLevelData, sortedData, pathRoot);
 			CmObjectFlatteningService.CombineData(retval, sortedData);
@@ -62,7 +59,6 @@ namespace FLEx_ChorusPlugin.Contexts
 		{
 			LinguisticsDomainServices.RemoveBoundedContextData(pathRoot);
 			AnthropologyDomainServices.RemoveBoundedContextData(pathRoot);
-			ScriptureDomainServices.RemoveBoundedContextData(pathRoot);
 			GeneralDomainServices.RemoveBoundedContextData(pathRoot);
 		}
 

@@ -1,10 +1,13 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OtherDocs", "OtherDocs", "{0D38A3A9-1AE9-4984-A412-D395D2666ECC}"
 	ProjectSection(SolutionItems) = preProject
 		DistFiles\about.htm = DistFiles\about.htm
 		build\build.common.proj = build\build.common.proj
+		src\CommonAssemblyInfo.cs = src\CommonAssemblyInfo.cs
 		build\FLExBridge.build.mono.proj = build\FLExBridge.build.mono.proj
 		build\FLExBridge.build.win.proj = build\FLExBridge.build.win.proj
 		src\Installer\Installer.wixproj = src\Installer\Installer.wixproj
@@ -222,7 +225,8 @@ Global
 		{FC668C72-7472-4774-8501-8E021ECF3BEA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{FC668C72-7472-4774-8501-8E021ECF3BEA}.Release|x86.ActiveCfg = Release|Any CPU
 		{FC668C72-7472-4774-8501-8E021ECF3BEA}.Release|x86.Build.0 = Release|Any CPU
-		{FC668C72-7472-4774-8501-8E021ECF3BEA}.ReleaseMono|Any CPU.ActiveCfg = ReleaseMono|x86
+		{FC668C72-7472-4774-8501-8E021ECF3BEA}.ReleaseMono|Any CPU.ActiveCfg = ReleaseMono|Any CPU
+		{FC668C72-7472-4774-8501-8E021ECF3BEA}.ReleaseMono|Any CPU.Build.0 = ReleaseMono|Any CPU
 		{FC668C72-7472-4774-8501-8E021ECF3BEA}.ReleaseMono|Mixed Platforms.ActiveCfg = ReleaseMono|Any CPU
 		{FC668C72-7472-4774-8501-8E021ECF3BEA}.ReleaseMono|Mixed Platforms.Build.0 = ReleaseMono|Any CPU
 		{FC668C72-7472-4774-8501-8E021ECF3BEA}.ReleaseMono|x86.ActiveCfg = ReleaseMono|Any CPU

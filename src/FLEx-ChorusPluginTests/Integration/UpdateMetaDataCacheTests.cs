@@ -273,20 +273,53 @@ namespace FLEx_ChorusPluginTests.Integration
 			DoMerge(fileHandler, 7000068);
 			Assert.AreEqual(DataType.OwningSequence, mdc.GetClassInfo("ReversalIndexEntry").GetProperty("Subentries").DataType);
 
-			// 7000069:
-			//	1. Remove "ScrDraft" class and "ArchivedDrafts" from "Scripture" object.
-			//	2. Remove "ScrDifference" class and its owning property "Diffs" on "ScrBook".
-			CheckPropertyExistsBeforeUpGrade(mdc, "Scripture", "ArchivedDrafts");
-			Assert.IsNotNull(mdc.GetClassInfo("ScrDraft"));
-			CheckPropertyExistsBeforeUpGrade(mdc, "ScrBook", "Diffs");
-			Assert.IsNotNull(mdc.GetClassInfo("ScrDifference"));
+			// 7000069->8999999:  No actual model change.
+			CheckNoModelChangesUpgrade(mdc, fileHandler, 8999999);
 
-			DoMerge(fileHandler, 7000069);
+			// 9000000:
+			// 1. Remove all Sripture model
+			//	That is all of these classes:
+			//		Scripture, ScrBook, ScrRefSystem, ScrBookRef, ScrSection, ScrImportSet, ScrDraft, ScrDifference,
+			//		ScrImportSource, ScrImportP6Project, ScrImportSFFiles, ScrMarkerMapping, ScrBookAnnotations,
+			//		ScrScriptureNote, ScrCheckRun, ScrTxtPara, ScrFootnote
+			// 2. Add "Certified' to WfiWordform
+			CheckPropertyExistsBeforeUpGrade(mdc, "LangProject", "TranslatedScripture");
+			CheckPropertyExistsBeforeUpGrade(mdc, "CmMajorObject", "Publications");
+			CheckPropertyExistsBeforeUpGrade(mdc, "CmMajorObject", "HeaderFooterSets");
+			CheckPropertyDoesNotExistBeforeUpGrade(mdc, "WfiWordform", "Certified");
 
-			CheckPropertyRemovedAfterUpGrade(mdc, "Scripture", "ArchivedDrafts");
-			CheckPropertyRemovedAfterUpGrade(mdc, "ScrBook", "Diffs");
+			DoMerge(fileHandler, 9000000);
+
+			CheckPropertyRemovedAfterUpGrade(mdc, "LangProject", "TranslatedScripture");
+			CheckPropertyRemovedAfterUpGrade(mdc, "CmMajorObject", "Publications");
+			CheckPropertyRemovedAfterUpGrade(mdc, "CmMajorObject", "HeaderFooterSets");
+			// 2. Modified WfiWordform
+			//	Add: boolean "Certified"
+			classInfo = mdc.GetClassInfo("WfiWordform");
+			CheckNewPropertyAfterUpgrade(classInfo, "Certified", DataType.Boolean);
+			// Removed classes:
+			//		Scripture, ScrBook, ScrRefSystem, ScrBookRef, ScrSection, ScrImportSet, ScrDraft, ScrDifference,
+			//		ScrImportSource, ScrImportP6Project, ScrImportSFFiles, ScrMarkerMapping, ScrBookAnnotations,
+			//		ScrScriptureNote, ScrCheckRun, ScrTxtPara, ScrFootnote, StFootnote, StJournalText
+			Assert.IsNull(mdc.GetClassInfo("Scripture"));
+			Assert.IsNull(mdc.GetClassInfo("ScrBook"));
+			Assert.IsNull(mdc.GetClassInfo("ScrRefSystem"));
+			Assert.IsNull(mdc.GetClassInfo("ScrBookRef"));
+			Assert.IsNull(mdc.GetClassInfo("ScrSection"));
+			Assert.IsNull(mdc.GetClassInfo("ScrImportSet"));
 			Assert.IsNull(mdc.GetClassInfo("ScrDraft"));
 			Assert.IsNull(mdc.GetClassInfo("ScrDifference"));
+			Assert.IsNull(mdc.GetClassInfo("ScrImportSource"));
+			Assert.IsNull(mdc.GetClassInfo("ScrImportP6Project"));
+			Assert.IsNull(mdc.GetClassInfo("ScrImportSFFiles"));
+			Assert.IsNull(mdc.GetClassInfo("ScrMarkerMapping"));
+			Assert.IsNull(mdc.GetClassInfo("ScrBookAnnotations"));
+			Assert.IsNull(mdc.GetClassInfo("ScrScriptureNote"));
+			Assert.IsNull(mdc.GetClassInfo("ScrCheckRun"));
+			Assert.IsNull(mdc.GetClassInfo("ScrTxtPara"));
+			Assert.IsNull(mdc.GetClassInfo("ScrFootnote"));
+			Assert.IsNull(mdc.GetClassInfo("StFootnote"));
+			Assert.IsNull(mdc.GetClassInfo("StJournalText"));
 		}
 
 		[Test]

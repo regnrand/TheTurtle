@@ -21,7 +21,6 @@ using FLEx_ChorusPlugin.Infrastructure.Handling.Linguistics.Phonology;
 using FLEx_ChorusPlugin.Infrastructure.Handling.Linguistics.Reversal;
 using FLEx_ChorusPlugin.Infrastructure.Handling.Linguistics.TextCorpus;
 using FLEx_ChorusPlugin.Infrastructure.Handling.Linguistics.WordformInventory;
-using FLEx_ChorusPlugin.Infrastructure.Handling.Scripture;
 using Palaso.Code;
 using Palaso.Network;
 
@@ -151,13 +150,6 @@ namespace FLEx_ChorusPlugin.Infrastructure.DomainServices
 				case "RnGenericRec":
 					classStrat.ContextDescriptorGenerator = new RnGenericRecContextGenerator();
 					break;
-				case "ScrBook":
-					classStrat.ContextDescriptorGenerator = new ScrBookContextGenerator();
-					break;
-				case "ScrSection":
-					classStrat.ContextDescriptorGenerator = new ScrSectionContextGenerator();
-					break;
-				case "ScrTxtPara": // Fall through.
 				case "StTxtPara":
 					// This will never be used, since StTxtParas & ScrTxtParas are actually in an 'ownseq' element.
 					classStrat.Premerger = new StTxtParaPremerger();

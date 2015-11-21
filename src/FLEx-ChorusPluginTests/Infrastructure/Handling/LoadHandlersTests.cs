@@ -55,13 +55,6 @@ namespace FLEx_ChorusPluginTests.Infrastructure.Handling
 				SharedConstants.orderings,			// 'orderings'
 				SharedConstants.pictures,			// 'pictures'
 
-				// Scripture
-				SharedConstants.ImportSetting,		// 'ImportSetting'
-				SharedConstants.Srs,				// 'srs'
-				SharedConstants.Trans,				// 'trans'
-				SharedConstants.bookannotations,	// 'bookannotations'
-				SharedConstants.book,				// 'book'
-
 				// Anthropology
 				SharedConstants.Ntbk,				// 'ntbk'
 
