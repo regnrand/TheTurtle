@@ -8,6 +8,8 @@ output/*
 ^Mercurial/
 gexp
 Perf test  results/*.*
+.idea/**
+*.iml
 test-results/*
 src/FLEx-ChorusPlugin/bin/*
 src/FLEx-ChorusPlugin/obj/*
