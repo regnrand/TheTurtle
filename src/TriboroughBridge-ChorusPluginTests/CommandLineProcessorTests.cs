@@ -252,7 +252,7 @@ namespace TriboroughBridge_ChorusPluginTests
 			// Has no .hg folder
 			Assert.Throws<CommandLineException>(() => CommandLineProcessor.ValidateCommandLineArgs(_options), "Seems to have an '.hg' folder");
 
-			Directory.CreateDirectory(Path.Combine(Path.GetDirectoryName(fooFwdataPathname), Utilities.hg));
+			Directory.CreateDirectory(Path.Combine(Path.GetDirectoryName(fooFwdataPathname), TriboroughBridgeUtilities.hg));
 			Assert.DoesNotThrow(() => CommandLineProcessor.ValidateCommandLineArgs(_options), "Seems to not have the Lift '.hg' folder");
 		}
 	}

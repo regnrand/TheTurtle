@@ -231,7 +231,7 @@ namespace FLEx_ChorusPlugin.Infrastructure.ActionHandlers
 				ClientSize = new Size(904, 510)
 			};
 			_chorusUser = new ChorusUser(commandLineArgs["-u"]);
-			_chorusSystem = TriboroughBridge_ChorusPlugin.Utilities.InitializeChorusSystem(ProjectDir, _chorusUser.Name,
+			_chorusSystem = TriboroughBridge_ChorusPlugin.TriboroughBridgeUtilities.InitializeChorusSystem(ProjectDir, _chorusUser.Name,
 				FlexFolderSystem.ConfigureChorusProjectFolder);
 			_chorusSystem.EnsureAllNotesRepositoriesLoaded();
 			_notesBrowser = _chorusSystem.WinForms.CreateNotesBrowser();

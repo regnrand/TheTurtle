@@ -57,7 +57,7 @@ namespace TriboroughBridge_ChorusPlugin
 				{
 					//not all options are followed by input, so just add them as a key
 					if (arg.StartsWith("-") ||
-						(Utilities.IsWindows && arg.StartsWith("/")))
+						(TriboroughBridgeUtilities.IsWindows && arg.StartsWith("/")))
 					{
 						currentKey = arg.Trim();
 						commandLineArgs[currentKey] = null;

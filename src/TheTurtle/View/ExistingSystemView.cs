@@ -6,9 +6,8 @@ using Chorus;
 using Chorus.UI.Misc;
 using Chorus.UI.Settings;
 using Chorus.UI.Sync;
-using FLEx_ChorusPlugin.Infrastructure;
-using LibTriboroughBridgeChorusPlugin;
 using TheTurtle.Model;
+using FLEx_ChorusPlugin.Infrastructure;
 
 namespace TheTurtle.View
 {
@@ -48,7 +47,7 @@ namespace TheTurtle.View
 				ResetPage(0, chorusSystem.WinForms.CreateNotesBrowser());
 				ResetPage(1, chorusSystem.WinForms.CreateHistoryPage());
 				var synchronizerAdjunct = new FlexBridgeSychronizerAdjunct(
-					Path.Combine(_project.DirectoryName, _project.Name + SharedConstants.FwXmlExtension),
+					Path.Combine(_project.DirectoryName, _project.Name + TheTurtleUtilities.FwXmlExtension),
 					Path.Combine(TheTurtleUtilities.FwAssemblyPath, "FixFwData.exe"),
 					true);
 				Model = new SyncControlModel(chorusSystem.ProjectFolderConfiguration,

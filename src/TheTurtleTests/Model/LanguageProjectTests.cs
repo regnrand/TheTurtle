@@ -1,11 +1,9 @@
 ﻿using System;
 using System.IO;
-using FLEx_ChorusPlugin.Infrastructure;
-using LibTriboroughBridgeChorusPlugin;
 using NUnit.Framework;
-using Palaso.IO;
+using SIL.IO;
+using TheTurtle;
 using TheTurtle.Model;
-using TriboroughBridge_ChorusPlugin;
 
 namespace TheTurtleTests.Model
 {
@@ -45,7 +43,7 @@ namespace TheTurtleTests.Model
 		[Test]
 		public void FwFileHasFolderPath()
 		{
-			using (var tempFile = TempFile.WithExtension(SharedConstants.FwXmlExtension))
+			using (var tempFile = TempFile.WithExtension(TheTurtleUtilities.FwXmlExtension))
 			{
 				var lp = new LanguageProject(tempFile.Path);
 				Assert.AreEqual(Path.GetDirectoryName(tempFile.Path), lp.DirectoryName);
@@ -55,7 +53,7 @@ namespace TheTurtleTests.Model
 		[Test]
 		public void ProjectHasCorrectName()
 		{
-			using (var tempFile = TempFile.WithExtension(SharedConstants.FwXmlExtension))
+			using (var tempFile = TempFile.WithExtension(TheTurtleUtilities.FwXmlExtension))
 			{
 				var lp = new LanguageProject(tempFile.Path);
 				Assert.AreEqual(Path.GetDirectoryName(tempFile.Path), lp.DirectoryName);
@@ -72,12 +70,12 @@ namespace TheTurtleTests.Model
 			var tempDir = Directory.CreateDirectory(Path.Combine(tempFolder, "FWBTest"));
 			try
 			{
-				var fwdataFile = Path.Combine(tempDir.FullName, "test" + SharedConstants.FwXmlExtension);
+				var fwdataFile = Path.Combine(tempDir.FullName, "test" + TheTurtleUtilities.FwXmlExtension);
 				File.WriteAllText(fwdataFile, "");
 
 				var lp = new LanguageProject(fwdataFile);
 				Assert.IsFalse(lp.FieldWorkProjectInUse);
-				var lockedFwdataFile = fwdataFile + SharedConstants.FwLockExtension;
+				var lockedFwdataFile = fwdataFile + TheTurtleUtilities.FwLockExtension;
 				File.WriteAllText(lockedFwdataFile, "");
 				Assert.IsTrue(lp.FieldWorkProjectInUse);
 			}
@@ -91,7 +89,7 @@ namespace TheTurtleTests.Model
 		[Test]
 		public void NameIsSameAsToString()
 		{
-			using (var tempFile = TempFile.WithExtension(SharedConstants.FwXmlExtension))
+			using (var tempFile = TempFile.WithExtension(TheTurtleUtilities.FwXmlExtension))
 			{
 				var lp = new LanguageProject(tempFile.Path);
 				Assert.AreEqual(Path.GetFileNameWithoutExtension(tempFile.Path), lp.ToString());

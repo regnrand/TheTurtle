@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using LibTriboroughBridgeChorusPlugin;
-using TriboroughBridge_ChorusPlugin;
+using TheTurtle;
 
 namespace TheTurtleTests
 {
@@ -21,19 +20,19 @@ namespace TheTurtleTests
 
 			// Remote collaboration enabled project
 			var projectPath = Directory.CreateDirectory(Path.Combine(BaseFolderPath, "ZPI")).FullName;
-			Directory.CreateDirectory(Path.Combine(projectPath, Utilities.hg));
+			Directory.CreateDirectory(Path.Combine(projectPath, ".hg"));
 			_dummyFolderPaths.Add(projectPath);
-			File.WriteAllText(Path.Combine(projectPath, "ZPI" + SharedConstants.FwXmlExtension), "");
+			File.WriteAllText(Path.Combine(projectPath, "ZPI" + TheTurtleUtilities.FwXmlExtension), "");
 
 			// Remote collaboration not enabled project
 			projectPath = Directory.CreateDirectory(Path.Combine(BaseFolderPath, "NotEnabled")).FullName;
 			_dummyFolderPaths.Add(projectPath);
-			File.WriteAllText(Path.Combine(projectPath, "NotEnabled" + SharedConstants.FwXmlExtension), "");
+			File.WriteAllText(Path.Combine(projectPath, "NotEnabled" + TheTurtleUtilities.FwXmlExtension), "");
 
 			// Client-Server DB4o project
 			projectPath = Directory.CreateDirectory(Path.Combine(BaseFolderPath, "DB4o")).FullName;
 			_dummyFolderPaths.Add(projectPath);
-			File.WriteAllText(Path.Combine(projectPath, "DB4o" + SharedConstants.FwDb4oExtension), "");
+			File.WriteAllText(Path.Combine(projectPath, "DB4o" + TheTurtleUtilities.FwDb4oExtension), "");
 
 			// Random non-FW folder
 			projectPath = Directory.CreateDirectory(Path.Combine(BaseFolderPath, "RandomFolder")).FullName;

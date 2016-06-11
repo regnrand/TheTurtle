@@ -1,10 +1,9 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Windows.Forms;
-using LibFLExBridgeChorusPlugin.Infrastructure;
 using TheTurtle.View;
-using TriboroughBridge_ChorusPlugin.Properties;
-using Utilities = TriboroughBridge_ChorusPlugin.Utilities;
+using LibFLExBridgeChorusPlugin.Infrastructure;
+using TriboroughBridge_ChorusPlugin;
 
 namespace TheTurtle.Model
 {
@@ -36,13 +35,13 @@ namespace TheTurtle.Model
 			if (CurrentProject == e.Project)
 				return;
 			CurrentProject = e.Project;
-			Settings.Default.LastTurtleProject = CurrentProject.Name;
-			Settings.Default.Save();
+			TheTurtleSettings.Default.LastTurtleProject = CurrentProject.Name;
+			TheTurtleSettings.Default.Save();
 
 			// NB: Creating a new ChorusSystem will also create the Hg repo, if it does not exist.
 			// This possible repo creation allows for the case where the local computer
 			// intends to start sharing an existing system.
-			var chorusSystem = Utilities.InitializeChorusSystem(CurrentProject.DirectoryName, Environment.UserName, FlexFolderSystem.ConfigureChorusProjectFolder);
+			var chorusSystem = TriboroughBridgeUtilities.InitializeChorusSystem(CurrentProject.DirectoryName, Environment.UserName, FlexFolderSystem.ConfigureChorusProjectFolder);
 			chorusSystem.EnsureAllNotesRepositoriesLoaded();
 			// 1: If FW project is in use, then show a warning message.
 			var projectInUse = CurrentProject.FieldWorkProjectInUse;
@@ -71,7 +70,7 @@ namespace TheTurtle.Model
 		{
 			_turtleView.SetProjects(
 				_repository.AllLanguageProjects,
-				_repository.GetProject(Settings.Default.LastTurtleProject));
+				_repository.GetProject(TheTurtleSettings.Default.LastTurtleProject));
 		}
 
 		#region IDisposable implementation

@@ -7,6 +7,13 @@ namespace TheTurtle
 {
 	internal static class TheTurtleUtilities
 	{
+		public const string FwXmlExtension = "." + FwXmlExtensionNoPeriod;
+		public const string FwXmlExtensionNoPeriod = "fwdata";
+		public const string FwLockExtension = ".lock";
+		public const string FwXmlLockExtension = FwXmlExtension + FwLockExtension;
+		public const string FwDb4oExtension = "." + FwDb4oExtensionNoPeriod;
+		public const string FwDb4oExtensionNoPeriod = "fwdb";
+
 		internal static string ProjectsPath
 		{
 			get

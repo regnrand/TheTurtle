@@ -25,7 +25,7 @@ namespace TriboroughBridge_ChorusPlugin.Infrastructure.ActionHandlers
 		/// </summary>
 		public void StartWorking(Dictionary<string, string> commandLineArgs)
 		{
-			Process.Start(Path.Combine(Path.GetDirectoryName(Utilities.StripFilePrefix(Assembly.GetExecutingAssembly().Location)), "about.htm"));
+			Process.Start(Path.Combine(Path.GetDirectoryName(TriboroughBridgeUtilities.StripFilePrefix(Assembly.GetExecutingAssembly().Location)), "about.htm"));
 		}
 
 		/// <summary>

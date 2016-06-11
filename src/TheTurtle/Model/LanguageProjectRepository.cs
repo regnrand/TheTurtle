@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
-using FLEx_ChorusPlugin.Properties;
-using LibTriboroughBridgeChorusPlugin;
+using TheTurtle.Properties;
 
 namespace TheTurtle.Model
 {
@@ -31,7 +30,7 @@ namespace TheTurtle.Model
 				baseFolderPaths.SelectMany(baseFolderPath => Directory.
 					GetDirectories(baseFolderPath).
 					Select(dir => Directory.
-						GetFiles(dir, "*" + SharedConstants.FwXmlExtension)).
+						GetFiles(dir, "*" + TheTurtleUtilities.FwXmlExtension)).
 						Where(fwdataFiles => fwdataFiles.Length > 0)))
 			{
 				_projects.Add(new LanguageProject(fwdataFiles[0]));

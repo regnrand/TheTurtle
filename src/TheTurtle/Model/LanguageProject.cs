@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
-using FLEx_ChorusPlugin.Properties;
-using LibTriboroughBridgeChorusPlugin;
-using TriboroughBridge_ChorusPlugin;
+using TheTurtle.Properties;
 
 namespace TheTurtle.Model
 {
@@ -30,7 +28,7 @@ namespace TheTurtle.Model
 			{
 				throw new FileNotFoundException("Cannot find the file.", fwdataFile);
 			}
-			if ((!Path.HasExtension(fwdataFile) || Path.GetExtension(fwdataFile) != SharedConstants.FwXmlExtension))
+			if ((!Path.HasExtension(fwdataFile) || Path.GetExtension(fwdataFile) != TheTurtleUtilities.FwXmlExtension))
 			{
 				throw new ArgumentException(Resources.kNotAnFwXmlFile, "fwdataFile");
 			}
@@ -52,7 +50,7 @@ namespace TheTurtle.Model
 		{
 			get
 			{
-				return Directory.Exists(Path.Combine(DirectoryName, Utilities.hg));
+				return Directory.Exists(Path.Combine(DirectoryName, ".hg"));
 			}
 		}
 
@@ -60,7 +58,7 @@ namespace TheTurtle.Model
 		{
 			get
 			{
-				var lockPathname = Path.Combine(DirectoryName, Name + SharedConstants.FwXmlLockExtension);
+				var lockPathname = Path.Combine(DirectoryName, Name + TheTurtleUtilities.FwXmlLockExtension);
 				return File.Exists(lockPathname);
 			}
 		}

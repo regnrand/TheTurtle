@@ -38,7 +38,7 @@ namespace FwdataTestApp
 
 		public NestFwdataFile()
 		{
-			if (TriboroughBridge_ChorusPlugin.Utilities.IsUnix)
+			if (TriboroughBridge_ChorusPlugin.TriboroughBridgeUtilities.IsUnix)
 			{
 				CurrentBaseFolder = Path.Combine(Environment.GetEnvironmentVariable(@"HOME"), @"TestProjects");
 			}
@@ -220,7 +220,7 @@ namespace FwdataTestApp
 			var danglingRefGuids = new Dictionary<string, HashSet<string>>();
 			foreach (var kvp in classData.Values.SelectMany(innerDict => innerDict)
 				.ToDictionary(innerKvp => innerKvp.Key,
-					innerKvp => TriboroughBridge_ChorusPlugin.Utilities.CreateFromBytes(innerKvp.Value)))
+					innerKvp => TriboroughBridge_ChorusPlugin.TriboroughBridgeUtilities.CreateFromBytes(innerKvp.Value)))
 			{
 				var haveWrittenMainObjInfo = false;
 				var currentMainGuid = kvp.Key;
@@ -312,7 +312,7 @@ namespace FwdataTestApp
 			// 1. Set 'Checksum' to zero (0).
 			if (className == "WfiWordform")
 			{
-				var wfElement = TriboroughBridge_ChorusPlugin.Utilities.CreateFromBytes(record);
+				var wfElement = TriboroughBridge_ChorusPlugin.TriboroughBridgeUtilities.CreateFromBytes(record);
 				var csElement = wfElement.Element("Checksum");
 				if (csElement != null)
 				{
@@ -652,7 +652,7 @@ namespace FwdataTestApp
 						origData.Remove(srcGuid);
 						if (attrValues[FlexBridgeConstants.Class] == "WfiWordform")
 						{
-							var wfElement = TriboroughBridge_ChorusPlugin.Utilities.CreateFromBytes(origRecAsBytes);
+							var wfElement = TriboroughBridge_ChorusPlugin.TriboroughBridgeUtilities.CreateFromBytes(origRecAsBytes);
 							var csProp = wfElement.Element("Checksum");
 							if (csProp != null)
 							{
@@ -756,7 +756,7 @@ namespace FwdataTestApp
 				var unownedElementDict = unownedElementKvp.Value;
 				foreach (var unownedElement in unownedElementDict.Values)
 				{
-					var element = TriboroughBridge_ChorusPlugin.Utilities.CreateFromBytes(unownedElement);
+					var element = TriboroughBridge_ChorusPlugin.TriboroughBridgeUtilities.CreateFromBytes(unownedElement);
 					classElement.Add(element);
 					CmObjectNestingService.NestObject(false, element,
 												  classData,

@@ -47,7 +47,7 @@ namespace FLEx_ChorusPlugin.Infrastructure.ActionHandlers
 
 		public bool ProjectFilter(string repositoryLocation)
 		{
-			var hgDataFolder = TriboroughBridge_ChorusPlugin.Utilities.HgDataFolder(repositoryLocation);
+			var hgDataFolder = TriboroughBridge_ChorusPlugin.TriboroughBridgeUtilities.HgDataFolder(repositoryLocation);
 			return Directory.Exists(hgDataFolder) && Directory.GetFiles(hgDataFolder, "*._custom_properties.i").Any();
 		}
 
