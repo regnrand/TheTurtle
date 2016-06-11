@@ -111,13 +111,6 @@
     <Compile Include="Contexts\Linguistics\Reversals\ReversalBoundedContextService.cs" />
     <Compile Include="Contexts\Linguistics\TextCorpus\TextCorpusBoundedContextService.cs" />
     <Compile Include="Contexts\Linguistics\WordformInventory\WordformInventoryBoundedContextService.cs" />
-    <Compile Include="Contexts\Scripture\ArchivedDraftsBoundedContextService.cs" />
-    <Compile Include="Contexts\Scripture\ImportSettingsBoundedContextService.cs" />
-    <Compile Include="Contexts\Scripture\ScriptureBoundedContextService.cs" />
-    <Compile Include="Contexts\Scripture\ScriptureCheckListsBoundedContextService.cs" />
-    <Compile Include="Contexts\Scripture\ScriptureDomainServices.cs" />
-    <Compile Include="Contexts\Scripture\ScriptureReferenceSystemBoundedContextService.cs" />
-    <Compile Include="Contexts\Scripture\ScriptureStylesBoundedContextService.cs" />
     <Compile Include="Handling\FieldWorkObjectContextGenerator.cs" />
     <Compile Include="Handling\FieldWorksChangePresenter.cs" />
     <Compile Include="Handling\FieldWorksCommonFileHandler.cs" />
@@ -170,14 +163,6 @@
     <Compile Include="Handling\ModelVersion\FieldWorksModelVersionChangePresenter.cs" />
     <Compile Include="Handling\ModelVersion\FieldWorksModelVersionChangeReport.cs" />
     <Compile Include="Handling\ModelVersion\ModelVersionFileTypeHandlerStrategy.cs" />
-    <Compile Include="Handling\Scripture\ArchivedDraftsTypeHandlerStrategy.cs" />
-    <Compile Include="Handling\Scripture\ImportSettingsTypeHandlerStrategy.cs" />
-    <Compile Include="Handling\Scripture\ScrBookAnnotationsTypeHandlerStrategy.cs" />
-    <Compile Include="Handling\Scripture\ScrBookContextGenerator.cs" />
-    <Compile Include="Handling\Scripture\ScrBooksTypeHandlerStrategy.cs" />
-    <Compile Include="Handling\Scripture\ScrSectionContextGenerator.cs" />
-    <Compile Include="Handling\Scripture\ScriptureReferenceSystemTypeHandlerStrategy.cs" />
-    <Compile Include="Handling\Scripture\ScriptureTypeHandlerStrategy.cs" />
     <Compile Include="Handling\FwGenericHtmlGenerator.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -209,9 +194,6 @@
     </Compile>
     <Compile Include="Infrastructure\FlexBridgeConstants.cs" />
     <Compile Include="Infrastructure\UpdateBranchHelperFlex.cs" />
-    <Compile Include="IProjectUnifier.cs" />
-    <Compile Include="FLEx.cs" />
-    <Compile Include="IProjectSplitter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />

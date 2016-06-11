@@ -82,14 +82,6 @@ namespace LibFLExBridgeChorusPlugin.Infrastructure
 			// Anthropology
 			projectFolderConfiguration.IncludePatterns.Add(Path.Combine("Anthropology", FlexBridgeConstants.DataNotebookFilename));
 
-			// Scripture
-			projectFolderConfiguration.IncludePatterns.Add(Path.Combine("Other", FlexBridgeConstants.ScriptureReferenceSystemFilename));
-			projectFolderConfiguration.IncludePatterns.Add(Path.Combine("Other", "*.ArchivedDraft"));
-			projectFolderConfiguration.IncludePatterns.Add(Path.Combine("Other", FlexBridgeConstants.ScriptureTransFilename));
-			projectFolderConfiguration.IncludePatterns.Add(Path.Combine("Other", FlexBridgeConstants.ImportSettingsFilename));
-			projectFolderConfiguration.IncludePatterns.Add(Path.Combine("Other", "Books", "*.bookannotations"));
-			projectFolderConfiguration.IncludePatterns.Add(Path.Combine("Other", "Books", "*.book"));
-
 			// Leftovers
 			// Style file and user-defined lists ought to be covered, above.
 			projectFolderConfiguration.IncludePatterns.Add(Path.Combine("General", FlexBridgeConstants.FLExFiltersFilename));

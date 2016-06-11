@@ -121,10 +121,12 @@
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)' == 'ReleaseMono'">
     <Reference Include="Chorus">
+      <SpecificVersion>False</SpecificVersion>
       <ExecutableExtension>.exe</ExecutableExtension>
       <HintPath>..\..\lib\ReleaseMono\Chorus.exe</HintPath>
     </Reference>
     <Reference Include="LibChorus">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\ReleaseMono\LibChorus.dll</HintPath>
     </Reference>
     <Reference Include="LibChorus.TestUtilities">
@@ -154,7 +156,6 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Infrastructure\ActionHandlers\ViewNotesActionHandlerTests.cs" />
-    <Compile Include="Infrastructure\ActionHandlers\FlexObtainProjectStrategyTests.cs" />
     <Compile Include="Integration\MergeIntegrationTests.cs" />
     <Compile Include="Mocks\MockedConflictView.cs">
       <SubType>Form</SubType>
@@ -181,15 +182,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-	<None Include="TestData\DataNotebook_Ann.ntbk">
-	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	</None>
-	<None Include="TestData\DataNotebook_Common.ntbk">
-	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	</None>
-	<None Include="TestData\DataNotebook_Susanna.ntbk">
-	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	</None>
+    <None Include="TestData\DataNotebook_Ann.ntbk">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\DataNotebook_Common.ntbk">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\DataNotebook_Susanna.ntbk">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

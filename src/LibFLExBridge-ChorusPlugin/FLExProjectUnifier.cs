@@ -35,14 +35,14 @@ namespace LibFLExBridgeChorusPlugin
 	///		but only if a Send/Receive had new information brought back into the local repo.
 	///		NB: The client of the service decides if new information was found, and decides to call the service, or not.
 	/// </summary>
-	internal class FLExProjectUnifier: IProjectUnifier
+	internal static class FLExProjectUnifier
 	{
 		internal static void PutHumptyTogetherAgain(IProgress progress, string mainFilePathname)
 		{
-			FLEx.ProjectUnifier.PutHumptyTogetherAgain(progress, true, mainFilePathname);
+			PutHumptyTogetherAgain(progress, true, mainFilePathname);
 		}
 
-		public void PutHumptyTogetherAgain(IProgress progress, bool writeVerbose, string mainFilePathname)
+		internal static void PutHumptyTogetherAgain(IProgress progress, bool writeVerbose, string mainFilePathname)
 		{
 			Guard.AgainstNull(progress, "progress");
 			FileWriterService.CheckPathname(mainFilePathname);
@@ -96,7 +96,7 @@ namespace LibFLExBridgeChorusPlugin
 			SplitFileAgainIfNeeded(progress, writeVerbose, mainFilePathname);
 		}
 
-		private void SplitFileAgainIfNeeded(IProgress progress, bool writeVerbose, string mainFilePathname)
+		private static void SplitFileAgainIfNeeded(IProgress progress, bool writeVerbose, string mainFilePathname)
 		{
 			var pathRoot = Path.GetDirectoryName(mainFilePathname);
 			// Resplit mainFilePathname, if there are any temp files that mark incompatible moves exists (has 'dupid' extension).
@@ -121,11 +121,11 @@ namespace LibFLExBridgeChorusPlugin
 				File.Delete(dupidPathname);
 			var projName = Path.GetFileName(mainFilePathname);
 			progress.WriteMessage("Split up project file: {0} (again)", projName);
-			FLEx.ProjectSplitter.PushHumptyOffTheWall(progress, writeVerbose, mainFilePathname);
+			FLExProjectSplitter.PushHumptyOffTheWall(progress, writeVerbose, mainFilePathname);
 			progress.WriteMessage("Finished splitting up project file: {0} (again)", projName);
 		}
 
-		private void UpgradeToVersion(XmlWriter writer, string pathRoot)
+		private static void UpgradeToVersion(XmlWriter writer, string pathRoot)
 		{
 			writer.WriteStartElement("languageproject");
 
@@ -137,7 +137,7 @@ namespace LibFLExBridgeChorusPlugin
 			mdc.UpgradeToVersion(Int32.Parse(version));
 		}
 
-		private void WriteOptionalCustomProperties(XmlWriter writer, string pathRoot)
+		private static void WriteOptionalCustomProperties(XmlWriter writer, string pathRoot)
 		{
 			// Write out optional custom property data to the fwdata file.
 			// The foo.CustomProperties file will exist, even if it has nothing in it, but the "AdditionalFields" root element.

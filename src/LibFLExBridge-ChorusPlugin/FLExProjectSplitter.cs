@@ -36,9 +36,9 @@ namespace LibFLExBridgeChorusPlugin
 	///		B. One file for the model version
 	///		C. Various files for the CmObject data.
 	/// </summary>
-	internal class FLExProjectSplitter: IProjectSplitter
+	internal static class FLExProjectSplitter
 	{
-		internal readonly byte[] AdditionalFieldsArray = SharedConstants.Utf8.GetBytes("<" + FlexBridgeConstants.AdditionalFieldsTag);
+		internal static readonly byte[] AdditionalFieldsArray = SharedConstants.Utf8.GetBytes("<" + FlexBridgeConstants.AdditionalFieldsTag);
 
 		internal static void CheckForUserCancelRequested(IProgress progress)
 		{
@@ -48,10 +48,10 @@ namespace LibFLExBridgeChorusPlugin
 
 		internal static void PushHumptyOffTheWall(IProgress progress, string mainFilePathname)
 		{
-			FLEx.ProjectSplitter.PushHumptyOffTheWall(progress, true, mainFilePathname);
+			PushHumptyOffTheWall(progress, true, mainFilePathname);
 		}
 
-		public void PushHumptyOffTheWall(IProgress progress, bool writeVerbose, string mainFilePathname)
+		public static void PushHumptyOffTheWall(IProgress progress, bool writeVerbose, string mainFilePathname)
 		{
 			Guard.AgainstNull(progress, "progress");
 			FileWriterService.CheckFilename(mainFilePathname);
@@ -181,7 +181,7 @@ namespace LibFLExBridgeChorusPlugin
 			}
 		}
 
-		internal bool IsOptionalFirstElement(byte[] record)
+		internal static bool IsOptionalFirstElement(byte[] record)
 		{
 			return AdditionalFieldsArray.AreByteArraysEqual(record.SubArray(0, AdditionalFieldsArray.Length));
 		}

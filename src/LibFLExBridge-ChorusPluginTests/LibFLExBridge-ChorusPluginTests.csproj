@@ -163,12 +163,6 @@
     <Compile Include="Handling\ReportsByDataType\TextPropBinaryDataTypeReportTests.cs" />
     <Compile Include="Handling\ReportsByDataType\TimeDataTypeReportTests.cs" />
     <Compile Include="Handling\ReportsByDataType\UnicodeDataTypeReportTests.cs" />
-    <Compile Include="Handling\Scripture\FieldWorksArchivedDraftsTypeHandlerTests.cs" />
-    <Compile Include="Handling\Scripture\FieldWorksImportSettingsTypeHandlerTests.cs" />
-    <Compile Include="Handling\Scripture\FieldWorksScrBookAnnotationsTypeHandlerTests.cs" />
-    <Compile Include="Handling\Scripture\FieldWorksScrBooksTypeHandlerTests.cs" />
-    <Compile Include="Handling\Scripture\FieldWorksScriptureReferenceSystemTypeHandlerTests.cs" />
-    <Compile Include="Handling\Scripture\FieldWorksScriptureTranslationTypeHandlerTests.cs" />
     <Compile Include="FieldWorksTestServices.cs" />
     <Compile Include="Infrastructure\DataSortingServiceTests.cs" />
     <Compile Include="Infrastructure\MetadataCacheTests.cs" />

@@ -153,22 +153,28 @@
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)' == 'DebugMono'">
     <Reference Include="Chorus">
+	  <SpecificVersion>False</SpecificVersion>
       <ExecutableExtension>.exe</ExecutableExtension>
       <HintPath>..\..\lib\DebugMono\Chorus.exe</HintPath>
     </Reference>
     <Reference Include="ChorusMerge">
+	  <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\DebugMono\ChorusMerge.exe</HintPath>
     </Reference>
     <Reference Include="LibChorus">
+	  <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\DebugMono\LibChorus.dll</HintPath>
     </Reference>
     <Reference Include="LibChorus.TestUtilities">
+	  <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\DebugMono\LibChorus.TestUtilities.dll</HintPath>
     </Reference>
     <Reference Include="SIL.Core">
+	  <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\DebugMono\SIL.Core.dll</HintPath>
     </Reference>
     <Reference Include="SIL.TestUtilities">
+	  <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\DebugMono\SIL.TestUtilities.dll</HintPath>
     </Reference>
   </ItemGroup>

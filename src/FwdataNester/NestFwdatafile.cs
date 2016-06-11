@@ -434,24 +434,6 @@ namespace FwdataTestApp
 						case FlexBridgeConstants.pictures:
 							mainRecordName = FlexBridgeConstants.CmPicture;
 							break;
-						case FlexBridgeConstants.ArchivedDraft:
-							mainRecordName = FlexBridgeConstants.ScrDraft;
-							break;
-						case FlexBridgeConstants.ImportSetting:
-							mainRecordName = FlexBridgeConstants.ScrImportSet;
-							break;
-						case FlexBridgeConstants.Srs:
-							mainRecordName = FlexBridgeConstants.ScrRefSystem;
-							break;
-						case FlexBridgeConstants.Trans:
-							mainRecordName = FlexBridgeConstants.Scripture;
-							break;
-						case FlexBridgeConstants.bookannotations:
-							mainRecordName = FlexBridgeConstants.ScrBookAnnotations;
-							break;
-						case FlexBridgeConstants.book:
-							mainRecordName = FlexBridgeConstants.ScrBook;
-							break;
 						case FlexBridgeConstants.Ntbk:
 							optionalElementName = FlexBridgeConstants.Header;
 							mainRecordName = FlexBridgeConstants.RnGenericRec;
@@ -625,7 +607,7 @@ namespace FwdataTestApp
 				{
 					if (!testedforExistanceOfOrigOptionalFirstElement)
 					{
-						foundOrigOptionalFirstElement = FLEx.ProjectSplitterInternal.IsOptionalFirstElement(origRecord);
+						foundOrigOptionalFirstElement = FLExProjectSplitter.IsOptionalFirstElement(origRecord);
 						testedforExistanceOfOrigOptionalFirstElement = true;
 					}
 					if (foundOrigOptionalFirstElement)
@@ -650,7 +632,7 @@ namespace FwdataTestApp
 				{
 					if (!testedforExistanceOfNewOptionalFirstElement)
 					{
-						foundNewOptionalFirstElement = FLEx.ProjectSplitterInternal.IsOptionalFirstElement(newRecordAsBytes);
+						foundNewOptionalFirstElement = FLExProjectSplitter.IsOptionalFirstElement(newRecordAsBytes);
 						testedforExistanceOfNewOptionalFirstElement = true;
 					}
 					var newRecCopyAsBytes = newRecordAsBytes;
@@ -845,8 +827,7 @@ namespace FwdataTestApp
 							 .Where(projectDirName => Path.GetFileNameWithoutExtension(projectDirName).ToLowerInvariant() != "zpi");
 				foreach (var projectDirName in allProjectDirNamesExceptMine)
 				{
-					RestoreProjectIfNeeded(Directory.GetFiles(projectDirName, "*" +
-						SharedConstants.FwXmlExtension).FirstOrDefault());
+					RestoreProjectIfNeeded(Directory.GetFiles(projectDirName, "*" + 						SharedConstants.FwXmlExtension).FirstOrDefault());
 				}
 			}
 			finally
@@ -861,14 +842,12 @@ namespace FwdataTestApp
 				return;
 			var currentFilename = Path.GetFileName(currentFwdataPathname);
 			var projectDirName = Path.GetDirectoryName(currentFwdataPathname);
-			if (currentFilename.ToLowerInvariant() == "zpi" + SharedConstants.FwXmlExtension ||
-				projectDirName.ToLowerInvariant() == "zpi")
+			if (currentFilename.ToLowerInvariant() == "zpi" + SharedConstants.FwXmlExtension || 				projectDirName.ToLowerInvariant() == "zpi")
 			{
 				return; // Don't even think of wiping out my ZPI folder.
 			}
 
-			var backupDataFilesFullPathnames = Directory.GetFiles(CurrentBaseFolder, "*" + SharedConstants.FwXmlExtension,
-				SearchOption.TopDirectoryOnly);
+			var backupDataFilesFullPathnames = Directory.GetFiles(CurrentBaseFolder, "*" + SharedConstants.FwXmlExtension, 				SearchOption.TopDirectoryOnly);
 			var backupDataFilenames = backupDataFilesFullPathnames.Select(Path.GetFileName).ToList();
 			if (!backupDataFilenames.Contains(currentFilename))
 				return;

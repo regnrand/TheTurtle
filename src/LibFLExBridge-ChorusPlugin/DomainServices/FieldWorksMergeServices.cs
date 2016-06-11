@@ -21,7 +21,6 @@ using LibFLExBridgeChorusPlugin.Handling.Linguistics.Phonology;
 using LibFLExBridgeChorusPlugin.Handling.Linguistics.Reversal;
 using LibFLExBridgeChorusPlugin.Handling.Linguistics.TextCorpus;
 using LibFLExBridgeChorusPlugin.Handling.Linguistics.WordformInventory;
-using LibFLExBridgeChorusPlugin.Handling.Scripture;
 using LibFLExBridgeChorusPlugin.Infrastructure;
 using SIL.Code;
 using SIL.Network;
@@ -152,17 +151,6 @@ namespace LibFLExBridgeChorusPlugin.DomainServices
 				case "RnGenericRec":
 					classStrat.ContextDescriptorGenerator = new RnGenericRecContextGenerator();
 					break;
-				case "ScrBook":
-					classStrat.ContextDescriptorGenerator = new ScrBookContextGenerator();
-					break;
-				case "ScrDraft":
-					// ScrDraft instances can only be added or removed, but not changed, according to John Wickberg (18 Jan 2012).
-					classStrat.IsImmutable = true;
-					break;
-				case "ScrSection":
-					classStrat.ContextDescriptorGenerator = new ScrSectionContextGenerator();
-					break;
-				case "ScrTxtPara": // Fall through.
 				case "StTxtPara":
 					// This will never be used, since StTxtParas & ScrTxtParas are actually in an 'ownseq' element.
 					classStrat.Premerger = new StTxtParaPremerger();

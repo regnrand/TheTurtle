@@ -18,7 +18,7 @@ namespace LibFLExBridgeChorusPlugin.Infrastructure
 	/// <summary>
 	/// Cache to hold metadata about the CmObject classes.
 	/// </summary>
-	public sealed class MetadataCache
+	internal sealed class MetadataCache
 	{
 		internal const int StartingModelVersion = 7000037;
 		private readonly Dictionary<string, FdoClassInfo> _classes = new Dictionary<string, FdoClassInfo>();
@@ -126,6 +126,9 @@ namespace LibFLExBridgeChorusPlugin.Infrastructure
 			// 7000044: FW 7.1 released.
 			// 7000051: FW 7.2 released.
 			// 700006x: FW 8.0.x released.
+			// 7000068: End FW 8 (released).
+			// 7000069: Start of upstream FW 9 (Be sure to change this to the next 9000000 series, whenever I merge it into fork.)
+			// 9000000: Start of RBR FW 9.
 			var currentVersion = ModelVersion;
 			var cmObject = GetClassInfo("CmObject");
 			while (currentVersion < newVersion)
@@ -326,6 +329,55 @@ namespace LibFLExBridgeChorusPlugin.Infrastructure
 						newClass.RemoveProperty("Subentries");
 						newClass.AddProperty(new FdoPropertyInfo("Subentries", DataType.OwningSequence));
 						break;
+					case 7000069:
+						currentVersion = 8999999; // Bump it up to be ready for FW 9.
+						break;
+					case 9000000:
+						// 1. Remove all Sripture model
+						//	That is all of these classes:
+						//		Scripture, ScrBook, ScrRefSystem, ScrBookRef, ScrSection, ScrImportSet, ScrDraft, ScrDifference,
+						//		ScrImportSource, ScrImportP6Project, ScrImportSFFiles, ScrMarkerMapping, ScrBookAnnotations,
+						//		ScrScriptureNote, ScrCheckRun, ScrTxtPara, ScrFootnote
+						_classes.Remove("Scripture");
+						_classes.Remove("ScrBook");
+						_classes.Remove("ScrRefSystem");
+						_classes.Remove("ScrBookRef");
+						_classes.Remove("ScrSection");
+						_classes.Remove("ScrImportSet");
+						_classes.Remove("ScrDraft");
+						_classes.Remove("ScrDifference");
+						_classes.Remove("ScrImportSource");
+						_classes.Remove("ScrImportP6Project");
+						_classes.Remove("ScrImportSFFiles");
+						_classes.Remove("ScrMarkerMapping");
+						_classes.Remove("ScrBookAnnotations");
+						_classes.Remove("ScrScriptureNote");
+						_classes.Remove("ScrCheckRun");
+						_classes.Remove("ScrTxtPara");
+						_classes.Remove("ScrFootnote");
+						newClass = GetClassInfo("LangProject");
+						newClass.RemoveProperty("TranslatedScripture");
+						// 2. Remove StFootnote
+						_classes.Remove("StFootnote");
+						// 3. Remove StJournalText
+						_classes.Remove("StJournalText");
+						// 4. Remove Publications & HeaderFooterSets properties from CmMajorObject.
+						//	And, remove the Publication related classes:
+						//		Publication, PubHFSet. PubDivision, PubPageLayout, PubHFSet, PubHeader
+						_classes.Remove("Publication");
+						_classes.Remove("PubHFSet");
+						_classes.Remove("PubDivision");
+						_classes.Remove("PubPageLayout");
+						_classes.Remove("PubHFSet");
+						_classes.Remove("PubHeader");
+						newClass = GetClassInfo("CmMajorObject");
+						newClass.RemoveProperty("Publications");
+						newClass.RemoveProperty("HeaderFooterSets");
+						// 5. Add Certified boolean property to WfiWordform
+						newClass = GetClassInfo("WfiWordform");
+						newClass.AddProperty(new FdoPropertyInfo("Certified", DataType.Boolean));
+						break;
+
 					//NB: Update MaximumModelVersion to highest supported number.
 				}
 			}
@@ -334,7 +386,7 @@ namespace LibFLExBridgeChorusPlugin.Infrastructure
 			ModelVersion = newVersion;
 			return ModelVersion;
 		}
-		public const int MaximumModelVersion = 7000068;
+		public const int MaximumModelVersion = 9000000;
 
 		///<summary>
 		/// Get the FDO class information for the given class.

@@ -54,14 +54,6 @@ namespace LibFLExBridgeChorusPluginTests.Handling
 				FlexBridgeConstants.orderings,			// 'orderings'
 				FlexBridgeConstants.pictures,			// 'pictures'
 
-				// Scripture
-				FlexBridgeConstants.ArchivedDraft,		// 'ArchivedDraft'
-				FlexBridgeConstants.ImportSetting,		// 'ImportSetting'
-				FlexBridgeConstants.Srs,				// 'srs'
-				FlexBridgeConstants.Trans,				// 'trans'
-				FlexBridgeConstants.bookannotations,	// 'bookannotations'
-				FlexBridgeConstants.book,				// 'book'
-
 				// Anthropology
 				FlexBridgeConstants.Ntbk,				// 'ntbk'
 

@@ -87,7 +87,7 @@ namespace FLEx_ChorusPlugin.Infrastructure.ActionHandlers
 					break;
 			}
 
-			FLEx.ProjectUnifier.PutHumptyTogetherAgain(new NullProgress(), false, _newFwProjectPathname);
+			FLExProjectUnifier.PutHumptyTogetherAgain(new NullProgress(), false, _newFwProjectPathname);
 		}
 
 		public void TellFlexAboutIt()

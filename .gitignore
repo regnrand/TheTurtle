@@ -3,8 +3,10 @@ bin/
 obj/
 output/
 Mercurial/
-Perf test  results/
-test-results/
+Perf test  results/*.*
+.idea/**
+*.iml
+test-results/*
 _ReSharper.*
 DistFiles/Mercurial/
 DistFiles/Mercurial/MercurialExtensions/
@@ -24,10 +26,12 @@ Patches/
 *.mdb
 lib/*/L10NSharp.dll
 All*Files.lst
+*.userprefs
 Download/
 lib/*/SIL*.dll
 lib/*/Palaso*.dll
 lib/*/Chorus*.exe
+lib/*/Chorus_Help.chm
 lib/*/LibChorus*.dll
 lib/*/Mercurial*.zip
 lib/*/icu*.dll*
@@ -36,12 +40,10 @@ lib/*/Autofac.dll
 lib/*/*HelpProvider.dll
 lib/*/L10NSharp.xml
 lib/*.msm
-lib/*/*.config
-lib/common/Chorus_Help.chm
 /Mercurial
-build/.nuget/
-build/NuGet.exe
-packages/
+build/.nuget/*
+build/Nuget.exe
+packages/*
 *.dll
 src/Installer/output/
 src/Installer/obj/
