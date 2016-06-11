@@ -15,18 +15,10 @@ namespace TriboroughBridge_ChorusPlugin
 		Unknown,
 
 		Obtain,
-		ObtainLift,
 
 		SendReceive,
-		SendReceiveLift,
 
 		ViewNotes,
-		ViewNotesLift,
-
-		UndoExport, // Not supported yet.
-		UndoExportLift,
-
-		MoveLift,
 
 		CheckForUpdates,
 		AboutFlexBridge

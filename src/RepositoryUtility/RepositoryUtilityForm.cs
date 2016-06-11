@@ -84,7 +84,6 @@ namespace RepositoryUtility
 			{
 				{CommandLineProcessor.v, CommandLineProcessor.obtain},
 				{CommandLineProcessor.fwmodel, modelVersion.ToString(CultureInfo.InvariantCulture)},
-				{CommandLineProcessor.liftmodel, @"0.13"},
 				{CommandLineProcessor.projDir, _repoHoldingFolder}
 			};
 

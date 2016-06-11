@@ -4,7 +4,6 @@
 // Distributable under the terms of the MIT License, as specified in the license.rtf file.
 // --------------------------------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
 using System.IO;
 using NUnit.Framework;
@@ -82,7 +81,6 @@ namespace TriboroughBridge_ChorusPluginTests
 					{CommandLineProcessor.fwAppsDir, _tempFwAppsFolder.Path},
 					{CommandLineProcessor.locale, "en"},
 					{CommandLineProcessor.fwmodel, "7000066"},
-					{CommandLineProcessor.liftmodel, "0.13"},
 					{CommandLineProcessor.pipeID, "FW pipe id"}
 				};
 		}
@@ -149,13 +147,6 @@ namespace TriboroughBridge_ChorusPluginTests
 		}
 
 		[Test]
-		public void MalformedLiftmodelOptionThrows()
-		{
-			_options.Remove(CommandLineProcessor.f);
-			BasicWellformedOptionCheck(CommandLineProcessor.liftmodel);
-		}
-
-		[Test]
 		public void MalformedPipeIDOptionThrows()
 		{
 			_options.Remove(CommandLineProcessor.f);
@@ -163,26 +154,9 @@ namespace TriboroughBridge_ChorusPluginTests
 		}
 
 		[Test]
-		public void move_liftOption()
-		{
-			_options[CommandLineProcessor.v] = CommandLineProcessor.move_lift;
-			_options[CommandLineProcessor.g] = Guid.NewGuid().ToString();
-			_options.Remove(CommandLineProcessor.f);
-
-			CheckWellformedWithFwDataFile(CommandLineProcessor.g);
-
-			_options[CommandLineProcessor.g] = Guid.Empty.ToString();
-			Assert.Throws<CommandLineException>(() => CommandLineProcessor.ValidateCommandLineArgs(_options), "Guid.Empty should have thrown");
-
-			_options[CommandLineProcessor.g] = "Random non-guid string";
-			Assert.Throws<FormatException>(() => CommandLineProcessor.ValidateCommandLineArgs(_options), "Guid.Empty should have thrown");
-		}
-
-		[Test]
 		public void about_flex_bridgeOption()
 		{
 			_options[CommandLineProcessor.v] = CommandLineProcessor.about_flex_bridge;
-			_options.Remove(CommandLineProcessor.g);
 			_options.Remove(CommandLineProcessor.f);
 
 			// Has no project folder
@@ -201,7 +175,6 @@ namespace TriboroughBridge_ChorusPluginTests
 		public void check_for_updatesOption()
 		{
 			_options[CommandLineProcessor.v] = CommandLineProcessor.check_for_updates;
-			_options.Remove(CommandLineProcessor.g);
 			_options.Remove(CommandLineProcessor.f);
 
 			// Has no project folder
@@ -220,7 +193,6 @@ namespace TriboroughBridge_ChorusPluginTests
 		public void obtainOption()
 		{
 			_options[CommandLineProcessor.v] = CommandLineProcessor.obtain;
-			_options.Remove(CommandLineProcessor.g);
 			_options.Remove(CommandLineProcessor.f);
 
 			// Has no project folder
@@ -242,39 +214,9 @@ namespace TriboroughBridge_ChorusPluginTests
 		}
 
 		[Test]
-		public void obtain_liftOption()
-		{
-			_options[CommandLineProcessor.v] = CommandLineProcessor.obtain_lift;
-			_options.Remove(CommandLineProcessor.g);
-			_options.Remove(CommandLineProcessor.f);
-
-			// Has no project folder
-			_options[CommandLineProcessor.p] = _tempProjectFolder.Path;
-			Assert.Throws<CommandLineException>(() => CommandLineProcessor.ValidateCommandLineArgs(_options), "Seems to have an fwdata file");
-
-			// Has no fwdata file, but has a folder
-			_options[CommandLineProcessor.p] = Path.Combine(_tempProjectFolder.Path, "Foo");
-			Assert.Throws<CommandLineException>(() => CommandLineProcessor.ValidateCommandLineArgs(_options), "Seems to have an fwdata file");
-
-			string fooDir;
-			var fooFwdataPathname = CreateFooFwDataFolderAndFile(out fooDir);
-			_options[CommandLineProcessor.p] = fooFwdataPathname;
-			Assert.Throws<CommandLineException>(() => CommandLineProcessor.ValidateCommandLineArgs(_options), "Seems to not have the fwdata file in '-p'");
-			_options[CommandLineProcessor.p] = fooDir;
-			Assert.DoesNotThrow(() => CommandLineProcessor.ValidateCommandLineArgs(_options), "Seems to not have the fwdata file");
-
-			// Already has a lift folder
-			_options[CommandLineProcessor.p] = fooDir;
-			var liftOffset = Utilities.LiftOffset(fooDir);
-			Directory.CreateDirectory(liftOffset);
-			Assert.Throws<CommandLineException>(() => CommandLineProcessor.ValidateCommandLineArgs(_options), "Seems to have a Lift folder");
-		}
-
-		[Test]
 		public void send_receiveOption()
 		{
 			_options[CommandLineProcessor.v] = CommandLineProcessor.send_receive;
-			_options.Remove(CommandLineProcessor.g);
 
 			// Has no project folder
 			_options[CommandLineProcessor.p] = Path.Combine(_tempProjectFolder.Path, "NonExistantFolder");
@@ -297,75 +239,12 @@ namespace TriboroughBridge_ChorusPluginTests
 		}
 
 		[Test]
-		public void send_receive_liftOption()
-		{
-			_options[CommandLineProcessor.v] = CommandLineProcessor.send_receive_lift;
-			_options.Remove(CommandLineProcessor.g);
-			_options.Remove(CommandLineProcessor.f);
-
-			string fooDir;
-			var fooFwdataPathname = CreateFooFwDataFolderAndFile(out fooDir);
-			_options[CommandLineProcessor.p] = fooFwdataPathname;
-
-			// Has no lift folder
-			Assert.Throws<CommandLineException>(() => CommandLineProcessor.ValidateCommandLineArgs(_options), "Seems to have a Lift folder");
-
-			// Has Lift folder, but no Lift file.
-			var liftOffset = Utilities.LiftOffset(fooDir);
-			Directory.CreateDirectory(liftOffset);
-			Assert.Throws<CommandLineException>(() => CommandLineProcessor.ValidateCommandLineArgs(_options), "Seems to have a Lift file");
-
-			File.WriteAllText(Path.Combine(liftOffset, "Foo.lift"), "Some fake lift stuff");
-			Assert.DoesNotThrow(() => CommandLineProcessor.ValidateCommandLineArgs(_options), "Seems to not have the Lift file");
-		}
-
-		[Test]
-		public void undo_exportOption()
-		{
-			_options[CommandLineProcessor.v] = CommandLineProcessor.undo_export;
-			_options.Remove(CommandLineProcessor.g);
-			_options.Remove(CommandLineProcessor.f);
-
-			_options[CommandLineProcessor.v] = CommandLineProcessor.undo_export;
-			Assert.Throws<CommandLineException>(() => CommandLineProcessor.ValidateCommandLineArgs(_options), "Unsupported 'v' option should have thrown");
-		}
-
-		[Test]
-		public void undo_export_liftOption()
-		{
-			_options.Remove(CommandLineProcessor.f);
-			_options[CommandLineProcessor.v] = CommandLineProcessor.undo_export_lift;
-			_options[CommandLineProcessor.g] = Guid.NewGuid().ToString();
-			Assert.Throws<CommandLineException>(() => CommandLineProcessor.ValidateCommandLineArgs(_options), "Should not have -g option");
-
-			_options.Remove(CommandLineProcessor.g);
-
-			string fooDir;
-			CreateFooFwDataFolderAndFile(out fooDir);
-			_options[CommandLineProcessor.p] = fooDir;
-
-			// Has no lift folder
-			Assert.Throws<CommandLineException>(() => CommandLineProcessor.ValidateCommandLineArgs(_options), "Seems to have a Lift folder");
-
-			// Has Lift folder, but no Lift repo.
-			var liftOffset = Utilities.LiftOffset(fooDir);
-			Directory.CreateDirectory(liftOffset);
-			Assert.Throws<CommandLineException>(() => CommandLineProcessor.ValidateCommandLineArgs(_options), "Seems to have a Lift folder");
-
-			Directory.CreateDirectory(Path.Combine(liftOffset, Utilities.hg));
-			Assert.DoesNotThrow(() => CommandLineProcessor.ValidateCommandLineArgs(_options), "Seems to not have the Lift '.hg' folder");
-		}
-
-		[Test]
 		public void view_notesOption()
 		{
 			_options.Remove(CommandLineProcessor.f);
 			_options[CommandLineProcessor.v] = CommandLineProcessor.view_notes;
-			_options[CommandLineProcessor.g] = Guid.NewGuid().ToString();
 			Assert.Throws<CommandLineException>(() => CommandLineProcessor.ValidateCommandLineArgs(_options), "Should not have -g option");
-
-			_options.Remove(CommandLineProcessor.g);
-
+			
 			string fooDir;
 			var fooFwdataPathname = CreateFooFwDataFolderAndFile(out fooDir);
 			_options[CommandLineProcessor.p] = fooFwdataPathname;
@@ -374,32 +253,6 @@ namespace TriboroughBridge_ChorusPluginTests
 			Assert.Throws<CommandLineException>(() => CommandLineProcessor.ValidateCommandLineArgs(_options), "Seems to have an '.hg' folder");
 
 			Directory.CreateDirectory(Path.Combine(Path.GetDirectoryName(fooFwdataPathname), Utilities.hg));
-			Assert.DoesNotThrow(() => CommandLineProcessor.ValidateCommandLineArgs(_options), "Seems to not have the Lift '.hg' folder");
-		}
-
-		[Test]
-		public void view_notes_liftOption()
-		{
-			_options.Remove(CommandLineProcessor.f);
-			_options[CommandLineProcessor.v] = CommandLineProcessor.view_notes_lift;
-			_options[CommandLineProcessor.g] = Guid.NewGuid().ToString();
-			Assert.Throws<CommandLineException>(() => CommandLineProcessor.ValidateCommandLineArgs(_options), "Should not have -g option");
-
-			_options.Remove(CommandLineProcessor.g);
-
-			string fooDir;
-			var fooFwdataPathname = CreateFooFwDataFolderAndFile(out fooDir);
-			_options[CommandLineProcessor.p] = fooFwdataPathname;
-
-			// Has no lift folder
-			Assert.Throws<CommandLineException>(() => CommandLineProcessor.ValidateCommandLineArgs(_options), "Seems to have a Lift folder");
-
-			// Has Lift folder, but no Lift repo.
-			var liftOffset = Utilities.LiftOffset(fooDir);
-			Directory.CreateDirectory(liftOffset);
-			Assert.Throws<CommandLineException>(() => CommandLineProcessor.ValidateCommandLineArgs(_options), "Seems to have a Lift folder");
-
-			Directory.CreateDirectory(Path.Combine(liftOffset, Utilities.hg));
 			Assert.DoesNotThrow(() => CommandLineProcessor.ValidateCommandLineArgs(_options), "Seems to not have the Lift '.hg' folder");
 		}
 	}
