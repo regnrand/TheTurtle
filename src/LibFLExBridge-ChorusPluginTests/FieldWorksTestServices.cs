@@ -178,22 +178,6 @@ namespace LibFLExBridgeChorusPluginTests
 			return result;
 		}
 
-		internal static XmlNode CreateNodes(string commonAncestor, string ourContent, string theirContent, out XmlNode theirNode, out XmlNode ancestorNode)
-		{
-			var ancestorDoc = new XmlDocument();
-			ancestorDoc.LoadXml(commonAncestor);
-			ancestorNode = ancestorDoc.DocumentElement.FirstChild;
-
-			var ourDoc = new XmlDocument();
-			ourDoc.LoadXml(ourContent);
-			var ourNode = ourDoc.DocumentElement.FirstChild;
-
-			var theirDoc = new XmlDocument();
-			theirDoc.LoadXml(theirContent);
-			theirNode = theirDoc.DocumentElement.FirstChild;
-			return ourNode;
-		}
-
 		internal static XmlNode GetNode(string input)
 		{
 			var doc = new XmlDocument();

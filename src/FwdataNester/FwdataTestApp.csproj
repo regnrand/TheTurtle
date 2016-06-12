@@ -119,9 +119,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="Vulcan.Uczniowie.HelpProvider">
-      <HintPath>..\..\lib\common\Vulcan.Uczniowie.HelpProvider.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\CommonAssemblyInfo.cs">

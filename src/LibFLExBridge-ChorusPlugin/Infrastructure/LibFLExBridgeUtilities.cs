@@ -3,6 +3,8 @@
 using System;
 using System.Xml.Linq;
 using System.IO;
+using Chorus.Utilities;
+using SIL.Progress;
 
 namespace LibFLExBridgeChorusPlugin.Infrastructure
 {
@@ -26,6 +28,20 @@ namespace LibFLExBridgeChorusPlugin.Infrastructure
 			var splitModelVersionData = modelVersionData.Split(new[] {"{", ":", "}"}, StringSplitOptions.RemoveEmptyEntries);
 			var version = splitModelVersionData[1].Trim();
 			return version;
+		}
+
+		internal static void WriteVersionFile(string mainFilePathname)
+		{
+			var pathRoot = Path.GetDirectoryName(mainFilePathname);
+			var version = FieldWorksProjectServices.GetVersionNumber(mainFilePathname);
+			FileWriterService.WriteVersionNumberFile(pathRoot, version);
+			MetadataCache.MdCache.UpgradeToVersion(Int32.Parse(version));
+		}
+
+		internal static void CheckForUserCancelRequested(IProgress progress)
+		{
+			if (progress.CancelRequested)
+				throw new UserCancelledException(); // the Chorus Synchorinizer class catches this and does the real cancel.
 		}
 	}
 }

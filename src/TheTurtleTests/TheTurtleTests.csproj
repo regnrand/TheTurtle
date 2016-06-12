@@ -51,21 +51,48 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <ItemGroup>
+  <ItemGroup Condition="'$(Configuration)' == 'Debug'">
     <Reference Include="Chorus">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Chorus.exe</HintPath>
+      <HintPath>..\..\lib\Debug\Chorus.exe</HintPath>
     </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>..\..\lib\test\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="SIL.Core, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="SIL.Core">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Debug\SIL.Core.dll</HintPath>
     </Reference>
+    <Reference Include="SIL.TestUtilities">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Debug\SIL.TestUtilities.dll</HintPath>
+    </Reference>
+    <Reference Include="LibChorus.TestUtilities">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Debug\LibChorus.TestUtilities.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)' == 'Release'">
+    <Reference Include="Chorus">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Release\Chorus.exe</HintPath>
+    </Reference>
+    <Reference Include="SIL.Core">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Release\SIL.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SIL.TestUtilities">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Release\SIL.TestUtilities.dll</HintPath>
+    </Reference>
+    <Reference Include="LibChorus.TestUtilities">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Release\LibChorus.TestUtilities.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\CommonAssemblyInfo.cs">
@@ -82,6 +109,11 @@
       <Project>{45349DFD-121A-423A-ACFF-C2FA1BFF61E3}</Project>
       <Name>TheTurtle</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

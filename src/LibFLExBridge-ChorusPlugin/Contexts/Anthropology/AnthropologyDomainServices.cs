@@ -26,7 +26,7 @@ namespace LibFLExBridgeChorusPlugin.Contexts.Anthropology
 			if (!Directory.Exists(anthropologyBaseDir))
 				Directory.CreateDirectory(anthropologyBaseDir);
 
-			FLExProjectSplitter.CheckForUserCancelRequested(progress);
+			LibFLExBridgeUtilities.CheckForUserCancelRequested(progress);
 			if (writeVerbose)
 				progress.WriteVerbose("Writing the anthropology data....");
 			else

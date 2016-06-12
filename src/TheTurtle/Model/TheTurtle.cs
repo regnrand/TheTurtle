@@ -11,7 +11,7 @@ using LibFLExBridgeChorusPlugin.Infrastructure;
 namespace TheTurtle.Model
 {
 	[Export(typeof(TheTurtle))]
-	internal sealed class TheTurtle
+	internal sealed class TheTurtle : IDisposable
 	{
 		private readonly TheTurtleForm _mainTurtleForm;
 		private readonly ITurtleView _turtleView;
@@ -132,6 +132,7 @@ namespace TheTurtle.Model
 			{
 				_turtleView.ProjectSelected -= TurtleViewProjectSelectedHandler;
 				_mainTurtleForm.Load -= MainTurtleFormOnLoad;
+				_mainTurtleForm.Dispose();
 			}
 
 			IsDisposed = true;

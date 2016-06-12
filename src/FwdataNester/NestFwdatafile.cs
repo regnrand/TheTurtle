@@ -24,6 +24,7 @@ using SIL.Progress;
 using SIL.Xml;
 using LibFLExBridgeChorusPlugin;
 using LibFLExBridgeChorusPlugin.DomainServices;
+using SIL.Extensions;
 
 namespace FwdataTestApp
 {
@@ -93,20 +94,21 @@ namespace FwdataTestApp
 		{
 			Cursor = Cursors.WaitCursor;
 			var totalRunTimer = new Stopwatch();
+			var sbTopLevel = new StringBuilder();
 			totalRunTimer.Start();
 			foreach (ListViewItem selectedItem in _listView.CheckedItems)
 			{
 				GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
-				RunSelected(Path.Combine((string)selectedItem.Tag, selectedItem.Text + ".fwdata"));
+				RunSelected(Path.Combine((string)selectedItem.Tag, selectedItem.Text + ".fwdata"), sbTopLevel);
 			}
 			totalRunTimer.Stop();
-			var totalTxt = String.Format(@"Time to run everything: {0}", totalRunTimer.Elapsed);
-			File.WriteAllText(Path.Combine(CurrentBaseFolder, "TotalTime.log"), totalTxt);
+			sbTopLevel.AppendFormat(@"Time to run everything: {0}", totalRunTimer.Elapsed);
+			File.WriteAllText(Path.Combine(CurrentBaseFolder, "TotalTime.log"), sbTopLevel.ToString());
 			Cursor = Cursors.Default;
 			Close();
 		}
 
-		private void RunSelected(string currentFwdataPathname)
+		private void RunSelected(string currentFwdataPathname, StringBuilder sbTopLevel)
 		{
 			_srcFwdataPathname = currentFwdataPathname;
 			_workingDir = Path.GetDirectoryName(_srcFwdataPathname);
@@ -169,6 +171,7 @@ namespace FwdataTestApp
 			}
 			finally
 			{
+				var comparisonNotes = sb.ToString();
 				var compTxt = String.Format(
 					"Time to nest file: {1}{0}Time to check nested file: {2}{0}Own objsur Found: {3}{0}Time to breakup file: {4}.{0}Time to restore file: {5}.{0}Time to verify restoration: {6}.{0}Time to validate files: {7}.{0}Time to check ambiguous data: {8}.{0}Time to check dangling refs in main file: {9}.{0}{0}{10}",
 					Environment.NewLine,
@@ -195,11 +198,21 @@ namespace FwdataTestApp
 					danglingRefsTimer.ElapsedMilliseconds > 0
 						? danglingRefsTimer.ElapsedMilliseconds.ToString(CultureInfo.InvariantCulture)
 						: "Not run",
-						sb);
-				File.WriteAllText(Path.Combine(_workingDir, "Comparison.log"), compTxt);
+						comparisonNotes);
+				var projectComparisonLogPathname = Path.Combine(_workingDir, "Comparison.log");
+				File.WriteAllText(projectComparisonLogPathname, compTxt);
+				if (comparisonNotes.Length > 0)
+				{
+					sbTopLevel.AppendFormat("See comparison log: '{0}'", projectComparisonLogPathname);
+					File.WriteAllText(projectComparisonLogPathname, comparisonNotes);
+				}
 				var validationErrors = sbValidation.ToString();
 				if (validationErrors.Length > 0)
-					File.WriteAllText(Path.Combine(_workingDir, "Validation.log"), validationErrors);
+				{
+					var projectValidationLogPathname = Path.Combine(_workingDir, "Validation.log");
+					sbTopLevel.AppendFormat("See validation log: '{0}'", projectValidationLogPathname);
+					File.WriteAllText(projectValidationLogPathname, validationErrors);
+				}
 			}
 		}
 
@@ -216,7 +229,7 @@ namespace FwdataTestApp
 			danglingRefsTimer.Start();
 			var danglingRefGuids = new Dictionary<string, HashSet<string>>();
 			foreach (var kvp in classData.Values.SelectMany(innerDict => innerDict)
-				.ToDictionary<KeyValuePair<string, byte[]>, string, XElement>(innerKvp => innerKvp.Key,
+				.ToDictionary(innerKvp => innerKvp.Key,
 					innerKvp => CreateFromBytes(innerKvp.Value)))
 			{
 				var haveWrittenMainObjInfo = false;
@@ -254,7 +267,7 @@ namespace FwdataTestApp
 			var modelVersionPathname = Path.Combine(_workingDir, FlexBridgeConstants.ModelVersionFilename);
 			if (!File.Exists(modelVersionPathname))
 			{
-				FLExProjectSplitter.WriteVersionFile(_srcFwdataPathname);
+				LibFLExBridgeUtilities.WriteVersionFile(_srcFwdataPathname);
 				using (var fastSplitter = new FastXmlElementSplitter(_srcFwdataPathname))
 				{
 					bool foundOptionalFirstElement;
@@ -336,7 +349,7 @@ namespace FwdataTestApp
 		{
 			GetFreshMdc(); // Want it fresh.
 			restoreTimer.Start();
-			FLExProjectUnifier.PutHumptyTogetherAgain(new NullProgress(), _srcFwdataPathname);
+			FLExProjectUnifier.PutHumptyTogetherAgain(new NullProgress(), false, _srcFwdataPathname);
 			restoreTimer.Stop();
 		}
 
@@ -361,7 +374,7 @@ namespace FwdataTestApp
 			File.Copy(_srcFwdataPathname, _srcFwdataPathname + ".orig", true); // Keep it safe.
 			GetFreshMdc(); // Want it fresh.
 			breakupTimer.Start();
-			FLExProjectSplitter.PushHumptyOffTheWall(new NullProgress(), _srcFwdataPathname);
+			FLExProjectSplitter.PushHumptyOffTheWall(new NullProgress(), false, _srcFwdataPathname);
 			breakupTimer.Stop();
 			GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
 
@@ -487,7 +500,7 @@ namespace FwdataTestApp
 				GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
 			}
 			restoreTimer.Start();
-			FLExProjectUnifier.PutHumptyTogetherAgain(new NullProgress(), _srcFwdataPathname);
+			FLExProjectUnifier.PutHumptyTogetherAgain(new NullProgress(), false, _srcFwdataPathname);
 			restoreTimer.Stop();
 			GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
 		}
@@ -587,7 +600,7 @@ namespace FwdataTestApp
 				{
 					if (!testedforExistanceOfOrigOptionalFirstElement)
 					{
-						foundOrigOptionalFirstElement = FLExProjectSplitter.IsOptionalFirstElement(origRecord);
+						foundOrigOptionalFirstElement = IsOptionalFirstElement(origRecord);
 						testedforExistanceOfOrigOptionalFirstElement = true;
 					}
 					if (foundOrigOptionalFirstElement)
@@ -612,7 +625,7 @@ namespace FwdataTestApp
 				{
 					if (!testedforExistanceOfNewOptionalFirstElement)
 					{
-						foundNewOptionalFirstElement = FLExProjectSplitter.IsOptionalFirstElement(newRecordAsBytes);
+						foundNewOptionalFirstElement = IsOptionalFirstElement(newRecordAsBytes);
 						testedforExistanceOfNewOptionalFirstElement = true;
 					}
 					var newRecCopyAsBytes = newRecordAsBytes;
@@ -901,6 +914,12 @@ namespace FwdataTestApp
 		private static bool IsUnix
 		{
 			get { return Environment.OSVersion.Platform == PlatformID.Unix; }
+		}
+
+		private static bool IsOptionalFirstElement(byte[] record)
+		{
+			var additionalFieldsArray = FlexBridgeConstants.Utf8.GetBytes("<" + FlexBridgeConstants.AdditionalFieldsTag);
+			return additionalFieldsArray.AreByteArraysEqual(record.SubArray(0, additionalFieldsArray.Length));
 		}
 	}
 }

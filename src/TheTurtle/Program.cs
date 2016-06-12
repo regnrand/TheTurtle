@@ -55,13 +55,10 @@ namespace TheTurtle
 			}
 
 			using (var catalog = new AssemblyCatalog(Assembly.GetExecutingAssembly()))
+			using (var container = new CompositionContainer(catalog))
+			using (var turtleModel = container.GetExportedValue<Model.TheTurtle>())
 			{
-				// Create the CompositionContainer with the parts in the catalog
-				using (var container = new CompositionContainer(catalog))
-				{
-					var turtleModel = container.GetExportedValue<Model.TheTurtle>();
-					Application.Run(turtleModel.MainWindow);
-				}
+				Application.Run(turtleModel.MainWindow);
 			}
 			TheTurtleSettings.Default.Save();
 		}

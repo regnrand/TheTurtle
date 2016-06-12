@@ -137,11 +137,5 @@ namespace LibFLExBridgeChorusPlugin.Infrastructure
 			foreach (var kvp in sortCollectionData)
 				propertyElement.Add(kvp.Value);
 		}
-
-		internal static void SortAndStoreElement(IDictionary<string, XElement> sortedData, XElement restorableElement)
-		{
-			SortMainRtElement(restorableElement);
-			sortedData.Add(restorableElement.Attribute(FlexBridgeConstants.GuidStr).Value.ToLowerInvariant(), restorableElement);
-		}
 	}
 }

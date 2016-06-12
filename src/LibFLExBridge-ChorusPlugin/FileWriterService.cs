@@ -37,11 +37,6 @@ namespace LibFLExBridgeChorusPlugin
 			}
 		}
 
-		internal static void WriteElement(XmlWriter writer, string data)
-		{
-			WriteElement(writer, XElement.Parse(data));
-		}
-
 		internal static void WriteElement(XmlWriter writer, XElement element)
 		{
 			if (WriteWholeNode(element))

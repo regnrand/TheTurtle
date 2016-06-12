@@ -79,7 +79,7 @@ namespace LibFLExBridgeChorusPlugin.Infrastructure
 		/// <param name="isRollback">"True" if there was a merge failure, and the repo is being rolled back to an earlier state. Otherwise "False".</param>
 		public void SimpleUpdate(IProgress progress, bool isRollback)
 		{
-			// The "isRollback" paramenter may be needed to control any incompatible move duplicate id issues.
+			// The "isRollback" parameter may be needed to control any incompatible move duplicate id issues.
 			RestoreProjectFile(progress);
 		}
 

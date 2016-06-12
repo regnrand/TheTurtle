@@ -105,23 +105,51 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <ItemGroup>
+  <ItemGroup Condition="'$(Configuration)' == 'Debug'">
+    <None Include="..\..\lib\Debug\L10NSharp.dll">
+      <Link>L10NSharp.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Reference Include="Chorus">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Download\Chorus.exe</HintPath>
+      <HintPath>..\..\lib\Debug\Chorus.exe</HintPath>
     </Reference>
     <Reference Include="LibChorus">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Download\LibChorus.dll</HintPath>
+      <HintPath>..\..\lib\Debug\LibChorus.dll</HintPath>
     </Reference>
-    <Reference Include="SIL.Core, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="SIL.Core">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Debug\SIL.Core.dll</HintPath>
     </Reference>
-    <Reference Include="SIL.Windows.Forms, Version=3.0.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="SIL.Windows.Forms">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Debug\SIL.Windows.Forms.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)' == 'Release'">
+    <None Include="..\..\lib\Release\L10NSharp.dll">
+      <Link>L10NSharp.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Reference Include="Chorus">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Release\Chorus.exe</HintPath>
+    </Reference>
+    <Reference Include="LibChorus">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Release\LibChorus.dll</HintPath>
+    </Reference>
+    <Reference Include="SIL.Core">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Release\SIL.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SIL.Windows.Forms">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Release\SIL.Windows.Forms.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
@@ -200,22 +228,22 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\lib\Release\icudt54.dll">
+    <None Include="..\..\lib\common\icudt54.dll">
       <Link>icudt54.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="..\..\lib\Release\icuin54.dll">
+    <None Include="..\..\lib\common\icuin54.dll">
       <Link>icuin54.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="..\..\lib\Release\icuuc54.dll">
+    <None Include="..\..\lib\common\icuuc54.dll">
       <Link>icuuc54.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Content Include="chorus.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\lib\Release\icu.net.dll.config">
+    <None Include="..\..\lib\common\icu.net.dll.config">
       <Link>icu.net.dll.config</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

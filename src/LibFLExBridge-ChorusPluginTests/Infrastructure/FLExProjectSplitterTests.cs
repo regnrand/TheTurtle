@@ -5,39 +5,37 @@
 // --------------------------------------------------------------------------------------------
 
 ﻿using System;
-﻿using System.IO;
-﻿using Chorus.Utilities;
-using NUnit.Framework;
-using SIL.IO;
-﻿using SIL.Progress;
+using Chorus.Utilities;
 using LibFLExBridgeChorusPlugin;
 using LibFLExBridgeChorusPlugin.Infrastructure;
+using NUnit.Framework;
+using SIL.IO;
+using SIL.Progress;
 
 namespace LibFLExBridgeChorusPluginTests.Infrastructure
 {
 	[TestFixture]
-	public class MultipleFileServicesTests
+	public class FLExProjectSplitterTests
 	{
-
 		[Test]
 		public void NullPathnameForBreakupShouldThrow()
 		{
 			Assert.Throws<ApplicationException>(() => FLExProjectSplitter.PushHumptyOffTheWall(
-				new NullProgress(), null));
+				new NullProgress(), false, null));
 		}
 
 		[Test]
 		public void EmptyPathnameForBreakupShouldThrow()
 		{
 			Assert.Throws<ApplicationException>(() => FLExProjectSplitter.PushHumptyOffTheWall(
-				new NullProgress(), ""));
+				new NullProgress(), false, ""));
 		}
 
 		[Test]
 		public void NonExistingFileForBreakupShouldThrow()
 		{
 			Assert.Throws<ApplicationException>(() => FLExProjectSplitter.PushHumptyOffTheWall(
-				new NullProgress(), "Bogus" + FlexBridgeConstants.FwXmlExtension));
+				new NullProgress(), false, "Bogus" + FlexBridgeConstants.FwXmlExtension));
 		}
 
 		[Test]
@@ -47,7 +45,7 @@ namespace LibFLExBridgeChorusPluginTests.Infrastructure
 			{
 				var pathname = tempFile.Path;
 				Assert.Throws<ApplicationException>(() => FLExProjectSplitter.PushHumptyOffTheWall(
-					new NullProgress(), pathname));
+					new NullProgress(), false, pathname));
 			}
 		}
 
@@ -57,44 +55,12 @@ namespace LibFLExBridgeChorusPluginTests.Infrastructure
 			using (var tempFile = TempFile.WithFilename("foo" + FlexBridgeConstants.FwXmlExtension))
 			{
 				var progress = new NullProgress
-					{
-						CancelRequested = true
-					};
+				{
+					CancelRequested = true
+				};
 				var pathname = tempFile.Path;
 				Assert.Throws<UserCancelledException>(() => FLExProjectSplitter.PushHumptyOffTheWall(
-					progress, pathname));
-			}
-		}
-
-		[Test]
-		public void NullPathnameForRestoreShouldThrow()
-		{
-			Assert.Throws<ApplicationException>(() => FLExProjectUnifier.PutHumptyTogetherAgain(
-				new NullProgress(), null));
-		}
-
-		[Test]
-		public void EmptyPathnameForRestoreShouldThrow()
-		{
-			Assert.Throws<ApplicationException>(() => FLExProjectUnifier.PutHumptyTogetherAgain(
-				new NullProgress(), ""));
-		}
-
-		[Test]
-		public void NonExistingFileForRestoreShouldThrow()
-		{
-			Assert.Throws<ApplicationException>(() => FLExProjectUnifier.PutHumptyTogetherAgain(
-				new NullProgress(), "Bogus" + FlexBridgeConstants.FwXmlExtension));
-		}
-
-		[Test]
-		public void NonExistantPathForRestoreShouldThrow()
-		{
-			using (var tempFile = new TempFile())
-			{
-				var pathname = tempFile.Path;
-				Assert.Throws<ApplicationException>(() => FLExProjectUnifier.PutHumptyTogetherAgain(
-					new NullProgress(), Path.Combine(pathname, "Itaintthere")));
+					progress, false, pathname));
 			}
 		}
 	}
