@@ -15,13 +15,11 @@ using Chorus.merge;
 using Chorus.merge.xml.generic;
 using LibFLExBridgeChorusPlugin;
 using LibFLExBridgeChorusPlugin.Infrastructure;
-using LibFLExBridgeChorusPlugin.DomainServices;
 using LibFLExBridgeChorusPlugin.Handling.CustomProperties;
 using LibChorus.TestUtilities;
 using NUnit.Framework;
 using SIL.IO;
 using SIL.Progress;
-using LibTriboroughBridgeChorusPlugin;
 
 namespace LibFLExBridgeChorusPluginTests.Handling.CustomProperties
 {
@@ -582,7 +580,7 @@ namespace LibFLExBridgeChorusPluginTests.Handling.CustomProperties
 
 			var tempPathname = Path.Combine(Path.GetTempPath(), FlexBridgeConstants.CustomPropertiesFilename);
 			FileWriterService.WriteCustomPropertyFile(MetadataCache.TestOnlyNewCache, Path.GetTempPath(),
-				LibTriboroughBridgeConstants.Utf8.GetBytes(originalCustomData));
+				FlexBridgeConstants.Utf8.GetBytes(originalCustomData));
 			using (var tempFile = TempFile.TrackExisting(tempPathname))
 			{
 				var doc = XDocument.Load(tempFile.Path);

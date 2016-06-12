@@ -12,6 +12,15 @@ namespace LibFLExBridgeChorusPlugin.Infrastructure
 	public static class FlexBridgeConstants
 	{
 		public static readonly string EmptyGuid = Guid.Empty.ToString().ToLowerInvariant();
+		public static readonly Encoding Utf8 = Encoding.UTF8;
+		public const string dupid = "dupid";
+		public const string OtherRepositories = "OtherRepositories";
+		public const string FwXmlExtension = "." + FwXmlExtensionNoPeriod;
+		public const string FwXmlExtensionNoPeriod = "fwdata";
+		public const string FwLockExtension = ".lock";
+		public const string FwXmlLockExtension = FwXmlExtension + FwLockExtension;
+		public const string FwDb4oExtension = "." + FwDb4oExtensionNoPeriod;
+		public const string FwDb4oExtensionNoPeriod = "fwdb";
 
 		// General
 		public const string Str = "Str";

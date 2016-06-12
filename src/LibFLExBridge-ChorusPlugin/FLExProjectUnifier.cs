@@ -16,7 +16,6 @@ using SIL.IO;
 using SIL.Progress;
 using LibFLExBridgeChorusPlugin.Contexts;
 using LibFLExBridgeChorusPlugin.Infrastructure;
-using LibTriboroughBridgeChorusPlugin;
 
 namespace LibFLExBridgeChorusPlugin
 {
@@ -112,7 +111,7 @@ namespace LibFLExBridgeChorusPlugin
 			{
 				var nestedFolder = Path.Combine(pathRoot, nestedFolderBase);
 				if (Directory.Exists(nestedFolder))
-					dupidPathnames.AddRange(Directory.GetFiles(nestedFolder, "*." + LibTriboroughBridgeConstants.dupid, SearchOption.AllDirectories));
+					dupidPathnames.AddRange(Directory.GetFiles(nestedFolder, "*." + FlexBridgeConstants.dupid, SearchOption.AllDirectories));
 			}
 			if (dupidPathnames.Count == 0)
 				return;

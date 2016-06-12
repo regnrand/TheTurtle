@@ -24,7 +24,6 @@ using SIL.Progress;
 using SIL.Xml;
 using LibFLExBridgeChorusPlugin;
 using LibFLExBridgeChorusPlugin.DomainServices;
-using LibTriboroughBridgeChorusPlugin;
 
 namespace FwdataTestApp
 {
@@ -315,7 +314,7 @@ namespace FwdataTestApp
 				if (csElement != null)
 				{
 					csElement.Attribute(FlexBridgeConstants.Val).Value = "0";
-					record = LibTriboroughBridgeConstants.Utf8.GetBytes(wfElement.ToString());
+					record = FlexBridgeConstants.Utf8.GetBytes(wfElement.ToString());
 				}
 			}
 
@@ -655,7 +654,7 @@ namespace FwdataTestApp
 							if (csProp != null)
 							{
 								csProp.Attribute(FlexBridgeConstants.Val).Value = "0";
-								origRecAsBytes = LibTriboroughBridgeConstants.Utf8.GetBytes(wfElement.ToString());
+								origRecAsBytes = FlexBridgeConstants.Utf8.GetBytes(wfElement.ToString());
 							}
 						}
 					}
@@ -776,7 +775,7 @@ namespace FwdataTestApp
 					if (foundOptionalFirstElement)
 						{
 							// Cache custom prop file for later write.
-							var cpElement = DataSortingService.SortCustomPropertiesRecord(LibTriboroughBridgeConstants.Utf8.GetString(record));
+							var cpElement = DataSortingService.SortCustomPropertiesRecord(FlexBridgeConstants.Utf8.GetString(record));
 							// Add custom property info to MDC, since it may need to be sorted in the data files.
 							foreach (var propElement in cpElement.Elements(FlexBridgeConstants.CustomField))
 							{
@@ -825,7 +824,7 @@ namespace FwdataTestApp
 							 .Where(projectDirName => Path.GetFileNameWithoutExtension(projectDirName).ToLowerInvariant() != "zpi");
 				foreach (var projectDirName in allProjectDirNamesExceptMine)
 				{
-					RestoreProjectIfNeeded(Directory.GetFiles(projectDirName, "*" + 						LibTriboroughBridgeConstants.FwXmlExtension).FirstOrDefault());
+					RestoreProjectIfNeeded(Directory.GetFiles(projectDirName, "*" + 						FlexBridgeConstants.FwXmlExtension).FirstOrDefault());
 				}
 			}
 			finally
@@ -840,12 +839,12 @@ namespace FwdataTestApp
 				return;
 			var currentFilename = Path.GetFileName(currentFwdataPathname);
 			var projectDirName = Path.GetDirectoryName(currentFwdataPathname);
-			if (currentFilename.ToLowerInvariant() == "zpi" + LibTriboroughBridgeConstants.FwXmlExtension || 				projectDirName.ToLowerInvariant() == "zpi")
+			if (currentFilename.ToLowerInvariant() == "zpi" + FlexBridgeConstants.FwXmlExtension || 				projectDirName.ToLowerInvariant() == "zpi")
 			{
 				return; // Don't even think of wiping out my ZPI folder.
 			}
 
-			var backupDataFilesFullPathnames = Directory.GetFiles(CurrentBaseFolder, "*" + LibTriboroughBridgeConstants.FwXmlExtension, 				SearchOption.TopDirectoryOnly);
+			var backupDataFilesFullPathnames = Directory.GetFiles(CurrentBaseFolder, "*" + FlexBridgeConstants.FwXmlExtension, 				SearchOption.TopDirectoryOnly);
 			var backupDataFilenames = backupDataFilesFullPathnames.Select(Path.GetFileName).ToList();
 			if (!backupDataFilenames.Contains(currentFilename))
 				return;

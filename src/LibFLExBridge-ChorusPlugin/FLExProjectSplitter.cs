@@ -16,7 +16,6 @@ using System.Linq;
 using SIL.Xml;
 ﻿﻿using LibFLExBridgeChorusPlugin.Contexts;
 using LibFLExBridgeChorusPlugin.Infrastructure;
-using LibTriboroughBridgeChorusPlugin;
 
 namespace LibFLExBridgeChorusPlugin
 {
@@ -38,7 +37,7 @@ namespace LibFLExBridgeChorusPlugin
 	/// </summary>
 	internal static class FLExProjectSplitter
 	{
-		internal static readonly byte[] AdditionalFieldsArray = LibTriboroughBridgeConstants.Utf8.GetBytes("<" + FlexBridgeConstants.AdditionalFieldsTag);
+		internal static readonly byte[] AdditionalFieldsArray = FlexBridgeConstants.Utf8.GetBytes("<" + FlexBridgeConstants.AdditionalFieldsTag);
 
 		internal static void CheckForUserCancelRequested(IProgress progress)
 		{

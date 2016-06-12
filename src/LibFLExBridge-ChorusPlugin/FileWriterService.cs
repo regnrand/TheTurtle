@@ -15,7 +15,6 @@ using SIL.Xml;
 using LibFLExBridgeChorusPlugin.DomainServices;
 using LibFLExBridgeChorusPlugin.Infrastructure;
 using LibFLExBridgeChorusPlugin.Properties;
-using LibTriboroughBridgeChorusPlugin;
 
 namespace LibFLExBridgeChorusPlugin
 {
@@ -146,7 +145,7 @@ namespace LibFLExBridgeChorusPlugin
 													 string pathRoot,
 													 byte[] record)
 		{
-			WriteCustomPropertyFile(mdc, pathRoot, LibTriboroughBridgeConstants.Utf8.GetString(record));
+			WriteCustomPropertyFile(mdc, pathRoot, FlexBridgeConstants.Utf8.GetString(record));
 		}
 
 		internal static void WriteCustomPropertyFile(MetadataCache mdc,
@@ -194,7 +193,7 @@ namespace LibFLExBridgeChorusPlugin
 			// Just because all of this is true, doesn't mean it is a FW 7.0 related file. :-(
 			if (!String.IsNullOrEmpty(mainFilePathname) // No null or empty string can be valid.
 				&& File.Exists(mainFilePathname) // There has to be an actual file,
-				&& Path.GetExtension(mainFilePathname).ToLowerInvariant() == LibTriboroughBridgeConstants.FwXmlExtension)
+				&& Path.GetExtension(mainFilePathname).ToLowerInvariant() == FlexBridgeConstants.FwXmlExtension)
 				return;
 
 			throw new ApplicationException("Cannot process the given file.");

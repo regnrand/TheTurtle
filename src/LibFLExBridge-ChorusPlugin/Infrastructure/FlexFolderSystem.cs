@@ -6,7 +6,6 @@
 
 using System.IO;
 using Chorus.sync;
-using LibTriboroughBridgeChorusPlugin;
 
 namespace LibFLExBridgeChorusPlugin.Infrastructure
 {
@@ -18,10 +17,10 @@ namespace LibFLExBridgeChorusPlugin.Infrastructure
 			// that we explicitly include all the files we understand. At least someday, when these
 			// affect what happens in a more persistent way (e.g. be stored in the hgrc), these would protect
 			// us a bit from other apps that might try to do a *.* include.
-			projectFolderConfiguration.ExcludePatterns.Add("**" + LibTriboroughBridgeConstants.FwXmlExtension);
-			projectFolderConfiguration.ExcludePatterns.Add("**" + LibTriboroughBridgeConstants.FwXmlExtension + "-replaced");
-			projectFolderConfiguration.ExcludePatterns.Add("**" + LibTriboroughBridgeConstants.FwXmlExtension + "-x");
-			projectFolderConfiguration.ExcludePatterns.Add("**" + LibTriboroughBridgeConstants.FwDb4oExtension);
+			projectFolderConfiguration.ExcludePatterns.Add("**" + FlexBridgeConstants.FwXmlExtension);
+			projectFolderConfiguration.ExcludePatterns.Add("**" + FlexBridgeConstants.FwXmlExtension + "-replaced");
+			projectFolderConfiguration.ExcludePatterns.Add("**" + FlexBridgeConstants.FwXmlExtension + "-x");
+			projectFolderConfiguration.ExcludePatterns.Add("**" + FlexBridgeConstants.FwDb4oExtension);
 			projectFolderConfiguration.ExcludePatterns.Add("**.fwbackup");
 			projectFolderConfiguration.ExcludePatterns.Add("**.fwstub");
 			projectFolderConfiguration.ExcludePatterns.Add("**.orig");
@@ -33,16 +32,16 @@ namespace LibFLExBridgeChorusPlugin.Infrastructure
 			projectFolderConfiguration.ExcludePatterns.Add("**.flextext");
 			projectFolderConfiguration.ExcludePatterns.Add("**.bak");
 			projectFolderConfiguration.ExcludePatterns.Add("**.bad");
-			projectFolderConfiguration.ExcludePatterns.Add("**" + LibTriboroughBridgeConstants.FwXmlLockExtension);
+			projectFolderConfiguration.ExcludePatterns.Add("**" + FlexBridgeConstants.FwXmlLockExtension);
 			projectFolderConfiguration.ExcludePatterns.Add("**.tmp");
 			projectFolderConfiguration.ExcludePatterns.Add("**.xml");
 			projectFolderConfiguration.ExcludePatterns.Add("**.log");
-			projectFolderConfiguration.ExcludePatterns.Add("**." + LibTriboroughBridgeConstants.dupid);
+			projectFolderConfiguration.ExcludePatterns.Add("**." + FlexBridgeConstants.dupid);
 			projectFolderConfiguration.ExcludePatterns.Add(Path.Combine("Temp", "**.*"));
 			projectFolderConfiguration.ExcludePatterns.Add(Path.Combine("BackupSettings", "**.*"));
 			projectFolderConfiguration.ExcludePatterns.Add(Path.Combine("WritingSystemStore", "trash", "**.*"));
 			projectFolderConfiguration.ExcludePatterns.Add(Path.Combine("WritingSystemStore", "WritingSystemsToIgnore.xml.ChorusNotes"));
-			projectFolderConfiguration.ExcludePatterns.Add(Path.Combine(LibTriboroughBridgeConstants.OtherRepositories, "**.*")); // Folder for contined LIFT and PT-FLEx repos.
+			projectFolderConfiguration.ExcludePatterns.Add(Path.Combine(FlexBridgeConstants.OtherRepositories, "**.*")); // Folder for contined LIFT and PT-FLEx repos.
 			if (!projectFolderConfiguration.ExcludePatterns.Contains("**.NewChorusNotes"))
 				projectFolderConfiguration.ExcludePatterns.Add("**.NewChorusNotes"); // Not really needed, since Chorus adds them. But, knows for how long?
 			ProjectFolderConfiguration.AddExcludedVideoExtensions(projectFolderConfiguration);

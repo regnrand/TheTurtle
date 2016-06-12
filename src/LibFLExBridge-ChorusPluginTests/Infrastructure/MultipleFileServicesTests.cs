@@ -12,7 +12,6 @@ using SIL.IO;
 ﻿using SIL.Progress;
 using LibFLExBridgeChorusPlugin;
 using LibFLExBridgeChorusPlugin.Infrastructure;
-using LibTriboroughBridgeChorusPlugin;
 
 namespace LibFLExBridgeChorusPluginTests.Infrastructure
 {
@@ -38,7 +37,7 @@ namespace LibFLExBridgeChorusPluginTests.Infrastructure
 		public void NonExistingFileForBreakupShouldThrow()
 		{
 			Assert.Throws<ApplicationException>(() => FLExProjectSplitter.PushHumptyOffTheWall(
-				new NullProgress(), "Bogus" + LibTriboroughBridgeConstants.FwXmlExtension));
+				new NullProgress(), "Bogus" + FlexBridgeConstants.FwXmlExtension));
 		}
 
 		[Test]
@@ -55,7 +54,7 @@ namespace LibFLExBridgeChorusPluginTests.Infrastructure
 		[Test]
 		public void UserCancelledBreakupShouldThrow()
 		{
-			using (var tempFile = TempFile.WithFilename("foo" + LibTriboroughBridgeConstants.FwXmlExtension))
+			using (var tempFile = TempFile.WithFilename("foo" + FlexBridgeConstants.FwXmlExtension))
 			{
 				var progress = new NullProgress
 					{
@@ -85,7 +84,7 @@ namespace LibFLExBridgeChorusPluginTests.Infrastructure
 		public void NonExistingFileForRestoreShouldThrow()
 		{
 			Assert.Throws<ApplicationException>(() => FLExProjectUnifier.PutHumptyTogetherAgain(
-				new NullProgress(), "Bogus" + LibTriboroughBridgeConstants.FwXmlExtension));
+				new NullProgress(), "Bogus" + FlexBridgeConstants.FwXmlExtension));
 		}
 
 		[Test]

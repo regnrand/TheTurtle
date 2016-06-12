@@ -11,7 +11,6 @@ using System.Text;
 using System.Xml;
 using Chorus.merge.xml.generic;
 using LibFLExBridgeChorusPlugin.Infrastructure;
-using LibTriboroughBridgeChorusPlugin;
 
 namespace LibFLExBridgeChorusPlugin.Handling
 {
@@ -177,7 +176,7 @@ namespace LibFLExBridgeChorusPlugin.Handling
 			string guid = XmlUtilities.GetOptionalAttributeString(input, "guid");
 			if (!string.IsNullOrEmpty(guid))
 			{
-				var bytes = LibTriboroughBridgeConstants.Utf8.GetBytes(guid);
+				var bytes = FlexBridgeConstants.Utf8.GetBytes(guid);
 				s.Write(bytes, 0, bytes.Length);
 			}
 		}

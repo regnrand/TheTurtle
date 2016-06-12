@@ -9,7 +9,6 @@ using System.Linq;
 using System.Xml.Linq;
 using Chorus.VcsDrivers.Mercurial;
 using LibFLExBridgeChorusPlugin.Infrastructure;
-using LibTriboroughBridgeChorusPlugin;
 
 namespace LibFLExBridgeChorusPlugin.Handling.ConfigLayout
 {
@@ -21,11 +20,11 @@ namespace LibFLExBridgeChorusPlugin.Handling.ConfigLayout
 			var data = doc.Root.Elements("layout")
 				.ToDictionary(layoutElement =>
 							  layoutElement.Attribute("class").Value + layoutElement.Attribute("type").Value + layoutElement.Attribute("name").Value,
-					layoutElement => LibTriboroughBridgeConstants.Utf8.GetBytes(layoutElement.ToString()));
+					layoutElement => FlexBridgeConstants.Utf8.GetBytes(layoutElement.ToString()));
 
 			var layoutTypeElement = doc.Root.Element("layoutType");
 			if (layoutTypeElement != null)
-				data.Add("layoutType", LibTriboroughBridgeConstants.Utf8.GetBytes(doc.Root.Element("layoutType").ToString()));
+				data.Add("layoutType", FlexBridgeConstants.Utf8.GetBytes(doc.Root.Element("layoutType").ToString()));
 
 			return data;
 		}

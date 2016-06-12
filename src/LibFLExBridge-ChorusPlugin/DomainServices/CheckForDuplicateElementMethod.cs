@@ -15,7 +15,6 @@ using Chorus.merge;
 using Chorus.merge.xml.generic;
 using LibFLExBridgeChorusPlugin.Handling;
 using LibFLExBridgeChorusPlugin.Infrastructure;
-using LibTriboroughBridgeChorusPlugin;
 
 namespace LibFLExBridgeChorusPlugin.DomainServices
 {
@@ -71,7 +70,7 @@ namespace LibFLExBridgeChorusPlugin.DomainServices
 				listener.RecordContextInConflict(conflict);
 				conflict.HtmlDetails = MakeHtmlForIncompatibleMove(conflict, oldGuid, elementGuid, element);
 				listener.ConflictOccurred(conflict);
-				File.WriteAllText(pathname + "." + LibTriboroughBridgeConstants.dupid, "");
+				File.WriteAllText(pathname + "." + FlexBridgeConstants.dupid, "");
 			}
 			return elementGuid;
 		}

@@ -12,7 +12,6 @@ using LibFLExBridgeChorusPlugin.Contexts;
 using LibFLExBridgeChorusPlugin.Infrastructure;
 using LibFLExBridgeChorusPlugin.DomainServices;
 using NUnit.Framework;
-using LibTriboroughBridgeChorusPlugin;
 
 namespace LibFLExBridgeChorusPluginTests.DomainServices
 {
@@ -38,7 +37,7 @@ namespace LibFLExBridgeChorusPluginTests.DomainServices
 										"ReversalIndex",
 										new SortedDictionary<string, byte[]>
 											{
-												{revIdxGuid, LibTriboroughBridgeConstants.Utf8.GetBytes(_rt.ToString())}
+												{revIdxGuid, FlexBridgeConstants.Utf8.GetBytes(_rt.ToString())}
 											}
 									}
 								};
@@ -125,7 +124,7 @@ namespace LibFLExBridgeChorusPluginTests.DomainServices
 			var classData = new Dictionary<string, SortedDictionary<string, byte[]>>();
 			var data = new SortedDictionary<string, byte[]>
 						{
-							{"c1ed6dc8-e382-11de-8a39-0800200c9a66", LibTriboroughBridgeConstants.Utf8.GetBytes(rt.ToString())}
+							{"c1ed6dc8-e382-11de-8a39-0800200c9a66", FlexBridgeConstants.Utf8.GetBytes(rt.ToString())}
 						};
 			classData.Add("Segment", data);
 			var guidToClassMapping = new Dictionary<string, string> {{"c1ed6dc8-e382-11de-8a39-0800200c9a66", "Segment"}};
@@ -148,7 +147,7 @@ namespace LibFLExBridgeChorusPluginTests.DomainServices
 			var classData = new Dictionary<string, SortedDictionary<string, byte[]>>();
 			var data = new SortedDictionary<string, byte[]>
 						{
-							{"c1ed6dc8-e382-11de-8a39-0800200c9a66", LibTriboroughBridgeConstants.Utf8.GetBytes(rt.ToString())}
+							{"c1ed6dc8-e382-11de-8a39-0800200c9a66", FlexBridgeConstants.Utf8.GetBytes(rt.ToString())}
 						};
 			classData.Add("CmPossibility", data);
 			var guidToClassMapping = new Dictionary<string, string> { { "c1ed6dc8-e382-11de-8a39-0800200c9a66", "CmPossibility" } };
@@ -164,7 +163,7 @@ namespace LibFLExBridgeChorusPluginTests.DomainServices
 		{
 			AddOwnedObjects();
 			foreach (var originalElement in _classData.Values.SelectMany(top => top.Values))
-				Assert.IsTrue(LibTriboroughBridgeConstants.Utf8.GetString(originalElement).Contains(FlexBridgeConstants.OwnerGuid));
+				Assert.IsTrue(FlexBridgeConstants.Utf8.GetString(originalElement).Contains(FlexBridgeConstants.OwnerGuid));
 
 			CmObjectNestingService.NestObject(false, _rt,
 				_classData,
@@ -181,19 +180,19 @@ namespace LibFLExBridgeChorusPluginTests.DomainServices
 									  new XAttribute(FlexBridgeConstants.Class, "ReversalIndexEntry"),
 									  new XAttribute(FlexBridgeConstants.GuidStr, "0039739a-7fcf-4838-8b75-566b8815a29f"),
 									  new XAttribute(FlexBridgeConstants.OwnerGuid, rtGuid));
-			data.Add("0039739a-7fcf-4838-8b75-566b8815a29f", LibTriboroughBridgeConstants.Utf8.GetBytes(entry1.ToString()));
+			data.Add("0039739a-7fcf-4838-8b75-566b8815a29f", FlexBridgeConstants.Utf8.GetBytes(entry1.ToString()));
 			_guidToClassMapping.Add("0039739a-7fcf-4838-8b75-566b8815a29f", "ReversalIndexEntry");
 			var subentry1 = new XElement(FlexBridgeConstants.RtTag,
 									  new XAttribute(FlexBridgeConstants.Class, "ReversalIndexEntry"),
 									  new XAttribute(FlexBridgeConstants.GuidStr, "14a6b4bc-1bb3-4c67-b70c-5a195e411e27"),
 									  new XAttribute(FlexBridgeConstants.OwnerGuid, "0039739a-7fcf-4838-8b75-566b8815a29f"));
-			data.Add("14a6b4bc-1bb3-4c67-b70c-5a195e411e27", LibTriboroughBridgeConstants.Utf8.GetBytes(subentry1.ToString()));
+			data.Add("14a6b4bc-1bb3-4c67-b70c-5a195e411e27", FlexBridgeConstants.Utf8.GetBytes(subentry1.ToString()));
 			_guidToClassMapping.Add("14a6b4bc-1bb3-4c67-b70c-5a195e411e27", "ReversalIndexEntry");
 			var entry2 = new XElement(FlexBridgeConstants.RtTag,
 									  new XAttribute(FlexBridgeConstants.Class, "ReversalIndexEntry"),
 									  new XAttribute(FlexBridgeConstants.GuidStr, "00b560a2-9af0-4185-bbeb-c0eb3c5e3769"),
 									  new XAttribute(FlexBridgeConstants.OwnerGuid, rtGuid));
-			data.Add("00b560a2-9af0-4185-bbeb-c0eb3c5e3769", LibTriboroughBridgeConstants.Utf8.GetBytes(entry2.ToString()));
+			data.Add("00b560a2-9af0-4185-bbeb-c0eb3c5e3769", FlexBridgeConstants.Utf8.GetBytes(entry2.ToString()));
 			_guidToClassMapping.Add("00b560a2-9af0-4185-bbeb-c0eb3c5e3769", "ReversalIndexEntry");
 			_classData.Add("ReversalIndexEntry", data);
 			var entriesElement = new XElement("Entries",
@@ -227,8 +226,8 @@ namespace LibFLExBridgeChorusPluginTests.DomainServices
 			_guidToClassMapping.Add("c1ed6dc7-e382-11de-8a39-0800200c9a66", "PartOfSpeech");
 			data = new SortedDictionary<string, byte[]>
 					{
-						{"c1ed6dc6-e382-11de-8a39-0800200c9a66", LibTriboroughBridgeConstants.Utf8.GetBytes(pos1.ToString())},
-						{"c1ed6dc7-e382-11de-8a39-0800200c9a66", LibTriboroughBridgeConstants.Utf8.GetBytes(pos2.ToString())}
+						{"c1ed6dc6-e382-11de-8a39-0800200c9a66", FlexBridgeConstants.Utf8.GetBytes(pos1.ToString())},
+						{"c1ed6dc7-e382-11de-8a39-0800200c9a66", FlexBridgeConstants.Utf8.GetBytes(pos2.ToString())}
 					};
 			_classData.Add("PartOfSpeech", data);
 			posList.Add(entriesElement);
@@ -238,7 +237,7 @@ namespace LibFLExBridgeChorusPluginTests.DomainServices
 			_guidToClassMapping.Add(posListGuid, FlexBridgeConstants.CmPossibilityList);
 			data = new SortedDictionary<string, byte[]>
 					{
-						{posListGuid, LibTriboroughBridgeConstants.Utf8.GetBytes(posList.ToString())}
+						{posListGuid, FlexBridgeConstants.Utf8.GetBytes(posList.ToString())}
 					};
 			_classData.Add(FlexBridgeConstants.CmPossibilityList, data);
 			_rt.Add(entriesElement);

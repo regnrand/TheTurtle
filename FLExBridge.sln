@@ -25,8 +25,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibFLExBridge-ChorusPlugin"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibFLExBridge-ChorusPluginTests", "src\LibFLExBridge-ChorusPluginTests\LibFLExBridge-ChorusPluginTests.csproj", "{D8929836-9B5D-4103-82AE-92ADC802592A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibTriboroughBridge-ChorusPlugin", "src\LibTriboroughBridge-ChorusPlugin\LibTriboroughBridge-ChorusPlugin.csproj", "{8E6DD218-7BA1-4119-82D2-535C05A0923C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheTurtle", "src\TheTurtle\TheTurtle.csproj", "{45349DFD-121A-423A-ACFF-C2FA1BFF61E3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheTurtleTests", "src\TheTurtleTests\TheTurtleTests.csproj", "{D9C37AF7-7089-420F-902C-8AEC55DAE498}"
@@ -147,26 +145,6 @@ Global
 		{D8929836-9B5D-4103-82AE-92ADC802592A}.ReleaseMono|Mixed Platforms.ActiveCfg = ReleaseMono|Any CPU
 		{D8929836-9B5D-4103-82AE-92ADC802592A}.ReleaseMono|Mixed Platforms.Build.0 = ReleaseMono|Any CPU
 		{D8929836-9B5D-4103-82AE-92ADC802592A}.ReleaseMono|x86.ActiveCfg = ReleaseMono|Any CPU
-		{8E6DD218-7BA1-4119-82D2-535C05A0923C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8E6DD218-7BA1-4119-82D2-535C05A0923C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8E6DD218-7BA1-4119-82D2-535C05A0923C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{8E6DD218-7BA1-4119-82D2-535C05A0923C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{8E6DD218-7BA1-4119-82D2-535C05A0923C}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{8E6DD218-7BA1-4119-82D2-535C05A0923C}.DebugMono|Any CPU.ActiveCfg = DebugMono|Any CPU
-		{8E6DD218-7BA1-4119-82D2-535C05A0923C}.DebugMono|Any CPU.Build.0 = DebugMono|Any CPU
-		{8E6DD218-7BA1-4119-82D2-535C05A0923C}.DebugMono|Mixed Platforms.ActiveCfg = DebugMono|Any CPU
-		{8E6DD218-7BA1-4119-82D2-535C05A0923C}.DebugMono|Mixed Platforms.Build.0 = DebugMono|Any CPU
-		{8E6DD218-7BA1-4119-82D2-535C05A0923C}.DebugMono|x86.ActiveCfg = DebugMono|Any CPU
-		{8E6DD218-7BA1-4119-82D2-535C05A0923C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8E6DD218-7BA1-4119-82D2-535C05A0923C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8E6DD218-7BA1-4119-82D2-535C05A0923C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{8E6DD218-7BA1-4119-82D2-535C05A0923C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{8E6DD218-7BA1-4119-82D2-535C05A0923C}.Release|x86.ActiveCfg = Release|Any CPU
-		{8E6DD218-7BA1-4119-82D2-535C05A0923C}.ReleaseMono|Any CPU.ActiveCfg = ReleaseMono|Any CPU
-		{8E6DD218-7BA1-4119-82D2-535C05A0923C}.ReleaseMono|Any CPU.Build.0 = ReleaseMono|Any CPU
-		{8E6DD218-7BA1-4119-82D2-535C05A0923C}.ReleaseMono|Mixed Platforms.ActiveCfg = ReleaseMono|Any CPU
-		{8E6DD218-7BA1-4119-82D2-535C05A0923C}.ReleaseMono|Mixed Platforms.Build.0 = ReleaseMono|Any CPU
-		{8E6DD218-7BA1-4119-82D2-535C05A0923C}.ReleaseMono|x86.ActiveCfg = ReleaseMono|Any CPU
 		{45349DFD-121A-423A-ACFF-C2FA1BFF61E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{45349DFD-121A-423A-ACFF-C2FA1BFF61E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45349DFD-121A-423A-ACFF-C2FA1BFF61E3}.Debug|Mixed Platforms.ActiveCfg = Debug|x86

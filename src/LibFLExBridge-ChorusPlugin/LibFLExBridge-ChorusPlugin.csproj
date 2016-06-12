@@ -202,7 +202,6 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Infrastructure\FlexBridgeConstants.cs" />
-    <Compile Include="Infrastructure\UpdateBranchHelperFlex.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -210,11 +209,5 @@
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\LibTriboroughBridge-ChorusPlugin\LibTriboroughBridge-ChorusPlugin.csproj">
-      <Project>{8E6DD218-7BA1-4119-82D2-535C05A0923C}</Project>
-      <Name>LibTriboroughBridge-ChorusPlugin</Name>
-    </ProjectReference>
   </ItemGroup>
 </Project>
