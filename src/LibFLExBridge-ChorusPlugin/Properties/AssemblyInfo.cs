@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2015 SIL International
+﻿// Copyright (c) 2010-2016 SIL International
 // This software is licensed under the MIT License (http://opensource.org/licenses/MIT)
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -8,9 +8,6 @@ using System.Runtime.CompilerServices;
 [assembly: ComVisible(false)]
 
 [assembly: InternalsVisibleTo("LibFLExBridge-ChorusPluginTests")]
-[assembly: InternalsVisibleTo("FLEx-ChorusPlugin")]
-[assembly: InternalsVisibleTo("FLEx-ChorusPluginTests")]
-[assembly: InternalsVisibleTo("RepositoryUtility")]
 [assembly: InternalsVisibleTo("FwdataTestApp")]
 [assembly: InternalsVisibleTo("TheTurtle")]
 [assembly: InternalsVisibleTo("TheTurtleTests")]
