@@ -72,12 +72,7 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="DummyFolderSystem.cs" />
-    <Compile Include="Mocks\MockedExistingSystemView.cs" />
-    <Compile Include="Mocks\MockedTurtleView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="Mocks\MockedProjectPathLocator.cs" />
-    <Compile Include="Mocks\MockedProjectView.cs" />
     <Compile Include="Model\LanguageProjectRepositoryTests.cs" />
     <Compile Include="Model\LanguageProjectTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
