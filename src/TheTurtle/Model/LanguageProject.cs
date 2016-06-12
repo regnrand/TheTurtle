@@ -50,7 +50,7 @@ namespace TheTurtle.Model
 		{
 			get
 			{
-				return Directory.Exists(Path.Combine(DirectoryName, ".hg"));
+				return Directory.Exists(Path.Combine(DirectoryName, TheTurtleUtilities.hg));
 			}
 		}
 

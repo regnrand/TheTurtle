@@ -127,5 +127,7 @@ namespace TheTurtle
 				configure(system.ProjectFolderConfiguration);
 			return system;
 		}
+
+		internal const string hg = ".hg";
 	}
 }

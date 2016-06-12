@@ -25,18 +25,6 @@ namespace TheTurtle {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string OtherBranchRevisions {
-            get {
-                return ((string)(this["OtherBranchRevisions"]));
-            }
-            set {
-                this["OtherBranchRevisions"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool CallUpgrade {
             get {

@@ -35,7 +35,7 @@ namespace FwdataTestApp
 
 		public NestFwdataFile()
 		{
-			if (TriboroughBridge_ChorusPlugin.TriboroughBridgeUtilities.IsUnix)
+			if (IsUnix)
 			{
 				CurrentBaseFolder = Path.Combine(Environment.GetEnvironmentVariable(@"HOME"), @"TestProjects");
 			}
@@ -96,7 +96,7 @@ namespace FwdataTestApp
 			totalRunTimer.Start();
 			foreach (ListViewItem selectedItem in _listView.CheckedItems)
 			{
-				GC.Collect(2, GCCollectionMode.Forced);
+				GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
 				RunSelected(Path.Combine((string)selectedItem.Tag, selectedItem.Text + ".fwdata"));
 			}
 			totalRunTimer.Stop();
@@ -158,7 +158,7 @@ namespace FwdataTestApp
 			}
 			catch (Exception err)
 			{
-				GC.Collect(2, GCCollectionMode.Forced);
+				GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
 				File.WriteAllText(Path.Combine(_workingDir, "StackTrace.log"),
 								  err.GetType().Name + Environment.NewLine + err.StackTrace);
 				if (File.Exists(_srcFwdataPathname + ".orig"))
@@ -216,8 +216,8 @@ namespace FwdataTestApp
 			danglingRefsTimer.Start();
 			var danglingRefGuids = new Dictionary<string, HashSet<string>>();
 			foreach (var kvp in classData.Values.SelectMany(innerDict => innerDict)
-				.ToDictionary(innerKvp => innerKvp.Key,
-					innerKvp => TriboroughBridge_ChorusPlugin.TriboroughBridgeUtilities.CreateFromBytes(innerKvp.Value)))
+				.ToDictionary<KeyValuePair<string, byte[]>, string, XElement>(innerKvp => innerKvp.Key,
+					innerKvp => CreateFromBytes(innerKvp.Value)))
 			{
 				var haveWrittenMainObjInfo = false;
 				var currentMainGuid = kvp.Key;
@@ -287,7 +287,7 @@ namespace FwdataTestApp
 		private static void CacheDataRecord(IDictionary<string, SortedDictionary<string, byte[]>> unownedObjects, IDictionary<string, SortedDictionary<string, byte[]>> classData, IDictionary<string, string> guidToClassMapping, byte[] record)
 		{
 			var attrValues = XmlUtils.GetAttributes(record, new HashSet<string>
-				{
+			{
 					FlexBridgeConstants.GuidStr,
 					FlexBridgeConstants.Class,
 					FlexBridgeConstants.OwnerGuid
@@ -309,12 +309,12 @@ namespace FwdataTestApp
 			// 1. Set 'Checksum' to zero (0).
 			if (className == "WfiWordform")
 			{
-				var wfElement = TriboroughBridge_ChorusPlugin.TriboroughBridgeUtilities.CreateFromBytes(record);
+				var wfElement = CreateFromBytes(record);
 				var csElement = wfElement.Element("Checksum");
 				if (csElement != null)
 				{
 					csElement.Attribute(FlexBridgeConstants.Val).Value = "0";
-					record = FlexBridgeConstants.Utf8.GetBytes(wfElement.ToString());
+					record = FlexBridgeConstants.Utf8.GetBytes((string) wfElement.ToString());
 				}
 			}
 
@@ -346,7 +346,7 @@ namespace FwdataTestApp
 			nestTimer.Start();
 			NestFile(_srcFwdataPathname);
 			nestTimer.Stop();
-			GC.Collect(2, GCCollectionMode.Forced);
+			GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
 			if (cbCheckOwnObjsurChecked)
 			{
 				checkOwnObjsurTimer.Start();
@@ -363,7 +363,7 @@ namespace FwdataTestApp
 			breakupTimer.Start();
 			FLExProjectSplitter.PushHumptyOffTheWall(new NullProgress(), _srcFwdataPathname);
 			breakupTimer.Stop();
-			GC.Collect(2, GCCollectionMode.Forced);
+			GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
 
 			if (_cbCheckAmbiguousElements.Checked)
 			{
@@ -484,12 +484,12 @@ namespace FwdataTestApp
 					sbValidation.AppendLine(warning.HtmlDetails);
 					sbValidation.AppendLine();
 				}
-				GC.Collect(2, GCCollectionMode.Forced);
+				GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
 			}
 			restoreTimer.Start();
 			FLExProjectUnifier.PutHumptyTogetherAgain(new NullProgress(), _srcFwdataPathname);
 			restoreTimer.Stop();
-			GC.Collect(2, GCCollectionMode.Forced);
+			GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
 		}
 
 		private static XmlNode CreateXmlNodeFromBytes(byte[] xmlData)
@@ -558,23 +558,6 @@ namespace FwdataTestApp
 				sb.AppendLine();
 			}
 
-			// Scripture
-			var scriptureFolder = Path.Combine(_workingDir, "Other");
-			if (Directory.Exists(scriptureFolder))
-			{
-				foreach (var scripturePathname in Directory.GetFiles(scriptureFolder, "*.*", SearchOption.AllDirectories)
-						.Where(pathname => !pathname.ToLowerInvariant().EndsWith("chorusnotes")))
-				{
-					validationError = fbHandler.ValidateFile(scripturePathname, new NullProgress());
-					if (validationError == null)
-						continue;
-					sbValidation.AppendFormat("File '{0}' reported an error:{1}", scripturePathname, validationError);
-					sbValidation.AppendLine();
-					sb.AppendFormat("File '{0}' reported an error:{1}", scripturePathname, validationError);
-					sb.AppendLine();
-				}
-			}
-
 			// Linguistics
 			foreach (var linguisticsPathname in Directory.GetFiles(Path.Combine(_workingDir, "Linguistics"), "*.*", SearchOption.AllDirectories)
 					.Where(pathname => !pathname.ToLowerInvariant().EndsWith("chorusnotes")))
@@ -592,7 +575,7 @@ namespace FwdataTestApp
 
 		private void Verify(Stopwatch verifyTimer, StringBuilder sb)
 		{
-			GC.Collect(2, GCCollectionMode.Forced);
+			GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
 			verifyTimer.Start();
 			GetFreshMdc(); // Want it fresh.
 			var origData = new Dictionary<string, byte[]>(StringComparer.InvariantCultureIgnoreCase);
@@ -617,7 +600,7 @@ namespace FwdataTestApp
 				}
 			}
 			verifyTimer.Stop();
-			GC.Collect(2, GCCollectionMode.Forced);
+			GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
 			verifyTimer.Start();
 			using (var fastSplitterNew = new FastXmlElementSplitter(_srcFwdataPathname))
 			{
@@ -649,48 +632,16 @@ namespace FwdataTestApp
 						origData.Remove(srcGuid);
 						if (attrValues[FlexBridgeConstants.Class] == "WfiWordform")
 						{
-							var wfElement = TriboroughBridge_ChorusPlugin.TriboroughBridgeUtilities.CreateFromBytes(origRecAsBytes);
+							var wfElement = CreateFromBytes(origRecAsBytes);
 							var csProp = wfElement.Element("Checksum");
 							if (csProp != null)
 							{
 								csProp.Attribute(FlexBridgeConstants.Val).Value = "0";
-								origRecAsBytes = FlexBridgeConstants.Utf8.GetBytes(wfElement.ToString());
+								origRecAsBytes = FlexBridgeConstants.Utf8.GetBytes((string) wfElement.ToString());
 							}
 						}
 					}
 
-					//if (counter == 1000)
-					//{
-					//    verifyTimer.Stop();
-					//    GC.Collect(2, GCCollectionMode.Forced);
-					//    verifyTimer.Start();
-					//    counter = 0;
-					//}
-					//else
-					//{
-					//    counter++;
-					//}
-					// Way too slow, since it has to always make the XmlNodes.
-					// Just feeding strings to XmlUtilities.AreXmlElementsEqual is faster,
-					// since it skips making them, if the strings are the same.
-					//var origNode = CreateXmlNodeFromBytes(origRecAsBytes);
-					//var newNode = CreateXmlNodeFromBytes(newRecCopyAsBytes);
-					//if (XmlUtilities.AreXmlElementsEqual(origNode, newNode))
-					//    continue;
-					//if (srcGuid == null)
-					//{
-					//    WriteProblemDataFile(Path.Combine(_workingDir, "CustomProperties-SRC.txt"), origNode);
-					//    WriteProblemDataFile(Path.Combine(_workingDir, srcGuid + "CustomProperties-TRG.txt"), newNode);
-					//    sb.Append("Main src and trg custom properties are different in the resulting xml.");
-					//}
-					//else
-					//{
-					//    WriteProblemDataFile(Path.Combine(_workingDir, srcGuid + "-SRC.txt"), origNode);
-					//    WriteProblemDataFile(Path.Combine(_workingDir, srcGuid + "-TRG.txt"), newNode);
-					//    sb.AppendFormat("Main src and trg object with guid '{0}' are different in the resulting xml.", srcGuid);
-					//}
-					//if (XmlUtilities.AreXmlElementsEqual(LibTriboroughBridgeConstants.Utf8.GetString(origRecAsBytes), LibTriboroughBridgeConstants.Utf8.GetString(newRecCopyAsBytes)))
-					//	continue;
 					if (XmlUtilities.AreXmlElementsEqual(origRecAsBytes, newRecCopyAsBytes))
 						continue;
 					if (srcGuid == null)
@@ -721,11 +672,6 @@ namespace FwdataTestApp
 			verifyTimer.Stop();
 		}
 
-		//private static void WriteProblemDataFile(string pathname, XmlNode data)
-		//{
-		//    var doc = data.OwnerDocument;
-		//    doc.Save(pathname);
-		//}
 		private static void WriteProblemDataFile(string pathname, byte[] data)
 		{
 			using (var reader = XmlReader.Create(new MemoryStream(data, false), CanonicalXmlSettings.CreateXmlReaderSettings()))
@@ -753,8 +699,8 @@ namespace FwdataTestApp
 				var unownedElementDict = unownedElementKvp.Value;
 				foreach (var unownedElement in unownedElementDict.Values)
 				{
-					var element = TriboroughBridge_ChorusPlugin.TriboroughBridgeUtilities.CreateFromBytes(unownedElement);
-					classElement.Add(element);
+					var element = CreateFromBytes(unownedElement);
+					classElement.Add((object) element);
 					CmObjectNestingService.NestObject(false, element,
 												  classData,
 												  guidToClassMapping);
@@ -803,7 +749,7 @@ namespace FwdataTestApp
 					}
 				}
 			}
-			GC.Collect(2, GCCollectionMode.Forced);
+			GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
 		}
 
 		private void RestoreProjects(object sender, EventArgs e)
@@ -824,7 +770,7 @@ namespace FwdataTestApp
 							 .Where(projectDirName => Path.GetFileNameWithoutExtension(projectDirName).ToLowerInvariant() != "zpi");
 				foreach (var projectDirName in allProjectDirNamesExceptMine)
 				{
-					RestoreProjectIfNeeded(Directory.GetFiles(projectDirName, "*" + 						FlexBridgeConstants.FwXmlExtension).FirstOrDefault());
+					RestoreProjectIfNeeded(Directory.GetFiles(projectDirName, "*" + FlexBridgeConstants.FwXmlExtension).FirstOrDefault());
 				}
 			}
 			finally
@@ -839,12 +785,12 @@ namespace FwdataTestApp
 				return;
 			var currentFilename = Path.GetFileName(currentFwdataPathname);
 			var projectDirName = Path.GetDirectoryName(currentFwdataPathname);
-			if (currentFilename.ToLowerInvariant() == "zpi" + FlexBridgeConstants.FwXmlExtension || 				projectDirName.ToLowerInvariant() == "zpi")
+			if (currentFilename.ToLowerInvariant() == "zpi" + FlexBridgeConstants.FwXmlExtension || projectDirName.ToLowerInvariant() == "zpi")
 			{
 				return; // Don't even think of wiping out my ZPI folder.
 			}
 
-			var backupDataFilesFullPathnames = Directory.GetFiles(CurrentBaseFolder, "*" + FlexBridgeConstants.FwXmlExtension, 				SearchOption.TopDirectoryOnly);
+			var backupDataFilesFullPathnames = Directory.GetFiles(CurrentBaseFolder, "*" + FlexBridgeConstants.FwXmlExtension, SearchOption.TopDirectoryOnly);
 			var backupDataFilenames = backupDataFilesFullPathnames.Select(Path.GetFileName).ToList();
 			if (!backupDataFilenames.Contains(currentFilename))
 				return;
@@ -938,6 +884,23 @@ namespace FwdataTestApp
 			{
 				item.Checked = !item.Checked;
 			}
+		}
+
+		private static XElement CreateFromBytes(byte[] xmlData)
+		{
+			using (var memStream = new MemoryStream(xmlData))
+			{
+				// This loads the MemoryStream as Utf8 xml. (I checked.)
+				return XElement.Load(memStream);
+			}
+		}
+
+		/// <summary>
+		/// Returns <c>true</c> if we're running on Unix, otherwise <c>false</c>.
+		/// </summary>
+		private static bool IsUnix
+		{
+			get { return Environment.OSVersion.Platform == PlatformID.Unix; }
 		}
 	}
 }

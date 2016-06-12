@@ -200,9 +200,25 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\lib\Release\icudt54.dll">
+      <Link>icudt54.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\lib\Release\icuin54.dll">
+      <Link>icuin54.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\lib\Release\icuuc54.dll">
+      <Link>icuuc54.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="chorus.ico" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\lib\Release\icu.net.dll.config">
+      <Link>icu.net.dll.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="app.config" />
     <None Include="TheTurtleSettings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

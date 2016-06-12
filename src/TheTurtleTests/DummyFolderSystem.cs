@@ -20,7 +20,7 @@ namespace TheTurtleTests
 
 			// Remote collaboration enabled project
 			var projectPath = Directory.CreateDirectory(Path.Combine(BaseFolderPath, "ZPI")).FullName;
-			Directory.CreateDirectory(Path.Combine(projectPath, ".hg"));
+			Directory.CreateDirectory(Path.Combine(projectPath, TheTurtleUtilities.hg));
 			_dummyFolderPaths.Add(projectPath);
 			File.WriteAllText(Path.Combine(projectPath, "ZPI" + TheTurtleUtilities.FwXmlExtension), "");
 
