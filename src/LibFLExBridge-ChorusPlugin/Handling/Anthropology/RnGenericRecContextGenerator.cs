@@ -20,12 +20,12 @@ namespace LibFLExBridgeChorusPlugin.Handling.Anthropology
 			return GetLabelForRnGenericRec(start);
 		}
 
-		string EntryLabel
+		static string EntryLabel
 		{
 			get { return Resources.kRnGenericRecLabel; }
 		}
 
-		private string GetLabelForRnGenericRec(XmlNode text)
+		private static string GetLabelForRnGenericRec(XmlNode text)
 		{
 			var form = text.SelectSingleNode("Title/Str");
 			return form == null

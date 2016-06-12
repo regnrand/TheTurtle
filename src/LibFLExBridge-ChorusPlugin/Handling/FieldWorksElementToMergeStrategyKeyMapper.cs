@@ -12,7 +12,7 @@ using LibFLExBridgeChorusPlugin.Infrastructure;
 
 namespace LibFLExBridgeChorusPlugin.Handling
 {
-	internal class FieldWorksElementToMergeStrategyKeyMapper : IElementToMergeStrategyKeyMapper
+	internal sealed class FieldWorksElementToMergeStrategyKeyMapper : IElementToMergeStrategyKeyMapper
 	{
 		private readonly HashSet<string> _oddElementNames = new HashSet<string>
 										{

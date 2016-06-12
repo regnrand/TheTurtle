@@ -21,12 +21,12 @@ namespace LibFLExBridgeChorusPlugin.Handling.Linguistics.WordformInventory
 		}
 
 
-		string WordformLabel
+		static string WordformLabel
 		{
 			get { return Resources.kWfiWordFormClassLabel; }
 		}
 
-		private string GetLabelForWordform(XmlNode wordform)
+		private static string GetLabelForWordform(XmlNode wordform)
 		{
 			var form = wordform.SelectSingleNode("Form/AUni");
 			return form == null

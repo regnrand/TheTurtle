@@ -11,7 +11,6 @@ using System.Linq;
 using System.Xml.Linq;
 using LibFLExBridgeChorusPlugin.Infrastructure;
 using LibFLExBridgeChorusPlugin.DomainServices;
-using LibFLExBridgeChorusPlugin;
 
 namespace LibFLExBridgeChorusPlugin.Contexts.Linguistics.Reversals
 {
@@ -63,7 +62,7 @@ namespace LibFLExBridgeChorusPlugin.Contexts.Linguistics.Reversals
 			var srcDataCopy = new SortedDictionary<string, byte[]>(sortedInstanceData);
 			foreach (var reversalIndexKvp in srcDataCopy)
 			{
-				var revIndexElement = Utilities.CreateFromBytes(reversalIndexKvp.Value);
+				var revIndexElement = LibFLExBridgeUtilities.CreateFromBytes(reversalIndexKvp.Value);
 				var ws = revIndexElement.Element("WritingSystem").Element("Uni").Value;
 				var revIndexDir = Path.Combine(reversalDir, ws);
 				if (!Directory.Exists(revIndexDir))

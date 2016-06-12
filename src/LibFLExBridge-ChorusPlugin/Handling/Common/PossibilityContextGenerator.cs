@@ -17,7 +17,7 @@ namespace LibFLExBridgeChorusPlugin.Handling.Common
 		}
 
 
-		string ListItemLabel
+		static string ListItemLabel
 		{
 			get { return Resources.kPossibilityItemLabel; }
 		}

@@ -9,9 +9,9 @@ using Chorus.sync;
 
 namespace LibFLExBridgeChorusPlugin.Infrastructure
 {
-	public static class FlexFolderSystem
+	internal static class FlexFolderSystem
 	{
-		public static void ConfigureChorusProjectFolder(ProjectFolderConfiguration projectFolderConfiguration)
+		internal static void ConfigureChorusProjectFolder(ProjectFolderConfiguration projectFolderConfiguration)
 		{
 			// Exclude has precedence, but these are redundant as long as we're using the policy
 			// that we explicitly include all the files we understand. At least someday, when these

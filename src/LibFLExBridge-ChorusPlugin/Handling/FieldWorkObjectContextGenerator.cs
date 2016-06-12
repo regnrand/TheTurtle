@@ -139,7 +139,7 @@ namespace LibFLExBridgeChorusPlugin.Handling
 			return " " + path;
 		}
 
-		private string PathToChild(XmlNode parent, XmlNode mergeElement)
+		private static string PathToChild(XmlNode parent, XmlNode mergeElement)
 		{
 			var path = "";
 			for (var ancestor = mergeElement;

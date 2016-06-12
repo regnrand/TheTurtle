@@ -31,7 +31,7 @@ namespace LibFLExBridgeChorusPlugin.DomainServices
 	/// Services class used to support various merge tasks.
 	///		1. Create an XmlMerger and the ElementStrategy instances it will use,
 	///		2. Getting a Guid from an element,
-	///		3. createing a context descriptor
+	///		3. creating a context descriptor
 	/// </summary>
 	internal static class FieldWorksMergeServices
 	{

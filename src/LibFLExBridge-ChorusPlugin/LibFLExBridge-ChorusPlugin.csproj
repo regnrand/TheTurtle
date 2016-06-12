@@ -195,7 +195,7 @@
     <Compile Include="Infrastructure\FdoPropertyInfo.cs" />
     <Compile Include="Infrastructure\FieldWorksProjectServices.cs" />
     <Compile Include="Infrastructure\MetadataCache.cs" />
-    <Compile Include="Infrastructure\Utilities.cs" />
+    <Compile Include="Infrastructure\LibFLExBridgeUtilities.cs" />
     <Compile Include="FileWriterService.cs" />
     <Compile Include="Infrastructure\FlexFolderSystem.cs" />
     <Compile Include="..\CommonAssemblyInfo.cs">
@@ -206,7 +206,7 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <None Include="Properties\Settings.settings">
-      <Generator>PublicSettingsSingleFileGenerator</Generator>
+      <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>

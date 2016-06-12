@@ -9,7 +9,6 @@ using System.IO;
 using System.Xml.Linq;
 using SIL.Progress;
 using LibFLExBridgeChorusPlugin.Infrastructure;
-using LibFLExBridgeChorusPlugin.DomainServices;
 
 namespace LibFLExBridgeChorusPlugin.Contexts.Anthropology
 {

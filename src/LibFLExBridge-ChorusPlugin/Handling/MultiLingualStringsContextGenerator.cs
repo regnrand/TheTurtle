@@ -9,7 +9,7 @@ using System.Xml;
 
 namespace LibFLExBridgeChorusPlugin.Handling
 {
-	internal class MultiLingualStringsContextGenerator : FieldWorkObjectContextGenerator
+	internal sealed class MultiLingualStringsContextGenerator : FieldWorkObjectContextGenerator
 	{
 		//This array is used to determine which strings to look for and the order to search for them
 		//which will be returned in the contextLabel
@@ -39,7 +39,7 @@ namespace LibFLExBridgeChorusPlugin.Handling
 			return m_objectNameForLabel + Space + Quote + objectNameOrAbbr + Quote;
 		}
 
-		protected string GetNameOrAbbreviationOrOther(XmlNode parent)
+		private string GetNameOrAbbreviationOrOther(XmlNode parent)
 		{
 			var dataToReturn = "";
 			//var index = 0;
@@ -55,8 +55,8 @@ namespace LibFLExBridgeChorusPlugin.Handling
 			}
 			if (String.IsNullOrEmpty(dataToReturn))
 				return UnidentifiableLabel;
-			else
-				return dataToReturn;
+
+			return dataToReturn;
 		}
 	}
 }

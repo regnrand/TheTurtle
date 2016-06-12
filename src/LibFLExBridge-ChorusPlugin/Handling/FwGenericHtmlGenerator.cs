@@ -21,9 +21,9 @@ namespace LibFLExBridgeChorusPlugin.Handling
 	/// usefully tell the user is that some references changed.
 	/// A few special cases make it prettier.
 	/// </summary>
-	internal class FwGenericHtmlGenerator
+	internal sealed class FwGenericHtmlGenerator
 	{
-		public string MakeHtml(XmlNode input)
+		internal string MakeHtml(XmlNode input)
 		{
 			var sb = new StringBuilder();
 			ProcessNode(sb, input);
@@ -103,7 +103,7 @@ namespace LibFLExBridgeChorusPlugin.Handling
 		/// Return true (after appending anything desired to builder) if this node requires special handling.
 		/// Eventually may make this virtual to allow customization
 		/// </summary>
-		private bool SpecialHandling(StringBuilder sb, XmlNode input)
+		private static bool SpecialHandling(StringBuilder sb, XmlNode input)
 		{
 			switch (input.Name)
 			{
@@ -147,7 +147,7 @@ namespace LibFLExBridgeChorusPlugin.Handling
 		/// </summary>
 		/// <param name="node"></param>
 		/// <returns></returns>
-		bool SkipNodeLevel(XmlNode node)
+		static bool SkipNodeLevel(XmlNode node)
 		{
 			if (node.Attributes[FlexBridgeConstants.GuidStr] != null)
 				return true;
@@ -166,12 +166,12 @@ namespace LibFLExBridgeChorusPlugin.Handling
 			}
 		}
 
-		private bool WantChecksum(XmlNode input)
+		private static bool WantChecksum(XmlNode input)
 		{
 			return input.Name == FlexBridgeConstants.Refseq || input.Name == FlexBridgeConstants.Objsur || input.Name == FlexBridgeConstants.Refcol;
 		}
 
-		private void AddChecksumData(Stream s, XmlNode input)
+		private static void AddChecksumData(Stream s, XmlNode input)
 		{
 			string guid = XmlUtilities.GetOptionalAttributeString(input, "guid");
 			if (!string.IsNullOrEmpty(guid))

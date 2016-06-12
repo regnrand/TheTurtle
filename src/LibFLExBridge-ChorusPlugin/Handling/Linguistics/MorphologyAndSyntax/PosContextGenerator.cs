@@ -48,7 +48,7 @@ namespace LibFLExBridgeChorusPlugin.Handling.Linguistics.MorphologyAndSyntax
 			return result + GetLabelForPos(_posGuidStrs[0]);
 		}
 
-		private bool SetTwoPosFlag(string[] posGuids)
+		private static bool SetTwoPosFlag(string[] posGuids)
 		{
 			return posGuids[1] != NotLoaded;
 		}
@@ -64,7 +64,7 @@ namespace LibFLExBridgeChorusPlugin.Handling.Linguistics.MorphologyAndSyntax
 			get { return Resources.kLexEntryClassLabel; }
 		}
 
-		private string LexEntryName(XmlNode start)
+		private static string LexEntryName(XmlNode start)
 		{
 			var entryNode = GetLexEntryNode(start);
 			//grab the form from the stem (if available) to give a user understandable message

@@ -129,7 +129,7 @@ namespace LibFLExBridgeChorusPlugin
 			writer.WriteStartElement("languageproject");
 
 			// Write out version number from the ModelVersion file.
-			var version = Utilities.GetFlexModelVersion(pathRoot);
+			var version = LibFLExBridgeUtilities.GetFlexModelVersion(pathRoot);
 			writer.WriteAttributeString("version", version);
 
 			var mdc = MetadataCache.MdCache; // This may really need to be a reset

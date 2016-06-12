@@ -35,7 +35,7 @@ namespace LibFLExBridgeChorusPlugin.DomainServices
 		/// A CmObject may, or may not, contain nested CmObjects.
 		/// </summary>
 		/// <returns>a String with the first problem found in the CmObject, or null, if no problems were found.</returns>
-		/// <exception cref="ArgumentNullException">Thrown is either <paramref name="mdc"/> of <paramref name="obj"/> are null.</exception>
+		/// <exception cref="ArgumentNullException">Thrown if either <paramref name="mdc"/> or <paramref name="obj"/> are null.</exception>
 		internal static string ValidateObject(MetadataCache mdc, XElement obj)
 		{
 			Guard.AgainstNull(mdc, "mdc");
@@ -50,7 +50,6 @@ namespace LibFLExBridgeChorusPlugin.DomainServices
 		/// A CmObject may, or may not, contain nested CmObjects.
 		/// </summary>
 		/// <returns>a String with the first problem found in the CmObject, or null, if no problems were found.</returns>
-		/// <exception cref="ArgumentNullException">Thrown is either <paramref name="mdc"/> of <paramref name="obj"/> are null.</exception>
 		private static string ValidateObject(MetadataCache mdc, XElement obj, string indentation)
 		{
 			try

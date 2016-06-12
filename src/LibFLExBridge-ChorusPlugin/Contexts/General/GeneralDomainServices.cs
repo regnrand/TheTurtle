@@ -9,7 +9,6 @@ using System.IO;
 using System.Xml.Linq;
 using LibFLExBridgeChorusPlugin.Contexts.General.UserDefinedLists;
 using LibFLExBridgeChorusPlugin.Infrastructure;
-using LibFLExBridgeChorusPlugin.DomainServices;
 using SIL.Progress;
 
 namespace LibFLExBridgeChorusPlugin.Contexts.General

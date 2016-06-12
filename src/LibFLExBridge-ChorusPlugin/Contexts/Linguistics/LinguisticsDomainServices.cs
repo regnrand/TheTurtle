@@ -15,7 +15,6 @@ using LibFLExBridgeChorusPlugin.Contexts.Linguistics.Reversals;
 using LibFLExBridgeChorusPlugin.Contexts.Linguistics.TextCorpus;
 using LibFLExBridgeChorusPlugin.Contexts.Linguistics.WordformInventory;
 using LibFLExBridgeChorusPlugin.Infrastructure;
-using LibFLExBridgeChorusPlugin.DomainServices;
 using SIL.Progress;
 
 namespace LibFLExBridgeChorusPlugin.Contexts.Linguistics

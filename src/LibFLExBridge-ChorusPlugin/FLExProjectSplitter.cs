@@ -50,7 +50,7 @@ namespace LibFLExBridgeChorusPlugin
 			PushHumptyOffTheWall(progress, true, mainFilePathname);
 		}
 
-		public static void PushHumptyOffTheWall(IProgress progress, bool writeVerbose, string mainFilePathname)
+		internal static void PushHumptyOffTheWall(IProgress progress, bool writeVerbose, string mainFilePathname)
 		{
 			Guard.AgainstNull(progress, "progress");
 			FileWriterService.CheckFilename(mainFilePathname);
@@ -170,11 +170,11 @@ namespace LibFLExBridgeChorusPlugin
 					classData[className].Add(guid, record);
 					break;
 				case  FlexBridgeConstants.LangProject:
-					wellUsedElements[FlexBridgeConstants.LangProject] = Utilities.CreateFromBytes(record);
+					wellUsedElements[FlexBridgeConstants.LangProject] = LibFLExBridgeUtilities.CreateFromBytes(record);
 					//classData.Remove(LibTriboroughBridgeConstants.LangProject);
 					break;
 				case FlexBridgeConstants.LexDb:
-					wellUsedElements[FlexBridgeConstants.LexDb] = Utilities.CreateFromBytes(record);
+					wellUsedElements[FlexBridgeConstants.LexDb] = LibFLExBridgeUtilities.CreateFromBytes(record);
 					//classData.Remove(LibTriboroughBridgeConstants.LexDb);
 					break;
 			}

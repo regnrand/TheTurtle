@@ -6,9 +6,9 @@ using System.IO;
 
 namespace LibFLExBridgeChorusPlugin.Infrastructure
 {
-	public static class Utilities
+	internal static class LibFLExBridgeUtilities
 	{
-		public static XElement CreateFromBytes(byte[] xmlData)
+		internal static XElement CreateFromBytes(byte[] xmlData)
 		{
 			using (var memStream = new MemoryStream(xmlData))
 			{
@@ -17,7 +17,7 @@ namespace LibFLExBridgeChorusPlugin.Infrastructure
 			}
 		}
 
-		public static string GetFlexModelVersion(string pathRoot)
+		internal static string GetFlexModelVersion(string pathRoot)
 		{
 			var modelVersionPathname = Path.Combine(pathRoot, FlexBridgeConstants.ModelVersionFilename);
 			if (!File.Exists(modelVersionPathname))
@@ -27,7 +27,6 @@ namespace LibFLExBridgeChorusPlugin.Infrastructure
 			var version = splitModelVersionData[1].Trim();
 			return version;
 		}
-
 	}
 }
 

@@ -15,7 +15,6 @@ using LibFLExBridgeChorusPlugin.Contexts.Linguistics;
 using LibFLExBridgeChorusPlugin.Infrastructure;
 using LibFLExBridgeChorusPlugin.DomainServices;
 using SIL.Progress;
-using LibFLExBridgeChorusPlugin;
 
 namespace LibFLExBridgeChorusPlugin.Contexts
 {
@@ -143,7 +142,7 @@ namespace LibFLExBridgeChorusPlugin.Contexts
 			{
 				var styleGuid = styleObjSurElement.Attribute(FlexBridgeConstants.GuidStr).Value.ToLowerInvariant();
 				var className = guidToClassMapping[styleGuid];
-				var style = Utilities.CreateFromBytes(classData[className][styleGuid]);
+				var style = LibFLExBridgeUtilities.CreateFromBytes(classData[className][styleGuid]);
 				CmObjectNestingService.NestObject(false, style, classData, guidToClassMapping);
 				root.Add(style);
 			}

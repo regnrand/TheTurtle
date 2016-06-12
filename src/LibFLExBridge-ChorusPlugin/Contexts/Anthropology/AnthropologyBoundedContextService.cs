@@ -11,7 +11,6 @@ using System.Linq;
 using System.Xml.Linq;
 using LibFLExBridgeChorusPlugin.Infrastructure;
 using LibFLExBridgeChorusPlugin.DomainServices;
-using LibFLExBridgeChorusPlugin;
 
 namespace LibFLExBridgeChorusPlugin.Contexts.Anthropology
 {
@@ -43,7 +42,7 @@ namespace LibFLExBridgeChorusPlugin.Contexts.Anthropology
 			if (sortedInstanceData.Count > 0)
 			{
 				// 1. Main RnResearchNbk element.
-				var notebookElement = Utilities.CreateFromBytes(sortedInstanceData.Values.First());
+				var notebookElement = LibFLExBridgeUtilities.CreateFromBytes(sortedInstanceData.Values.First());
 				headerElement.Add(notebookElement);
 
 				CmObjectNestingService.NestObject(false, notebookElement,

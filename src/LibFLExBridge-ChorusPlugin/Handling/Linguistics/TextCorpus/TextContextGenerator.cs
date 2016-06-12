@@ -23,12 +23,12 @@ namespace LibFLExBridgeChorusPlugin.Handling.Linguistics.TextCorpus
 			return GetLabelForText(start);
 		}
 
-		string EntryLabel
+		static string EntryLabel
 		{
 			get { return Resources.kTextClassLabel; }
 		}
 
-		private string GetLabelForText(XmlNode text)
+		private static string GetLabelForText(XmlNode text)
 		{
 			var form = text.SelectNodes("Name/AUni");
 			if (form == null || form.Count == 0)

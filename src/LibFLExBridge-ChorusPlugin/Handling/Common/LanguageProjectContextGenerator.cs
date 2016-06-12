@@ -12,7 +12,7 @@ namespace LibFLExBridgeChorusPlugin.Handling.Common
 	/// Context generator for the language project itself. This is the root element, so we generate a label directly,
 	/// without needing to look further up the chain.
 	/// </summary>
-	class LanguageProjectContextGenerator : FieldWorkObjectContextGenerator
+	internal sealed class LanguageProjectContextGenerator : FieldWorkObjectContextGenerator
 	{
 		protected override string GetLabel(XmlNode start)
 		{

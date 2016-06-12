@@ -21,12 +21,12 @@ namespace LibFLExBridgeChorusPlugin.Handling.Linguistics.Discourse
 			return GetLabelForChart(start);
 		}
 
-		string ChartName
+		static string ChartName
 		{
 			get { return Resources.ksDiscourseChart; }
 		}
 
-		private string GetLabelForChart(XmlNode entry)
+		private static string GetLabelForChart(XmlNode entry)
 		{
 			// get chart number, row number and column number if possible
 			// NB: 'chart number' won't be very helpful with not idea which text it goes with.

@@ -23,7 +23,7 @@ namespace LibFLExBridgeChorusPlugin.Handling
 	/// and (b) because if one is missing, premerge probably won't be called; it will just be processed as an add or delete.
 	/// But it seems more robust to leave the tests in.)
 	/// </summary>
-	internal class PreferMostRecentTimePreMerger : IPremerger
+	internal sealed class PreferMostRecentTimePreMerger : IPremerger
 	{
 		public void Premerge(IMergeEventListener listener, ref XmlNode ourDateTimeNode, XmlNode theirDateTimeNode, XmlNode ancestorDateTimeNode)
 		{
@@ -82,7 +82,5 @@ namespace LibFLExBridgeChorusPlugin.Handling
 			var date2 = DateTime.Parse(newest);
 			return (date1 > date2) ? date1String : newest;
 		}
-
-
 	}
 }

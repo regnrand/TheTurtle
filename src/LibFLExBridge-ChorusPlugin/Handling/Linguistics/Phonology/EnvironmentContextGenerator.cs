@@ -19,12 +19,12 @@ namespace LibFLExBridgeChorusPlugin.Handling.Linguistics.Phonology
 			return GetLabelForEnvironment(start);
 		}
 
-		string EnvName
+		static string EnvName
 		{
 			get { return Resources.ksEnvironment; }
 		}
 
-		private string GetLabelForEnvironment(XmlNode entry)
+		private static string GetLabelForEnvironment(XmlNode entry)
 		{
 			var name = entry.SelectSingleNode("Name/AUni");
 			if (name != null)

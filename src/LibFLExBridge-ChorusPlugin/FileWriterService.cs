@@ -222,7 +222,7 @@ namespace LibFLExBridgeChorusPlugin
 			if (listPropElement == null || !listPropElement.HasElements)
 				return;
 
-			var listElement = Utilities.CreateFromBytes(classData[FlexBridgeConstants.CmPossibilityList][listPropElement.Elements().First().Attribute(FlexBridgeConstants.GuidStr).Value.ToLowerInvariant()]);
+			var listElement = LibFLExBridgeUtilities.CreateFromBytes(classData[FlexBridgeConstants.CmPossibilityList][listPropElement.Elements().First().Attribute(FlexBridgeConstants.GuidStr).Value.ToLowerInvariant()]);
 			CmObjectNestingService.NestObject(false,
 											  listElement,
 											  classData,

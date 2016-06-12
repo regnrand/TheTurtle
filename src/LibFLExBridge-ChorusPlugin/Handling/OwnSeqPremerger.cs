@@ -13,7 +13,7 @@ namespace LibFLExBridgeChorusPlugin.Handling
 	/// <summary>
 	/// This is the pre-merger for OwnSeq elements, but for now, the only special case is owned elements that are StTxtParas.
 	/// </summary>
-	internal class OwnSeqPremerger : IPremerger
+	internal sealed class OwnSeqPremerger : IPremerger
 	{
 		public void Premerge(IMergeEventListener listener, ref XmlNode ours, XmlNode theirs, XmlNode ancestor)
 		{

@@ -11,7 +11,6 @@ using System.Linq;
 using System.Xml.Linq;
 using LibFLExBridgeChorusPlugin.Infrastructure;
 using LibFLExBridgeChorusPlugin.DomainServices;
-using LibFLExBridgeChorusPlugin;
 
 namespace LibFLExBridgeChorusPlugin.Contexts.Linguistics.TextCorpus
 {
@@ -73,7 +72,7 @@ namespace LibFLExBridgeChorusPlugin.Contexts.Linguistics.TextCorpus
 				foreach (var textGuid in textGuidsInLangProj)
 				{
 					var rootElement = new XElement("TextInCorpus");
-					var textElement = Utilities.CreateFromBytes(texts[textGuid]);
+					var textElement = LibFLExBridgeUtilities.CreateFromBytes(texts[textGuid]);
 					rootElement.Add(textElement);
 					CmObjectNestingService.NestObject(
 						false,
@@ -92,7 +91,7 @@ namespace LibFLExBridgeChorusPlugin.Contexts.Linguistics.TextCorpus
 				foreach (var textGuid in texts.Keys.ToArray()) // Needs a copy, since the dictionary is changed.
 				{
 					var rootElement = new XElement("TextInCorpus");
-					var textElement = Utilities.CreateFromBytes(texts[textGuid]);
+					var textElement = LibFLExBridgeUtilities.CreateFromBytes(texts[textGuid]);
 					rootElement.Add(textElement);
 					CmObjectNestingService.NestObject(
 						false,

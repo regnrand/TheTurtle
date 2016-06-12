@@ -11,7 +11,6 @@ using System.Linq;
 using System.Xml.Linq;
 using LibFLExBridgeChorusPlugin.Infrastructure;
 using LibFLExBridgeChorusPlugin.DomainServices;
-using LibFLExBridgeChorusPlugin;
 
 namespace LibFLExBridgeChorusPlugin.Contexts.Linguistics.Discourse
 {
@@ -36,7 +35,7 @@ namespace LibFLExBridgeChorusPlugin.Contexts.Linguistics.Discourse
 				return;
 
 			// 'discourseElement' is owned by LangProj in DsDiscourseData prop (OA).
-			var discourseElement = Utilities.CreateFromBytes(sortedInstanceData.Values.First());
+			var discourseElement = LibFLExBridgeUtilities.CreateFromBytes(sortedInstanceData.Values.First());
 
 			// Nest the entire object, and then pull out the owned stuff, and relocate them, as needed.
 			CmObjectNestingService.NestObject(

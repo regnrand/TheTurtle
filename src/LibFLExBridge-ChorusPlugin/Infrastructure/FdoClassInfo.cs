@@ -44,7 +44,7 @@ namespace LibFLExBridgeChorusPlugin.Infrastructure
 			SuperclassName = superclassName;
 		}
 
-		public FdoClassInfo(FdoClassInfo superclass, string newClassName, bool isAbstract)
+		internal FdoClassInfo(FdoClassInfo superclass, string newClassName, bool isAbstract)
 		{
 			Superclass = superclass;
 			ClassName = newClassName;
@@ -181,7 +181,7 @@ namespace LibFLExBridgeChorusPlugin.Infrastructure
 		/// </summary>
 		internal FdoClassInfo Superclass { get; set; }
 
-		public void ResetCaches(Dictionary<string, FdoClassInfo> classes)
+		internal void ResetCaches(Dictionary<string, FdoClassInfo> classes)
 		{
 			// No. _directProperties.Clear();
 			_allProperties.Clear();

@@ -11,7 +11,6 @@ using System.Linq;
 using System.Xml.Linq;
 using LibFLExBridgeChorusPlugin.Infrastructure;
 using LibFLExBridgeChorusPlugin.DomainServices;
-using LibFLExBridgeChorusPlugin;
 
 namespace LibFLExBridgeChorusPlugin.Contexts.Linguistics.WordformInventory
 {
@@ -41,7 +40,7 @@ namespace LibFLExBridgeChorusPlugin.Contexts.Linguistics.WordformInventory
 				srcDataCopy = new SortedDictionary<string, byte[]>(sortedPunctuationFormInstanceData);
 				foreach (var punctFormStringData in srcDataCopy.Values)
 				{
-					var pfElement = Utilities.CreateFromBytes(punctFormStringData);
+					var pfElement = LibFLExBridgeUtilities.CreateFromBytes(punctFormStringData);
 					header.Add(pfElement);
 					CmObjectNestingService.NestObject(false,
 						pfElement,
@@ -57,7 +56,7 @@ namespace LibFLExBridgeChorusPlugin.Contexts.Linguistics.WordformInventory
 				srcDataCopy = new SortedDictionary<string, byte[]>(sortedWfiWordformInstanceData);
 				foreach (var wordFormElement in srcDataCopy.Values)
 				{
-					var wfElement = Utilities.CreateFromBytes(wordFormElement);
+					var wfElement = LibFLExBridgeUtilities.CreateFromBytes(wordFormElement);
 					var checksumProperty = wfElement.Element("Checksum");
 					if (checksumProperty != null)
 					{
@@ -89,7 +88,7 @@ namespace LibFLExBridgeChorusPlugin.Contexts.Linguistics.WordformInventory
 			}
 		}
 
-		internal static string PathnameForBucket(string inventoryDir, int bucket)
+		private static string PathnameForBucket(string inventoryDir, int bucket)
 		{
 			return Path.Combine(inventoryDir, string.Format("{0}_{1}{2}.{3}", FlexBridgeConstants.WordformInventory, bucket >= 9 ? "" : "0", bucket + 1, FlexBridgeConstants.Inventory));
 		}

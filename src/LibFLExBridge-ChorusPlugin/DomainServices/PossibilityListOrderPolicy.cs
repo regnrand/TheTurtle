@@ -14,7 +14,7 @@ namespace LibFLExBridgeChorusPlugin.DomainServices
 	/// The order of the possibilities in CmPossibilityList.Possibilities or CmPossibility.SubPossibilities
 	/// is significant only if the list is not sorted. This class implements that policy.
 	/// </summary>
-	class PossibilityListOrderPolicy : IChildOrderPolicy
+	internal sealed class PossibilityListOrderPolicy : IChildOrderPolicy
 	{
 		public ChildOrder OrderSignificance(XmlNode parent)
 		{

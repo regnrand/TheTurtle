@@ -11,11 +11,10 @@ using System.Xml.Linq;
 using LibFLExBridgeChorusPlugin.Infrastructure;
 using LibFLExBridgeChorusPlugin.DomainServices;
 using SIL.Xml;
-using LibFLExBridgeChorusPlugin;
 
 namespace LibFLExBridgeChorusPlugin.Contexts.General.UserDefinedLists
 {
-	internal class UserDefinedListsBoundedContextService
+	internal static class UserDefinedListsBoundedContextService
 	{
 		internal static void NestContext(string generalBaseDir,
 			IDictionary<string, XElement> wellUsedElements,
@@ -33,7 +32,7 @@ namespace LibFLExBridgeChorusPlugin.Contexts.General.UserDefinedLists
 
 			foreach (var userDefinedListBytes in userDefinedLists)
 			{
-				var element = Utilities.CreateFromBytes(userDefinedListBytes);
+				var element = LibFLExBridgeUtilities.CreateFromBytes(userDefinedListBytes);
 				CmObjectNestingService.NestObject(
 					false,
 					element,

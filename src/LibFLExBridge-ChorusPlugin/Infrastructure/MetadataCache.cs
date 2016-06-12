@@ -500,8 +500,6 @@ namespace LibFLExBridgeChorusPlugin.Infrastructure
 			var currentPathname = pathToOurs;
 			if (currentPathname.Contains(FlexBridgeConstants.General))
 				return FlexBridgeConstants.General;
-			if (currentPathname.Contains(FlexBridgeConstants.Other))
-				return FlexBridgeConstants.Other;
 			if (currentPathname.Contains(FlexBridgeConstants.Linguistics))
 				return FlexBridgeConstants.Linguistics;
 			if (currentPathname.Contains(FlexBridgeConstants.Anthropology))

@@ -139,7 +139,7 @@ namespace LibFLExBridgeChorusPlugin.DomainServices
 						continue;
 					}
 					guidToClassMapping.Remove(guid);
-					var ownedElement = Utilities.CreateFromBytes(classData[classOfOwnedObject][guid]);
+					var ownedElement = LibFLExBridgeUtilities.CreateFromBytes(classData[classOfOwnedObject][guid]);
 					objsurElement.ReplaceWith(ownedElement);
 					// Recurse on down to the bottom.
 					NestObject(isOwningSeqProp, ownedElement, classData, guidToClassMapping);

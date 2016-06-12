@@ -13,7 +13,7 @@ namespace LibFLExBridgeChorusPlugin.Handling.Linguistics.Lexicon
 	/// Context generator for LexEntry elements. These are a root element, so we generate a label directly,
 	/// without needing to look further up the chain.
 	/// </summary>
-	class LexEntryContextGenerator : FieldWorkObjectContextGenerator
+	internal sealed class LexEntryContextGenerator : FieldWorkObjectContextGenerator
 	{
 		protected override string GetLabel(XmlNode start)
 		{
@@ -21,12 +21,12 @@ namespace LibFLExBridgeChorusPlugin.Handling.Linguistics.Lexicon
 		}
 
 
-		string EntryLabel
+		static string EntryLabel
 		{
 			get { return Resources.kLexEntryClassLabel; }
 		}
 
-		private string GetLabelForEntry(XmlNode entry)
+		private static string GetLabelForEntry(XmlNode entry)
 		{
 			// Enhance: would something like this be enough faster to be worth it?
 			//var lf = FirstChildNamed(entry, "LexemeForm");
