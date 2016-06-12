@@ -1,3 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -6,8 +7,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <OutputName>TheTurtleInstaller</OutputName>
     <OutputType>Package</OutputType>
-    <WixToolPath Condition=" $(ProgramW6432) != '' ">C:\Program Files (x86)\Windows Installer XML v3.5\bin\</WixToolPath>
-    <WixToolPath Condition=" $(ProgramW6432) == '' ">C:\Program Files\Windows Installer XML v3.5\bin\</WixToolPath>
+    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
+    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <OutputPath>..\output\Installer\</OutputPath>
@@ -15,9 +16,11 @@
     <DefineConstants>Debug</DefineConstants>
     <DefineSolutionProperties>False</DefineSolutionProperties>
     <AllowIdenticalRows>False</AllowIdenticalRows>
-    <CabinetCachePath> </CabinetCachePath>
+    <CabinetCachePath>
+    </CabinetCachePath>
     <CabinetCreationThreadCount>-1</CabinetCreationThreadCount>
-    <Cultures> </Cultures>
+    <Cultures>
+    </Cultures>
     <LeaveTemporaryFiles>False</LeaveTemporaryFiles>
     <LinkerPedantic>False</LinkerPedantic>
     <ReuseCabinetCache>False</ReuseCabinetCache>
@@ -30,21 +33,26 @@
     <SuppressDroppingUnrealTables>False</SuppressDroppingUnrealTables>
     <SuppressFileHashAndInfo>False</SuppressFileHashAndInfo>
     <SuppressFiles>False</SuppressFiles>
-    <SuppressIces> </SuppressIces>
+    <SuppressIces>
+    </SuppressIces>
     <LinkerSuppressIntermediateFileVersionMatching>False</LinkerSuppressIntermediateFileVersionMatching>
     <SuppressLayout>False</SuppressLayout>
     <SuppressMsiAssemblyTableProcessing>False</SuppressMsiAssemblyTableProcessing>
     <LinkerSuppressSchemaValidation>False</LinkerSuppressSchemaValidation>
-    <LinkerSuppressSpecificWarnings> </LinkerSuppressSpecificWarnings>
+    <LinkerSuppressSpecificWarnings>
+    </LinkerSuppressSpecificWarnings>
     <SuppressValidation>False</SuppressValidation>
     <LinkerTreatWarningsAsErrors>False</LinkerTreatWarningsAsErrors>
     <LinkerVerboseOutput>False</LinkerVerboseOutput>
-    <WixVariables> </WixVariables>
-    <IncludeSearchPaths> </IncludeSearchPaths>
+    <WixVariables>
+    </WixVariables>
+    <IncludeSearchPaths>
+    </IncludeSearchPaths>
     <Pedantic>False</Pedantic>
     <ShowSourceTrace>False</ShowSourceTrace>
     <SuppressSchemaValidation>False</SuppressSchemaValidation>
-    <SuppressSpecificWarnings> </SuppressSpecificWarnings>
+    <SuppressSpecificWarnings>
+    </SuppressSpecificWarnings>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <VerboseOutput>False</VerboseOutput>
   </PropertyGroup>
@@ -53,22 +61,34 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <DefineSolutionProperties>False</DefineSolutionProperties>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <OutputPath>..\..\output\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <OutputPath>..\..\output\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <OutputPath>..\..\output\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>..\..\output\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="TheTurtleInstaller.wxs" />
   </ItemGroup>
   <ItemGroup>
-    <WixExtension Include="WixUtilExtension">
-      <HintPath>C:\Program Files\Windows Installer XML v3.5\bin\WixUtilExtension.dll</HintPath>
-      <Name>WixUtilExtension</Name>
-    </WixExtension>
-    <WixExtension Include="WixUIExtension">
-      <HintPath>C:\Program Files\Windows Installer XML v3.5\bin\WixUIExtension.dll</HintPath>
-      <Name>WixUIExtension</Name>
-    </WixExtension>
     <WixExtension Include="WixNetFxExtension">
-      <HintPath>C:\Program Files\Windows Installer XML v3.5\bin\WixNetFxExtension.dll</HintPath>
+      <HintPath>$(WixExtDir)\WixNetFxExtension.dll</HintPath>
       <Name>WixNetFxExtension</Name>
     </WixExtension>
+    <WixExtension Include="WixUIExtension">
+      <HintPath>$(WixExtDir)\WixUIExtension.dll</HintPath>
+      <Name>WixUIExtension</Name>
+    </WixExtension>
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets"/>
+  <Import Project="$(WixTargetsPath)" />
 </Project>

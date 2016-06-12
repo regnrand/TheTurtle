@@ -138,11 +138,15 @@ copy_auto http://build.palaso.org/guestAuth/repository/download/bt216/latest.las
 copy_auto http://build.palaso.org/guestAuth/repository/download/bt437/latest.lastSuccessful/MercurialExtensions ./MercurialExtensions/MercurialExtensions
 copy_auto http://build.palaso.org/guestAuth/repository/download/bt437/latest.lastSuccessful/Mercurial.zip ./lib/common/Mercurial.zip
 
+copy_auto http://build.palaso.org/guestAuth/repository/download/bt225/latest.lastSuccessful/Vulcan.Uczniowie.HelpProvider.dll ./lib/common/Vulcan.Uczniowie.HelpProvider.dll
+
 copy_auto http://build.palaso.org/guestAuth/repository/download/bt14/latest.lastSuccessful/icu.net.dll ./lib/common/icu.net.dll
 copy_auto http://build.palaso.org/guestAuth/repository/download/bt14/latest.lastSuccessful/icudt54.dll ./lib/common/icudt54.dll
 copy_auto http://build.palaso.org/guestAuth/repository/download/bt14/latest.lastSuccessful/icuin54.dll ./lib/common/icuin54.dll
 copy_auto http://build.palaso.org/guestAuth/repository/download/bt14/latest.lastSuccessful/icuuc54.dll ./lib/common/icuuc54.dll
 copy_auto http://build.palaso.org/guestAuth/repository/download/bt14/latest.lastSuccessful/icu.net.dll.config ./lib/common/icu.net.dll.config
+
+copy_auto http://build.palaso.org/guestAuth/repository/download/bt437/latest.lastSuccessful/ChorusMergeModule.msm ./lib/ChorusMergeModule.msm
 
 
 # Download release versions

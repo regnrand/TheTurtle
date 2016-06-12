@@ -1,0 +1,5 @@
+Do these before creating an installer that is to be released:
+
+1. Change version numbers in: C:\Dev\03_TheTurtle\src\CommonAssemblyInfo.cs
+2. Change version number to match in: C:\Dev\03_TheTurtle\src\Installer\TheTurtleInstaller.wxs
+3. Add new guid in: <Product Id="*" (but don't save it in the repo.)
