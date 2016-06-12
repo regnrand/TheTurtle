@@ -47,10 +47,10 @@ namespace LibFLExBridgeChorusPlugin.Handling
 				case FlexBridgeConstants.Header:
 					return new ContextDescriptor( "header for context", "");
 				// Nobody has <rt> element names these days.
-				//case SharedConstants.RtTag:
-				//    var className = element.Attributes[SharedConstants.Class].Value;
+				//case LibTriboroughBridgeConstants.RtTag:
+				//    var className = element.Attributes[LibTriboroughBridgeConstants.Class].Value;
 				//    label = className;
-				//    guid = element.Attributes[SharedConstants.GuidStr].Value;
+				//    guid = element.Attributes[LibTriboroughBridgeConstants.GuidStr].Value;
 				//    break;
 				default:
 					guid = FieldWorksMergeServices.GetGuid(element);

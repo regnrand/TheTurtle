@@ -73,7 +73,7 @@ namespace LibFLExBridgeChorusPlugin.Handling.Common
 					label = containerLabel + Space + identifier;
 				}
 				if (metaNode.Name == FlexBridgeConstants.Custom)
-				{	// metaNode.GetStringAttribute(SharedConstants.Name) gets the name property of the custom field.
+				{	// metaNode.GetStringAttribute(LibTriboroughBridgeConstants.Name) gets the name property of the custom field.
 					// There may be a CustomField[@name="Like"]/@label that holds the displayed name in another file
 					// that has been read into the metadata cache.
 					var customPropertyName = metaNode.GetStringAttribute(FlexBridgeConstants.Name);

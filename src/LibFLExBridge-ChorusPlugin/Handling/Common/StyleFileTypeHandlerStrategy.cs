@@ -46,7 +46,7 @@ namespace LibFLExBridgeChorusPlugin.Handling.Common
 				var dupName = new HashSet<string>();
 				foreach (var style in styles)
 				{
-					// NOTE: there is a SharedConstants.Name, but it is not initial cap, it's all lower case.
+					// NOTE: there is a LibTriboroughBridgeConstants.Name, but it is not initial cap, it's all lower case.
 					// Right. That is because it is for an attribute 'name', not an element name.
 					var currentName = style.Element("Name").Element(FlexBridgeConstants.Uni).Value;
 					if (dupName.Contains(currentName))

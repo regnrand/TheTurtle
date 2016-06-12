@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using Chorus;
+using Chorus.sync;
 using Microsoft.Win32;
 
 namespace TheTurtle
@@ -112,6 +114,18 @@ namespace TheTurtle
 			if (result.Length > 3)
 				result = result.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
 			return result;
+		}
+
+		/// <summary>
+		/// Creates and initializes the ChorusSystem for use in FLExBridge
+		/// </summary>
+		internal static ChorusSystem InitializeChorusSystem(string directoryName, string user, Action<ProjectFolderConfiguration> configure)
+		{
+			var system = new ChorusSystem(directoryName);
+			system.Init(user);
+			if (configure != null)
+				configure(system.ProjectFolderConfiguration);
+			return system;
 		}
 	}
 }

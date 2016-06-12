@@ -582,7 +582,7 @@ namespace LibFLExBridgeChorusPluginTests.Handling.CustomProperties
 
 			var tempPathname = Path.Combine(Path.GetTempPath(), FlexBridgeConstants.CustomPropertiesFilename);
 			FileWriterService.WriteCustomPropertyFile(MetadataCache.TestOnlyNewCache, Path.GetTempPath(),
-				SharedConstants.Utf8.GetBytes(originalCustomData));
+				LibTriboroughBridgeConstants.Utf8.GetBytes(originalCustomData));
 			using (var tempFile = TempFile.TrackExisting(tempPathname))
 			{
 				var doc = XDocument.Load(tempFile.Path);

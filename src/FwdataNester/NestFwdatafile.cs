@@ -19,11 +19,9 @@ using Chorus.VcsDrivers.Mercurial;
 using Chorus.merge;
 using Chorus.merge.xml.generic;
 using Chorus.merge.xml.generic.xmldiff;
-using FLEx_ChorusPlugin.Infrastructure;
 using LibFLExBridgeChorusPlugin.Infrastructure;
 using SIL.Progress;
 using SIL.Xml;
-using TriboroughBridge_ChorusPlugin;
 using LibFLExBridgeChorusPlugin;
 using LibFLExBridgeChorusPlugin.DomainServices;
 using LibTriboroughBridgeChorusPlugin;
@@ -317,7 +315,7 @@ namespace FwdataTestApp
 				if (csElement != null)
 				{
 					csElement.Attribute(FlexBridgeConstants.Val).Value = "0";
-					record = SharedConstants.Utf8.GetBytes(wfElement.ToString());
+					record = LibTriboroughBridgeConstants.Utf8.GetBytes(wfElement.ToString());
 				}
 			}
 
@@ -657,7 +655,7 @@ namespace FwdataTestApp
 							if (csProp != null)
 							{
 								csProp.Attribute(FlexBridgeConstants.Val).Value = "0";
-								origRecAsBytes = SharedConstants.Utf8.GetBytes(wfElement.ToString());
+								origRecAsBytes = LibTriboroughBridgeConstants.Utf8.GetBytes(wfElement.ToString());
 							}
 						}
 					}
@@ -692,7 +690,7 @@ namespace FwdataTestApp
 					//    WriteProblemDataFile(Path.Combine(_workingDir, srcGuid + "-TRG.txt"), newNode);
 					//    sb.AppendFormat("Main src and trg object with guid '{0}' are different in the resulting xml.", srcGuid);
 					//}
-					//if (XmlUtilities.AreXmlElementsEqual(SharedConstants.Utf8.GetString(origRecAsBytes), SharedConstants.Utf8.GetString(newRecCopyAsBytes)))
+					//if (XmlUtilities.AreXmlElementsEqual(LibTriboroughBridgeConstants.Utf8.GetString(origRecAsBytes), LibTriboroughBridgeConstants.Utf8.GetString(newRecCopyAsBytes)))
 					//	continue;
 					if (XmlUtilities.AreXmlElementsEqual(origRecAsBytes, newRecCopyAsBytes))
 						continue;
@@ -778,7 +776,7 @@ namespace FwdataTestApp
 					if (foundOptionalFirstElement)
 						{
 							// Cache custom prop file for later write.
-							var cpElement = DataSortingService.SortCustomPropertiesRecord(SharedConstants.Utf8.GetString(record));
+							var cpElement = DataSortingService.SortCustomPropertiesRecord(LibTriboroughBridgeConstants.Utf8.GetString(record));
 							// Add custom property info to MDC, since it may need to be sorted in the data files.
 							foreach (var propElement in cpElement.Elements(FlexBridgeConstants.CustomField))
 							{
@@ -827,7 +825,7 @@ namespace FwdataTestApp
 							 .Where(projectDirName => Path.GetFileNameWithoutExtension(projectDirName).ToLowerInvariant() != "zpi");
 				foreach (var projectDirName in allProjectDirNamesExceptMine)
 				{
-					RestoreProjectIfNeeded(Directory.GetFiles(projectDirName, "*" + 						SharedConstants.FwXmlExtension).FirstOrDefault());
+					RestoreProjectIfNeeded(Directory.GetFiles(projectDirName, "*" + 						LibTriboroughBridgeConstants.FwXmlExtension).FirstOrDefault());
 				}
 			}
 			finally
@@ -842,12 +840,12 @@ namespace FwdataTestApp
 				return;
 			var currentFilename = Path.GetFileName(currentFwdataPathname);
 			var projectDirName = Path.GetDirectoryName(currentFwdataPathname);
-			if (currentFilename.ToLowerInvariant() == "zpi" + SharedConstants.FwXmlExtension || 				projectDirName.ToLowerInvariant() == "zpi")
+			if (currentFilename.ToLowerInvariant() == "zpi" + LibTriboroughBridgeConstants.FwXmlExtension || 				projectDirName.ToLowerInvariant() == "zpi")
 			{
 				return; // Don't even think of wiping out my ZPI folder.
 			}
 
-			var backupDataFilesFullPathnames = Directory.GetFiles(CurrentBaseFolder, "*" + SharedConstants.FwXmlExtension, 				SearchOption.TopDirectoryOnly);
+			var backupDataFilesFullPathnames = Directory.GetFiles(CurrentBaseFolder, "*" + LibTriboroughBridgeConstants.FwXmlExtension, 				SearchOption.TopDirectoryOnly);
 			var backupDataFilenames = backupDataFilesFullPathnames.Select(Path.GetFileName).ToList();
 			if (!backupDataFilenames.Contains(currentFilename))
 				return;

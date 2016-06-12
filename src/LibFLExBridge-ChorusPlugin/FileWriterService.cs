@@ -94,7 +94,7 @@ namespace LibFLExBridgeChorusPlugin
 				case FlexBridgeConstants.Str:
 				case FlexBridgeConstants.Uni:
 				case FlexBridgeConstants.AUni:
-				//case SharedConstants.Run: // xml:
+				//case LibTriboroughBridgeConstants.Run: // xml:
 					var str = element.ToString();
 					if (str.Contains("xml:"))
 					//var spaceAttr = element.Attribute("space");
@@ -146,7 +146,7 @@ namespace LibFLExBridgeChorusPlugin
 													 string pathRoot,
 													 byte[] record)
 		{
-			WriteCustomPropertyFile(mdc, pathRoot, SharedConstants.Utf8.GetString(record));
+			WriteCustomPropertyFile(mdc, pathRoot, LibTriboroughBridgeConstants.Utf8.GetString(record));
 		}
 
 		internal static void WriteCustomPropertyFile(MetadataCache mdc,
@@ -155,7 +155,7 @@ namespace LibFLExBridgeChorusPlugin
 		{
 			// Theory has it that the fwdata file is all sorted.
 			var cpElement = DataSortingService.SortCustomPropertiesRecord(record);
-			// Not this one, since it leaves out the temporary "key' attr. var cpElement = XElement.Parse(SharedConstants.Utf8.GetString(record));
+			// Not this one, since it leaves out the temporary "key' attr. var cpElement = XElement.Parse(LibTriboroughBridgeConstants.Utf8.GetString(record));
 			// Add custom property info to MDC, since it may need to be sorted in the data files.
 			var hasCustomProperties = false;
 			foreach (var propElement in cpElement.Elements(FlexBridgeConstants.CustomField))
@@ -194,7 +194,7 @@ namespace LibFLExBridgeChorusPlugin
 			// Just because all of this is true, doesn't mean it is a FW 7.0 related file. :-(
 			if (!String.IsNullOrEmpty(mainFilePathname) // No null or empty string can be valid.
 				&& File.Exists(mainFilePathname) // There has to be an actual file,
-				&& Path.GetExtension(mainFilePathname).ToLowerInvariant() == SharedConstants.FwXmlExtension)
+				&& Path.GetExtension(mainFilePathname).ToLowerInvariant() == LibTriboroughBridgeConstants.FwXmlExtension)
 				return;
 
 			throw new ApplicationException("Cannot process the given file.");

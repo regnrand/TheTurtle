@@ -4,12 +4,11 @@
 // Distributable under the terms of the MIT License, as specified in the license.rtf file.
 // --------------------------------------------------------------------------------------------
 
-using System;
 using System.Text;
 
 namespace LibTriboroughBridgeChorusPlugin
 {
-	public static class SharedConstants
+	public static class LibTriboroughBridgeConstants
 	{
 		public static readonly Encoding Utf8 = Encoding.UTF8;
 		public const string dupid = "dupid";

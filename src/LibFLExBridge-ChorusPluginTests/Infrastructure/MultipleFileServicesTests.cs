@@ -38,7 +38,7 @@ namespace LibFLExBridgeChorusPluginTests.Infrastructure
 		public void NonExistingFileForBreakupShouldThrow()
 		{
 			Assert.Throws<ApplicationException>(() => FLExProjectSplitter.PushHumptyOffTheWall(
-				new NullProgress(), "Bogus" + SharedConstants.FwXmlExtension));
+				new NullProgress(), "Bogus" + LibTriboroughBridgeConstants.FwXmlExtension));
 		}
 
 		[Test]
@@ -55,7 +55,7 @@ namespace LibFLExBridgeChorusPluginTests.Infrastructure
 		[Test]
 		public void UserCancelledBreakupShouldThrow()
 		{
-			using (var tempFile = TempFile.WithFilename("foo" + SharedConstants.FwXmlExtension))
+			using (var tempFile = TempFile.WithFilename("foo" + LibTriboroughBridgeConstants.FwXmlExtension))
 			{
 				var progress = new NullProgress
 					{
@@ -85,7 +85,7 @@ namespace LibFLExBridgeChorusPluginTests.Infrastructure
 		public void NonExistingFileForRestoreShouldThrow()
 		{
 			Assert.Throws<ApplicationException>(() => FLExProjectUnifier.PutHumptyTogetherAgain(
-				new NullProgress(), "Bogus" + SharedConstants.FwXmlExtension));
+				new NullProgress(), "Bogus" + LibTriboroughBridgeConstants.FwXmlExtension));
 		}
 
 		[Test]

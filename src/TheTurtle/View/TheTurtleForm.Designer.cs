@@ -1,6 +1,4 @@
-﻿using FLEx_ChorusPlugin.Properties;
-
-namespace TheTurtle.View
+﻿namespace TheTurtle.View
 {
 	partial class TheTurtleForm
 	{

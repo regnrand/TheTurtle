@@ -67,7 +67,7 @@ namespace LibFLExBridgeChorusPlugin.DomainServices
 			if (element == null) throw new ArgumentNullException("element");
 
 			// No, since unowned stuff will feed a null.
-			//if (string.IsNullOrEmpty(ownerguid)) throw new ArgumentNullException(SharedConstants.OwnerGuid);
+			//if (string.IsNullOrEmpty(ownerguid)) throw new ArgumentNullException(LibTriboroughBridgeConstants.OwnerGuid);
 			if (ownerguid != null && ownerguid == string.Empty)
 				throw new ArgumentException(Resources.kOwnerGuidEmpty, FlexBridgeConstants.OwnerGuid);
 
@@ -80,8 +80,8 @@ namespace LibFLExBridgeChorusPlugin.DomainServices
 			element.Name = FlexBridgeConstants.RtTag;
 			if (!isOwnSeqNode)
 				element.Add(new XAttribute(FlexBridgeConstants.Class, className));
-			//if (element.Attribute(SharedConstants.OwnerGuid) == null)
-			if (ownerguid != null) // && element.Attribute(SharedConstants.OwnerGuid) == null)
+			//if (element.Attribute(LibTriboroughBridgeConstants.OwnerGuid) == null)
+			if (ownerguid != null) // && element.Attribute(LibTriboroughBridgeConstants.OwnerGuid) == null)
 				element.Add(new XAttribute(FlexBridgeConstants.OwnerGuid, ownerguid));
 
 			// Re-sort those attributes.

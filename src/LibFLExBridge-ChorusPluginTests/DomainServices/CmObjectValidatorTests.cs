@@ -199,7 +199,7 @@ namespace LibFLExBridgeChorusPluginTests.DomainServices
 			AddBasicPropertyElementsToPossList(element);
 
 			var prop = element.Element("DateCreated"); // new XElement("DateCreated");
-			var attr = prop.Attribute(FlexBridgeConstants.Val); // new XAttribute(SharedConstants.Val, "badvalue");
+			var attr = prop.Attribute(FlexBridgeConstants.Val); // new XAttribute(LibTriboroughBridgeConstants.Val, "badvalue");
 			attr.Value = "badvalue";
 			var result = CmObjectValidator.ValidateObject(_mdc, element);
 			Assert.IsNotNull(result);
@@ -222,7 +222,7 @@ namespace LibFLExBridgeChorusPluginTests.DomainServices
 			AddBasicPropertyElementsToPoss(element);
 
 			var prop = element.Element("IsProtected");
-			var attr = prop.Attribute(FlexBridgeConstants.Val); // new XAttribute(SharedConstants.Val, "badvalue");
+			var attr = prop.Attribute(FlexBridgeConstants.Val); // new XAttribute(LibTriboroughBridgeConstants.Val, "badvalue");
 			attr.Value = "badvalue";
 
 			var result = CmObjectValidator.ValidateObject(_mdc, element);
@@ -245,7 +245,7 @@ namespace LibFLExBridgeChorusPluginTests.DomainServices
 			AddBasicPropertyElementsToPoss(element);
 
 			var prop = element.Element("ForeColor");
-			var attr = prop.Attribute(FlexBridgeConstants.Val);// new XAttribute(SharedConstants.Val, "badvalue");
+			var attr = prop.Attribute(FlexBridgeConstants.Val);// new XAttribute(LibTriboroughBridgeConstants.Val, "badvalue");
 			attr.Value = "badvalue";
 			var result = CmObjectValidator.ValidateObject(_mdc, element);
 			Assert.IsNotNull(result);
@@ -267,7 +267,7 @@ namespace LibFLExBridgeChorusPluginTests.DomainServices
 			AddBasicPropertyElementsToPoss(element);
 
 			var prop = element.Element("ForeColor");
-			var attr = prop.Attribute(FlexBridgeConstants.Val);// new XAttribute(SharedConstants.Val, "badvalue");
+			var attr = prop.Attribute(FlexBridgeConstants.Val);// new XAttribute(LibTriboroughBridgeConstants.Val, "badvalue");
 			attr.Value = "badvalue";
 			var result = CmObjectValidator.ValidateObject(_mdc, element);
 			Assert.IsNotNull(result);

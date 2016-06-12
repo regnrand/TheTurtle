@@ -38,7 +38,7 @@ namespace LibFLExBridgeChorusPlugin
 	/// </summary>
 	internal static class FLExProjectSplitter
 	{
-		internal static readonly byte[] AdditionalFieldsArray = SharedConstants.Utf8.GetBytes("<" + FlexBridgeConstants.AdditionalFieldsTag);
+		internal static readonly byte[] AdditionalFieldsArray = LibTriboroughBridgeConstants.Utf8.GetBytes("<" + FlexBridgeConstants.AdditionalFieldsTag);
 
 		internal static void CheckForUserCancelRequested(IProgress progress)
 		{
@@ -172,11 +172,11 @@ namespace LibFLExBridgeChorusPlugin
 					break;
 				case  FlexBridgeConstants.LangProject:
 					wellUsedElements[FlexBridgeConstants.LangProject] = Utilities.CreateFromBytes(record);
-					//classData.Remove(SharedConstants.LangProject);
+					//classData.Remove(LibTriboroughBridgeConstants.LangProject);
 					break;
 				case FlexBridgeConstants.LexDb:
 					wellUsedElements[FlexBridgeConstants.LexDb] = Utilities.CreateFromBytes(record);
-					//classData.Remove(SharedConstants.LexDb);
+					//classData.Remove(LibTriboroughBridgeConstants.LexDb);
 					break;
 			}
 		}

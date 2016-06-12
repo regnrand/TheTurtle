@@ -197,7 +197,7 @@ namespace LibFLExBridgeChorusPluginTests.Infrastructure
 			Assert.AreEqual(FlexBridgeConstants.Custom, rtElement.Elements().ElementAt(1).Name.LocalName);
 			Assert.AreEqual("DateCreated", rtElement.Elements().ElementAt(2).Name.LocalName);
 			sortedProp = rtElement.Elements().ElementAt(3);
-			//Assert.AreEqual("595daad3-9b65-43dc-b60c-705544921559", sortedProp.Element(SharedConstants.Objsur).Attribute(SharedConstants.GuidStr).Value); // Make sure SortMainRtElement called coll sorter.
+			//Assert.AreEqual("595daad3-9b65-43dc-b60c-705544921559", sortedProp.Element(LibTriboroughBridgeConstants.Objsur).Attribute(LibTriboroughBridgeConstants.GuidStr).Value); // Make sure SortMainRtElement called coll sorter.
 			Assert.AreEqual("Possibilities", sortedProp.Name.LocalName);
 		}
 	}

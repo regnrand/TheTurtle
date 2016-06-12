@@ -373,19 +373,19 @@ namespace LibFLExBridgeChorusPlugin.DomainServices
 			elementStrategy.AttributesToIgnoreForMerging.AddRange(new[] { FlexBridgeConstants.GuidStr, FlexBridgeConstants.Class });
 			sharedElementStrategies.Add(FlexBridgeConstants.Ownseq, elementStrategy);
 
-			// Add element for SharedConstants.Objsur.
+			// Add element for LibTriboroughBridgeConstants.Objsur.
 			// This is only good now for ref atomic.
-			// No. atomic ref prop can't have multiples, so there is no need for a keyed lookup. CreateStrategyForKeyedElement(SharedConstants.GuidStr, false);
+			// No. atomic ref prop can't have multiples, so there is no need for a keyed lookup. CreateStrategyForKeyedElement(LibTriboroughBridgeConstants.GuidStr, false);
 			elementStrategy = AddSharedSingletonElementType(sharedElementStrategies, FlexBridgeConstants.Objsur, false);
 			elementStrategy.IsAtomic = true; // Testing to see if atomic here, or at the prop level is better, as per https://www.pivotaltracker.com/story/show/25402673
 			elementStrategy.NumberOfChildren = NumberOfChildrenAllowed.Zero;
 
-			// Add element for SharedConstants.Refseq
+			// Add element for LibTriboroughBridgeConstants.Refseq
 			elementStrategy = CreateStrategyForElementKeyedByGuidInList(); // JohnT's new Chorus widget that handles potentially repeating element guids for ref seq props.
 			elementStrategy.AttributesToIgnoreForMerging.Add("t");
 			sharedElementStrategies.Add(FlexBridgeConstants.Refseq, elementStrategy);
 
-			// Add element for SharedConstants.Refcol
+			// Add element for LibTriboroughBridgeConstants.Refcol
 			// Order is not important in any kind of collection property, since they are mathematical sets with no ordering and no repeats.
 			elementStrategy = CreateStrategyForKeyedElement(FlexBridgeConstants.GuidStr, false);
 			elementStrategy.AttributesToIgnoreForMerging.Add("t");

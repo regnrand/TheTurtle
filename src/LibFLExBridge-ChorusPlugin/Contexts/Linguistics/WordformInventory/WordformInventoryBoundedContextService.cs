@@ -29,7 +29,7 @@ namespace LibFLExBridgeChorusPlugin.Contexts.Linguistics.WordformInventory
 			if (!Directory.Exists(inventoryDir))
 				Directory.CreateDirectory(inventoryDir);
 
-			// the doc root will be "Inventory" (SharedConstants.WordformInventoryRootFolder).
+			// the doc root will be "Inventory" (LibTriboroughBridgeConstants.WordformInventoryRootFolder).
 			// This will store the PunctuationForm instances (unowned) in the header, and each PunctuationForm will be a child of header.
 			// Each WfiWordform (unowned) will then be a child of root.
 			var header = new XElement(FlexBridgeConstants.Header);
@@ -99,14 +99,14 @@ namespace LibFLExBridgeChorusPlugin.Contexts.Linguistics.WordformInventory
 			SortedDictionary<string, XElement> sortedData,
 			string linguisticsBaseDir)
 		{
-			// There is only one file here: Path.Combine(inventoryDir, SharedConstants.WordformInventoryFilename)
+			// There is only one file here: Path.Combine(inventoryDir, LibTriboroughBridgeConstants.WordformInventoryFilename)
 			var inventoryDir = Path.Combine(linguisticsBaseDir, FlexBridgeConstants.WordformInventoryRootFolder);
 			if (!Directory.Exists(inventoryDir))
 				return;
 
 			var inventoryPathnames = new List<string>(Directory.GetFiles(inventoryDir, string.Format("{0}_??.{1}", FlexBridgeConstants.WordformInventory, FlexBridgeConstants.Inventory), SearchOption.TopDirectoryOnly));
 			inventoryPathnames.Sort(StringComparer.InvariantCultureIgnoreCase);
-			// the doc root will be "Inventory" (SharedConstants.WordformInventoryRootFolder).
+			// the doc root will be "Inventory" (LibTriboroughBridgeConstants.WordformInventoryRootFolder).
 			// This will store the PunctuationForm instances (unowned) in the header, and each PunctuationForm will be a child of header.
 			// Each WfiWordform (unowned) will then be a child of root.
 			foreach (var inventoryPathname in inventoryPathnames)

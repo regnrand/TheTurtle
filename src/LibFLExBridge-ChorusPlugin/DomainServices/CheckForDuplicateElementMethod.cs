@@ -71,7 +71,7 @@ namespace LibFLExBridgeChorusPlugin.DomainServices
 				listener.RecordContextInConflict(conflict);
 				conflict.HtmlDetails = MakeHtmlForIncompatibleMove(conflict, oldGuid, elementGuid, element);
 				listener.ConflictOccurred(conflict);
-				File.WriteAllText(pathname + "." + SharedConstants.dupid, "");
+				File.WriteAllText(pathname + "." + LibTriboroughBridgeConstants.dupid, "");
 			}
 			return elementGuid;
 		}

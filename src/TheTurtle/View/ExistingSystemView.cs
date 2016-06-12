@@ -6,8 +6,8 @@ using Chorus;
 using Chorus.UI.Misc;
 using Chorus.UI.Settings;
 using Chorus.UI.Sync;
+using LibFLExBridgeChorusPlugin.Infrastructure;
 using TheTurtle.Model;
-using FLEx_ChorusPlugin.Infrastructure;
 
 namespace TheTurtle.View
 {

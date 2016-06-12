@@ -201,7 +201,7 @@ namespace LibFLExBridgeChorusPlugin.DomainServices
 							if (BasicValueTypeAttributeCheckIsValid(propertyElement, isCustomProperty, out result))
 							{
 								// What is a GenDate?
-								//var dateTimeAttrVal = DateTime.Parse(element.Attribute(SharedConstants.Val).Value);
+								//var dateTimeAttrVal = DateTime.Parse(element.Attribute(LibTriboroughBridgeConstants.Val).Value);
 								// string.Format("{0}{1:0000}{2:00}{3:00}{4}", dataProperty.IsAD ? "" : "-", dataProperty.Year,
 								//		dataProperty.Month, dataProperty.Day, (int)dataProperty.Precision)
 								// TODO: Check internals of the GenDate.

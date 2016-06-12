@@ -55,6 +55,9 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SIL.TestUtilities">
+      <HintPath>..\..\lib\Debug\SIL.TestUtilities.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="nunit.framework">
       <HintPath>..\..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
@@ -109,6 +112,15 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="TestData\DataNotebook_Ann.ntbk">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\DataNotebook_Common.ntbk">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\DataNotebook_Susanna.ntbk">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -167,6 +179,7 @@
     <Compile Include="Infrastructure\DataSortingServiceTests.cs" />
     <Compile Include="Infrastructure\MetadataCacheTests.cs" />
     <Compile Include="Infrastructure\MultipleFileServicesTests.cs" />
+    <Compile Include="Integration\MergeIntegrationTests.cs" />
     <Compile Include="Integration\UpdateMetaDataCacheTests.cs" />
   </ItemGroup>
   <ItemGroup>

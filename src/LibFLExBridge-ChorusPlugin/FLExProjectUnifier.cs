@@ -112,7 +112,7 @@ namespace LibFLExBridgeChorusPlugin
 			{
 				var nestedFolder = Path.Combine(pathRoot, nestedFolderBase);
 				if (Directory.Exists(nestedFolder))
-					dupidPathnames.AddRange(Directory.GetFiles(nestedFolder, "*." + SharedConstants.dupid, SearchOption.AllDirectories));
+					dupidPathnames.AddRange(Directory.GetFiles(nestedFolder, "*." + LibTriboroughBridgeConstants.dupid, SearchOption.AllDirectories));
 			}
 			if (dupidPathnames.Count == 0)
 				return;

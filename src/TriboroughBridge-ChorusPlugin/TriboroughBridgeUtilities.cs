@@ -7,14 +7,12 @@
 using System;
 using System.IO;
 using System.Xml.Linq;
-using Chorus;
-using Chorus.sync;
 
 namespace TriboroughBridge_ChorusPlugin
 {
 	/// <summary>
 	/// This class holds constants and methods that are relevant to common bridge operations.
-	/// A lot of what it had held earlier, was moved into places like Flex Bridge's SharedConstants class or
+	/// A lot of what it had held earlier, was moved into places like Flex Bridge's LibTriboroughBridgeConstants class or
 	/// into Lift Bridge's LiftUtilties class, when the stuff was only used by one bridge.
 	///
 	/// Some of the remaining constants could yet be moved at the cost of having duplciates in each bridge's project.
@@ -24,8 +22,6 @@ namespace TriboroughBridge_ChorusPlugin
 	{
 // ReSharper disable InconsistentNaming
 		public const string hg = ".hg";
-		private const string FlexBridge = "FlexBridge";
-		private const string localizations = "localizations";
 		public const string FlexBridgeEmailAddress = "flex_errors@sil.org";
 // ReSharper restore InconsistentNaming
 
@@ -93,18 +89,6 @@ namespace TriboroughBridge_ChorusPlugin
 		public static bool IsWindows
 		{
 			get { return Environment.OSVersion.Platform == PlatformID.Win32NT; }
-		}
-
-		/// <summary>
-		/// Creates and initializes the ChorusSystem for use in FLExBridge
-		/// </summary>
-		public static ChorusSystem InitializeChorusSystem(string directoryName, string user, Action<ProjectFolderConfiguration> configure)
-		{
-			var system = new ChorusSystem(directoryName);
-			system.Init(user);
-			if (configure != null)
-				configure(system.ProjectFolderConfiguration);
-			return system;
 		}
 
 		public static string HgDataFolder(string path)

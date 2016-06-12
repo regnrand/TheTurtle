@@ -41,13 +41,13 @@ namespace LibFLExBridgeChorusPlugin.DomainServices
 			if (propCacheForClass["AllOwning"].Count > 0)
 				NestOwnedObjects(classData, guidToClassMapping, obj);
 
-			// 3. Reset ref seq prop nodes from "objsur" to SharedConstants.Refseq,
-			// so they can use a special ElementStrategy for SharedConstants.Refseq that has isOrderRelevant to be true.
+			// 3. Reset ref seq prop nodes from "objsur" to LibTriboroughBridgeConstants.Refseq,
+			// so they can use a special ElementStrategy for LibTriboroughBridgeConstants.Refseq that has isOrderRelevant to be true.
 			if (propCacheForClass["AllReferenceSequence"].Count > 0)
 				RenameReferenceSequenceObjsurNodes(className, obj);
 
-			// 4. Rename ref col prop nodes from "objsur" to SharedConstants.Refcol,
-			// so they can use a special ElementStrategy for SharedConstants.Refcol that has isOrderRelevant to be false.
+			// 4. Rename ref col prop nodes from "objsur" to LibTriboroughBridgeConstants.Refcol,
+			// so they can use a special ElementStrategy for LibTriboroughBridgeConstants.Refcol that has isOrderRelevant to be false.
 			if (propCacheForClass["AllReferenceCollection"].Count > 0)
 				RenameReferenceCollectionObjsurNodes(className, obj);
 

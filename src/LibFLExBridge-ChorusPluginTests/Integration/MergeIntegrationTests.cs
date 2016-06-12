@@ -9,11 +9,11 @@ using System.Linq;
 using System.Xml.Linq;
 using Chorus.merge.xml.generic;
 using Chorus.Properties;
-using LibFLExBridgeChorusPlugin.Infrastructure;
 using LibChorus.TestUtilities;
+using LibFLExBridgeChorusPlugin.Infrastructure;
 using NUnit.Framework;
 
-namespace FLEx_ChorusPluginTests.Integration
+namespace LibFLExBridgeChorusPluginTests.Integration
 {
 	/// <summary>
 	/// This class tests a complete series of operations over several units including:
@@ -148,7 +148,6 @@ namespace FLEx_ChorusPluginTests.Integration
 				File.WriteAllText(customPropsPathname, customPropData);
 				sueRepo.Repository.TestOnlyAddSansCommit(customPropsPathname);
 				sueRepo.AddAndCheckIn();
-
 				using (var randyRepo = RepositoryWithFilesSetup.CreateByCloning("Randy", sueRepo))
 				{
 					// By doing the clone first, we get the common starting state in both repos.

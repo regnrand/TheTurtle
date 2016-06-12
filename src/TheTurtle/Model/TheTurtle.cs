@@ -3,7 +3,6 @@ using System.ComponentModel.Composition;
 using System.Windows.Forms;
 using TheTurtle.View;
 using LibFLExBridgeChorusPlugin.Infrastructure;
-using TriboroughBridge_ChorusPlugin;
 
 namespace TheTurtle.Model
 {
@@ -41,7 +40,7 @@ namespace TheTurtle.Model
 			// NB: Creating a new ChorusSystem will also create the Hg repo, if it does not exist.
 			// This possible repo creation allows for the case where the local computer
 			// intends to start sharing an existing system.
-			var chorusSystem = TriboroughBridgeUtilities.InitializeChorusSystem(CurrentProject.DirectoryName, Environment.UserName, FlexFolderSystem.ConfigureChorusProjectFolder);
+			var chorusSystem = TheTurtleUtilities.InitializeChorusSystem(CurrentProject.DirectoryName, Environment.UserName, FlexFolderSystem.ConfigureChorusProjectFolder);
 			chorusSystem.EnsureAllNotesRepositoriesLoaded();
 			// 1: If FW project is in use, then show a warning message.
 			var projectInUse = CurrentProject.FieldWorkProjectInUse;
