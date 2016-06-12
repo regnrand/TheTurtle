@@ -50,14 +50,15 @@ namespace TheTurtle.View
 				_tcMain.Enabled = true;
 				ResetPage(0, chorusSystem.WinForms.CreateNotesBrowser());
 				ResetPage(1, chorusSystem.WinForms.CreateHistoryPage());
-				var synchronizerAdjunct = new FlexBridgeSychronizerAdjunct(
+				Adjunct = new FlexBridgeSychronizerAdjunct(
 					Path.Combine(_project.DirectoryName, _project.Name + TheTurtleUtilities.FwXmlExtension),
 					Path.Combine(TheTurtleUtilities.FwAssemblyPath, "FixFwData.exe"),
-					true);
+					true,
+					TheTurtleSettings.Default.OtherBranchRevisions);
 				Model = new SyncControlModel(chorusSystem.ProjectFolderConfiguration,
 													 SyncUIFeatures.Advanced | SyncUIFeatures.PlaySoundIfSuccessful,
 													 new ChorusUser(chorusSystem.UserNameForHistoryAndNotes));
-				Model.SetSynchronizerAdjunct(synchronizerAdjunct);
+				Model.SetSynchronizerAdjunct(Adjunct);
 				Model.SyncOptions.DoPullFromOthers = true;
 				Model.SyncOptions.DoMergeWithOthers = true;
 				Model.SyncOptions.DoSendToOthers = true;
@@ -81,6 +82,7 @@ namespace TheTurtle.View
 		}
 
 		public SyncControlModel Model { get; private set; }
+		public FlexBridgeSychronizerAdjunct Adjunct { get; private set; }
 
 		#endregion IExistingSystemView impl
 

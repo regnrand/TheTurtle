@@ -19,13 +19,20 @@ namespace LibFLExBridgeChorusPlugin.Infrastructure
 {
 	internal sealed class FlexBridgeSychronizerAdjunct : ISychronizerAdjunct
 	{
+		internal string OtherBranchRevisions
+		{
+			get { return _otherBranchRevisions; }
+		}
+
 		private readonly string _fwdataPathname;
 		private readonly bool _writeVerbose;
 		private bool _needToNestMainFile = true;
 		private readonly string _fixitPathname;
+		private string _otherBranchRevisions;
 
-		internal FlexBridgeSychronizerAdjunct(string fwdataPathname, string fixitPathname, bool writeVerbose)
+		internal FlexBridgeSychronizerAdjunct(string fwdataPathname, string fixitPathname, bool writeVerbose, string otherBranchRevisions)
 		{
+			_otherBranchRevisions = otherBranchRevisions;
 			if (!File.Exists(fixitPathname))
 				throw new InvalidOperationException("The FLEx 'fix it' program was not found.");
 			_fwdataPathname = fwdataPathname;
@@ -125,10 +132,7 @@ namespace LibFLExBridgeChorusPlugin.Infrastructure
 		/// </summary>
 		public void CheckRepositoryBranches(IEnumerable<Revision> branches, IProgress progress)
 		{
-			var savedSettings = Settings.Default.OtherBranchRevisions;
-			var conflictingUser = LiftSynchronizerAdjunct.GetRepositoryBranchCheckData(branches, BranchName, ref savedSettings);
-			Settings.Default.OtherBranchRevisions = savedSettings;
-			Settings.Default.Save();
+			var conflictingUser = LiftSynchronizerAdjunct.GetRepositoryBranchCheckData(branches, BranchName, ref _otherBranchRevisions);
 			if (!string.IsNullOrEmpty(conflictingUser))
 				progress.WriteWarning(string.Format(Resources.ksOtherRevisionWarning, conflictingUser));
 		}

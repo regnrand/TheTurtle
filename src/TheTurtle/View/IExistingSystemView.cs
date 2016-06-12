@@ -4,6 +4,7 @@
 
 using Chorus;
 using Chorus.UI.Sync;
+using LibFLExBridgeChorusPlugin.Infrastructure;
 using TheTurtle.Model;
 
 namespace TheTurtle.View
@@ -14,5 +15,6 @@ namespace TheTurtle.View
 		void UpdateDisplay(bool projectIsInUse);
 		SyncControlModel Model { get; }
 		bool Enabled { get; set; }
+		FlexBridgeSychronizerAdjunct Adjunct { get; }
 	}
 }

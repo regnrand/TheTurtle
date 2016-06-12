@@ -13,9 +13,19 @@
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
 		protected override void Dispose(bool disposing)
 		{
-			if (disposing && (components != null))
+			if (disposing)
 			{
-				components.Dispose();
+				var otherBranchRevisions = _turtleView.ProjectView.ExistingSystemView.Adjunct.OtherBranchRevisions;
+				if (TheTurtleSettings.Default.OtherBranchRevisions != otherBranchRevisions)
+				{
+					TheTurtleSettings.Default.OtherBranchRevisions = otherBranchRevisions;
+					TheTurtleSettings.Default.Save();
+				}
+
+				if ((components != null))
+				{
+					components.Dispose();
+				}
 			}
 			base.Dispose(disposing);
 		}

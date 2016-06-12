@@ -46,5 +46,17 @@ namespace TheTurtle {
                 this["LastTurtleProject"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string OtherBranchRevisions {
+            get {
+                return ((string)(this["OtherBranchRevisions"]));
+            }
+            set {
+                this["OtherBranchRevisions"] = value;
+            }
+        }
     }
 }
