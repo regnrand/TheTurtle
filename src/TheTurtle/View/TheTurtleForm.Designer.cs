@@ -15,11 +15,15 @@
 		{
 			if (disposing)
 			{
-				var otherBranchRevisions = _turtleView.ProjectView.ExistingSystemView.Adjunct.OtherBranchRevisions;
-				if (TheTurtleSettings.Default.OtherBranchRevisions != otherBranchRevisions)
+				var adjunct = _turtleView.ProjectView.ExistingSystemView.Adjunct;
+				if (adjunct != null)
 				{
-					TheTurtleSettings.Default.OtherBranchRevisions = otherBranchRevisions;
-					TheTurtleSettings.Default.Save();
+					var otherBranchRevisions = adjunct.OtherBranchRevisions;
+					if (TheTurtleSettings.Default.OtherBranchRevisions != otherBranchRevisions)
+					{
+						TheTurtleSettings.Default.OtherBranchRevisions = otherBranchRevisions;
+						TheTurtleSettings.Default.Save();
+					}
 				}
 
 				if ((components != null))

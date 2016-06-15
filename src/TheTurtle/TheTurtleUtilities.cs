@@ -26,7 +26,10 @@ namespace TheTurtle
 			{
 				using (var hkcu = Registry.CurrentUser)
 				{
-					var hkcuPath = GetFwPath(hkcu, "ProjectsDir");
+					var hkcuPath = GetFwPath(hkcu, "ProjectsDirSafe");
+					if (hkcuPath != null)
+						return hkcuPath;
+					hkcuPath = GetFwPath(hkcu, "ProjectsDir");
 					if (hkcuPath != null)
 						return hkcuPath;
 				}

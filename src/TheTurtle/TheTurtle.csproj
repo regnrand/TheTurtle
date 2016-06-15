@@ -248,6 +248,10 @@
       <Link>about.htm</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Content Include="..\..\DistFiles\LogoForAbout.png">
+      <Link>LogoForAbout.png</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="chorus.ico" />
   </ItemGroup>
   <ItemGroup>
