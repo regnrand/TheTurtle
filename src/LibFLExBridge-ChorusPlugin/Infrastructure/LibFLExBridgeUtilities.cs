@@ -3,6 +3,7 @@
 using System;
 using System.Xml.Linq;
 using System.IO;
+using System.Reflection;
 using Chorus.Utilities;
 using SIL.Progress;
 
@@ -42,6 +43,11 @@ namespace LibFLExBridgeChorusPlugin.Infrastructure
 		{
 			if (progress.CancelRequested)
 				throw new UserCancelledException(); // the Chorus Synchorinizer class catches this and does the real cancel.
+		}
+
+		internal static string GetAppsDir()
+		{
+			return Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase.Substring(SIL.PlatformUtilities.Platform.IsLinux ? 7 : 8));
 		}
 	}
 }

@@ -273,7 +273,8 @@ namespace LibFLExBridgeChorusPluginTests.Integration
 			DoMerge(fileHandler, 7000068);
 			Assert.AreEqual(DataType.OwningSequence, mdc.GetClassInfo("ReversalIndexEntry").GetProperty("Subentries").DataType);
 
-			// 7000069->8999999:  No actual model change.
+			// 7000069->8999999:  No actual model change. 7000069 was the non-model LDML update. The rest just bump it up to 8999999 in preparation for 9000000.
+			// Flex has 69 (dictionary changes) & 70 (renumbered LDML), but for me, I put the dictionary model changes at 9000001, and left the LDML DM at 69.
 			CheckNoModelChangesUpgrade(mdc, fileHandler, 8999999);
 
 			// 9000000:
@@ -282,10 +283,29 @@ namespace LibFLExBridgeChorusPluginTests.Integration
 			//		Scripture, ScrBook, ScrRefSystem, ScrBookRef, ScrSection, ScrImportSet, ScrDraft, ScrDifference,
 			//		ScrImportSource, ScrImportP6Project, ScrImportSFFiles, ScrMarkerMapping, ScrBookAnnotations,
 			//		ScrScriptureNote, ScrCheckRun, ScrTxtPara, ScrFootnote
-			// 2. Add "Certified' to WfiWordform
 			CheckPropertyExistsBeforeUpGrade(mdc, "LangProject", "TranslatedScripture");
 			CheckPropertyExistsBeforeUpGrade(mdc, "CmMajorObject", "Publications");
 			CheckPropertyExistsBeforeUpGrade(mdc, "CmMajorObject", "HeaderFooterSets");
+			Assert.IsNotNull(mdc.GetClassInfo("Scripture"));
+			Assert.IsNotNull(mdc.GetClassInfo("ScrBook"));
+			Assert.IsNotNull(mdc.GetClassInfo("ScrRefSystem"));
+			Assert.IsNotNull(mdc.GetClassInfo("ScrBookRef"));
+			Assert.IsNotNull(mdc.GetClassInfo("ScrSection"));
+			Assert.IsNotNull(mdc.GetClassInfo("ScrImportSet"));
+			Assert.IsNotNull(mdc.GetClassInfo("ScrDraft"));
+			Assert.IsNotNull(mdc.GetClassInfo("ScrDifference"));
+			Assert.IsNotNull(mdc.GetClassInfo("ScrImportSource"));
+			Assert.IsNotNull(mdc.GetClassInfo("ScrImportP6Project"));
+			Assert.IsNotNull(mdc.GetClassInfo("ScrImportSFFiles"));
+			Assert.IsNotNull(mdc.GetClassInfo("ScrMarkerMapping"));
+			Assert.IsNotNull(mdc.GetClassInfo("ScrBookAnnotations"));
+			Assert.IsNotNull(mdc.GetClassInfo("ScrScriptureNote"));
+			Assert.IsNotNull(mdc.GetClassInfo("ScrCheckRun"));
+			Assert.IsNotNull(mdc.GetClassInfo("ScrTxtPara"));
+			Assert.IsNotNull(mdc.GetClassInfo("ScrFootnote"));
+			Assert.IsNotNull(mdc.GetClassInfo("StFootnote"));
+			Assert.IsNotNull(mdc.GetClassInfo("StJournalText"));
+			// 2. Add "Certified' to WfiWordform
 			CheckPropertyDoesNotExistBeforeUpGrade(mdc, "WfiWordform", "Certified");
 
 			DoMerge(fileHandler, 9000000);
@@ -320,6 +340,73 @@ namespace LibFLExBridgeChorusPluginTests.Integration
 			Assert.IsNull(mdc.GetClassInfo("ScrFootnote"));
 			Assert.IsNull(mdc.GetClassInfo("StFootnote"));
 			Assert.IsNull(mdc.GetClassInfo("StJournalText"));
+
+			// 9000001:
+			// Make sure prior model is expected.
+			CheckClassDoesNotExistBeforeUpGrade(mdc, "LexExtendedNote");
+
+			CheckPropertyExistsBeforeUpGrade(mdc, "LexEntry", "Restrictions", DataType.MultiUnicode);
+			CheckPropertyExistsBeforeUpGrade(mdc, "LexEntry", "Etymology", DataType.OwningAtomic);
+			CheckPropertyDoesNotExistBeforeUpGrade(mdc, "LexEntry", "DialectLabels");
+
+			CheckPropertyExistsBeforeUpGrade(mdc, "LexSense", "Restrictions", DataType.MultiUnicode);
+			CheckPropertyDoesNotExistBeforeUpGrade(mdc, "LexSense", "UsageNote");
+			CheckPropertyDoesNotExistBeforeUpGrade(mdc, "LexSense", "Exemplar");
+			CheckPropertyDoesNotExistBeforeUpGrade(mdc, "LexSense", "ExtendedNote");
+			CheckPropertyDoesNotExistBeforeUpGrade(mdc, "LexSense", "DialectLabels");
+
+			CheckPropertyDoesNotExistBeforeUpGrade(mdc, "LexEntryType", "ReverseName");
+
+			CheckPropertyExistsBeforeUpGrade(mdc, "LexEtymology", "Form", DataType.MultiUnicode);
+			CheckPropertyExistsBeforeUpGrade(mdc, "LexEtymology", "Gloss", DataType.MultiUnicode);
+			CheckPropertyExistsBeforeUpGrade(mdc, "LexEtymology", "Source");
+			CheckPropertyDoesNotExistBeforeUpGrade(mdc, "LexEtymology", "LanguageNotes");
+			CheckPropertyDoesNotExistBeforeUpGrade(mdc, "LexEtymology", "PrecComment");
+			CheckPropertyDoesNotExistBeforeUpGrade(mdc, "LexEtymology", "Bibliography");
+			CheckPropertyDoesNotExistBeforeUpGrade(mdc, "LexEtymology", "Note");
+			CheckPropertyDoesNotExistBeforeUpGrade(mdc, "LexEtymology", "Language");
+
+			CheckPropertyDoesNotExistBeforeUpGrade(mdc, "LexDb", "Languages");
+			CheckPropertyDoesNotExistBeforeUpGrade(mdc, "LexDb", "ExtendedNoteTypes");
+			CheckPropertyDoesNotExistBeforeUpGrade(mdc, "LexDb", "DialectLabels");
+
+			CheckPropertyDoesNotExistBeforeUpGrade(mdc, "CmPicture", "DoNotPublishIn");
+
+			CheckPropertyDoesNotExistBeforeUpGrade(mdc, "LexPronunciation", "DoNotPublishIn");
+
+			DoMerge(fileHandler, 9000001);
+
+			CheckClassDoesExistAfterUpGrade(mdc, mdc.GetClassInfo("CmObject"), "LexExtendedNote");
+			CheckNewPropertyAfterUpgrade(mdc.GetClassInfo("LexExtendedNote"), "Discussion", DataType.MultiString);
+			CheckNewPropertyAfterUpgrade(mdc.GetClassInfo("LexExtendedNote"), "ExtendedNoteType", DataType.ReferenceAtomic);
+			CheckNewPropertyAfterUpgrade(mdc.GetClassInfo("LexExtendedNote"), "Examples", DataType.OwningSequence);
+
+			CheckNewPropertyAfterUpgrade(mdc.GetClassInfo("LexEntry"), "Restrictions", DataType.MultiString);
+			CheckNewPropertyAfterUpgrade(mdc.GetClassInfo("LexEntry"), "Etymology", DataType.OwningSequence);
+			CheckNewPropertyAfterUpgrade(mdc.GetClassInfo("LexEntry"), "Restrictions", DataType.MultiString);
+
+			CheckNewPropertyAfterUpgrade(mdc.GetClassInfo("LexSense"), "Restrictions", DataType.MultiString);
+			CheckNewPropertyAfterUpgrade(mdc.GetClassInfo("LexSense"), "UsageNote", DataType.MultiString);
+			CheckNewPropertyAfterUpgrade(mdc.GetClassInfo("LexSense"), "Exemplar", DataType.MultiString);
+			CheckNewPropertyAfterUpgrade(mdc.GetClassInfo("LexSense"), "ExtendedNote", DataType.OwningSequence);
+			CheckNewPropertyAfterUpgrade(mdc.GetClassInfo("LexSense"), "DialectLabels", DataType.ReferenceSequence);
+
+			CheckNewPropertyAfterUpgrade(mdc.GetClassInfo("LexEtymology"), "Form", DataType.MultiString);
+			CheckNewPropertyAfterUpgrade(mdc.GetClassInfo("LexEtymology"), "Gloss", DataType.MultiString);
+			CheckPropertyRemovedAfterUpGrade(mdc, "LexEtymology", "Source");
+			CheckNewPropertyAfterUpgrade(mdc.GetClassInfo("LexEtymology"), "LanguageNotes", DataType.MultiString);
+			CheckNewPropertyAfterUpgrade(mdc.GetClassInfo("LexEtymology"), "PrecComment", DataType.MultiString);
+			CheckNewPropertyAfterUpgrade(mdc.GetClassInfo("LexEtymology"), "Bibliography", DataType.MultiString);
+			CheckNewPropertyAfterUpgrade(mdc.GetClassInfo("LexEtymology"), "Note", DataType.MultiString);
+			CheckNewPropertyAfterUpgrade(mdc.GetClassInfo("LexEtymology"), "Language", DataType.ReferenceSequence);
+
+			CheckNewPropertyAfterUpgrade(mdc.GetClassInfo("LexDb"), "Languages", DataType.OwningAtomic);
+			CheckNewPropertyAfterUpgrade(mdc.GetClassInfo("LexDb"), "ExtendedNoteTypes", DataType.OwningAtomic);
+			CheckNewPropertyAfterUpgrade(mdc.GetClassInfo("LexDb"), "DialectLabels", DataType.OwningAtomic);
+
+			CheckNewPropertyAfterUpgrade(mdc.GetClassInfo("CmPicture"), "DoNotPublishIn", DataType.ReferenceCollection);
+
+			CheckNewPropertyAfterUpgrade(mdc.GetClassInfo("LexPronunciation"), "DoNotPublishIn", DataType.ReferenceCollection);
 		}
 
 		[Test]
@@ -360,38 +447,43 @@ namespace LibFLExBridgeChorusPluginTests.Integration
 			Assert.IsNull(mdc.GetClassInfo(className));
 		}
 
+		private static FdoPropertyInfo GetProperty(MetadataCache mdc, string className, string propertyName)
+		{
+			return GetProperty(mdc.GetClassInfo(className), propertyName); // May be null.
+		}
+
+		private static FdoPropertyInfo GetProperty(FdoClassInfo classInfo, string propertyName)
+		{
+			return (from propInfo in classInfo.AllProperties
+					where propInfo.PropertyName == propertyName
+					select propInfo).FirstOrDefault(); // May be null.
+		}
+
 		private static void CheckPropertyExistsBeforeUpGrade(MetadataCache mdc, string className, string extantPropName)
 		{
-			var classInfo = mdc.GetClassInfo(className);
-			var newProperty = (from propInfo in classInfo.AllProperties
-							   where propInfo.PropertyName == extantPropName
-							   select propInfo).FirstOrDefault();
+			Assert.IsNotNull(GetProperty(mdc, className, extantPropName), string.Format("{0} {1} should exist, before upgrade.", className, extantPropName));
+		}
+
+		private static void CheckPropertyExistsBeforeUpGrade(MetadataCache mdc, string className, string extantPropName, DataType datatype)
+		{
+			var newProperty = GetProperty(mdc, className, extantPropName);
 			Assert.IsNotNull(newProperty, string.Format("{0} {1} should exist, before upgrade.", className, extantPropName));
+			Assert.AreEqual(newProperty.DataType, datatype, string.Format("{0} {1} should have data type {2}, before upgrade, but it was {3}.", className, extantPropName, datatype, newProperty.DataType));
 		}
 
 		private static void CheckPropertyRemovedAfterUpGrade(MetadataCache mdc, string className, string removedPropName)
 		{
-			var classInfo = mdc.GetClassInfo(className);
-			var newProperty = (from propInfo in classInfo.AllProperties
-							   where propInfo.PropertyName == removedPropName
-							   select propInfo).FirstOrDefault();
-			Assert.IsNull(newProperty, string.Format("{0} {1} should not exist, after upgrade.", className, removedPropName));
+			Assert.IsNull(GetProperty(mdc.GetClassInfo(className), removedPropName), string.Format("{0} {1} should not exist, after upgrade.", className, removedPropName));
 		}
 
 		private static void CheckPropertyDoesNotExistBeforeUpGrade(MetadataCache mdc, string className, string newPropName)
 		{
-			var classInfo = mdc.GetClassInfo(className);
-			var newProperty = (from propInfo in classInfo.AllProperties
-							   where propInfo.PropertyName == newPropName
-							   select propInfo).FirstOrDefault();
-			Assert.IsNull(newProperty, string.Format("{0} {1} should not exist yet.", className, newPropName));
+			Assert.IsNull(GetProperty(mdc, className, newPropName), string.Format("{0} {1} should not exist yet.", className, newPropName));
 		}
 
 		private static void CheckNewPropertyAfterUpgrade(FdoClassInfo classInfo, string newPropName, DataType dataType)
 		{
-			var newProperty = (from propInfo in classInfo.AllProperties
-						   where propInfo.PropertyName == newPropName
-						   select propInfo).FirstOrDefault();
+			var newProperty = GetProperty(classInfo, newPropName);
 			Assert.IsNotNull(newProperty, string.Format("{0} {1} should exist now.", classInfo.ClassName, newPropName));
 			Assert.AreEqual(dataType, newProperty.DataType, string.Format("{0} {1} data type should be {2}.", classInfo.ClassName, newPropName, dataType));
 		}

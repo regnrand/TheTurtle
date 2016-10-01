@@ -4,15 +4,15 @@
 // Distributable under the terms of the MIT License, as specified in the license.rtf file.
 // --------------------------------------------------------------------------------------------
 
-﻿﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-﻿﻿using System.Xml.Linq;
-﻿﻿using SIL.Code;
-﻿﻿using SIL.Progress;
+using System.Xml.Linq;
+using SIL.Code;
+using SIL.Progress;
 using SIL.Xml;
-﻿﻿using LibFLExBridgeChorusPlugin.Contexts;
+using LibFLExBridgeChorusPlugin.Contexts;
 using LibFLExBridgeChorusPlugin.Infrastructure;
 
 namespace LibFLExBridgeChorusPlugin
@@ -42,10 +42,10 @@ namespace LibFLExBridgeChorusPlugin
 			// (Only has current concrete classes.)
 			var classData = GenerateBasicClassData();
 			var wellUsedElements = new Dictionary<string, XElement>
-				{
-					{FlexBridgeConstants.LangProject, null},
-					{FlexBridgeConstants.LexDb, null}
-				};
+			{
+				{FlexBridgeConstants.LangProject, null},
+				{FlexBridgeConstants.LexDb, null}
+			};
 			var guidToClassMapping = WriteOrCacheProperties(mainFilePathname, classData, wellUsedElements);
 			LibFLExBridgeUtilities.CheckForUserCancelRequested(progress);
 			BaseDomainServices.PushHumptyOffTheWall(progress, writeVerbose, rootDirectoryName, wellUsedElements, classData, guidToClassMapping);
@@ -113,10 +113,10 @@ namespace LibFLExBridgeChorusPlugin
 			IDictionary<string, string> guidToClassMapping)
 		{
 			var attrValues = XmlUtils.GetAttributes(record, new HashSet<string>
-				{
-					FlexBridgeConstants.Class,
-					FlexBridgeConstants.GuidStr
-				});
+			{
+				FlexBridgeConstants.Class,
+				FlexBridgeConstants.GuidStr
+			});
 			var className = attrValues[FlexBridgeConstants.Class];
 			var guid = attrValues[FlexBridgeConstants.GuidStr].ToLowerInvariant();
 			guidToClassMapping.Add(guid, className);
@@ -131,7 +131,7 @@ namespace LibFLExBridgeChorusPlugin
 				default:
 					classData[className].Add(guid, record);
 					break;
-				case  FlexBridgeConstants.LangProject:
+				case FlexBridgeConstants.LangProject:
 					wellUsedElements[FlexBridgeConstants.LangProject] = LibFLExBridgeUtilities.CreateFromBytes(record);
 					//classData.Remove(LibTriboroughBridgeConstants.LangProject);
 					break;

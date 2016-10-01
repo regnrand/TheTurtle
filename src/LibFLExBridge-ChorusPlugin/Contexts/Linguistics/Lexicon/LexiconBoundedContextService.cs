@@ -38,10 +38,13 @@ namespace LibFLExBridgeChorusPlugin.Contexts.Linguistics.Lexicon
 							"SenseTypes",
 							"UsageTypes",
 							"DomainTypes",
-							// Moved to Morph & Syn, as per AndyB. "MorphTypes",
+							// "MorphTypes" moved to Morph & Syn, as per AndyB.
 							"References",
 							"VariantEntryTypes",
 							"ComplexEntryTypes",
+							"ExtendedNoteTypes",
+							"Languages",
+							"DialectLabels",
 							"PublicationTypes"
 						});
 

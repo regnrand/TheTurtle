@@ -15,6 +15,6 @@ namespace TheTurtle.View
 		void UpdateDisplay(bool projectIsInUse);
 		SyncControlModel Model { get; }
 		bool Enabled { get; set; }
-		FlexBridgeSychronizerAdjunct Adjunct { get; }
+		FlexBridgeSynchronizerAdjunct Adjunct { get; }
 	}
 }

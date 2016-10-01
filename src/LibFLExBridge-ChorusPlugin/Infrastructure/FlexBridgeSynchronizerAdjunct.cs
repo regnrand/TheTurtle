@@ -17,7 +17,7 @@ using SIL.Progress;
 
 namespace LibFLExBridgeChorusPlugin.Infrastructure
 {
-	internal sealed class FlexBridgeSychronizerAdjunct : ISychronizerAdjunct
+	internal sealed class FlexBridgeSynchronizerAdjunct : ISychronizerAdjunct
 	{
 		internal string OtherBranchRevisions
 		{
@@ -30,7 +30,7 @@ namespace LibFLExBridgeChorusPlugin.Infrastructure
 		private readonly string _fixitPathname;
 		private string _otherBranchRevisions;
 
-		internal FlexBridgeSychronizerAdjunct(string fwdataPathname, string fixitPathname, bool writeVerbose, string otherBranchRevisions)
+		internal FlexBridgeSynchronizerAdjunct(string fwdataPathname, string fixitPathname, bool writeVerbose, string otherBranchRevisions)
 		{
 			_otherBranchRevisions = otherBranchRevisions;
 			if (!File.Exists(fixitPathname))

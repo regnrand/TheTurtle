@@ -4,7 +4,6 @@
 
 using System;
 using System.IO;
-using System.Reflection;
 using System.Windows.Forms;
 using Chorus;
 using Chorus.UI.Misc;
@@ -50,7 +49,7 @@ namespace TheTurtle.View
 				_tcMain.Enabled = true;
 				ResetPage(0, chorusSystem.WinForms.CreateNotesBrowser());
 				ResetPage(1, chorusSystem.WinForms.CreateHistoryPage());
-				Adjunct = new FlexBridgeSychronizerAdjunct(
+				Adjunct = new FlexBridgeSynchronizerAdjunct(
 					Path.Combine(_project.DirectoryName, _project.Name + TheTurtleUtilities.FwXmlExtension),
 					Path.Combine(TheTurtleUtilities.FwAssemblyPath, "FixFwData.exe"),
 					true,
@@ -82,7 +81,7 @@ namespace TheTurtle.View
 		}
 
 		public SyncControlModel Model { get; private set; }
-		public FlexBridgeSychronizerAdjunct Adjunct { get; private set; }
+		public FlexBridgeSynchronizerAdjunct Adjunct { get; private set; }
 
 		#endregion IExistingSystemView impl
 
@@ -112,9 +111,7 @@ namespace TheTurtle.View
 
 		private void ExistingSystemViewLoad(object sender, EventArgs e)
 		{
-			_webBrowser.Navigate(Path.Combine(
-				Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase),
-				"about.htm"));
+			_webBrowser.Navigate(Path.Combine(LibFLExBridgeUtilities.GetAppsDir(), "about.htm"));
 		}
 	}
 }

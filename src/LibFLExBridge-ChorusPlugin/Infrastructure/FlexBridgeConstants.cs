@@ -19,8 +19,7 @@ namespace LibFLExBridgeChorusPlugin.Infrastructure
 		internal const string FwXmlExtensionNoPeriod = "fwdata";
 		internal const string FwLockExtension = ".lock";
 		internal const string FwXmlLockExtension = FwXmlExtension + FwLockExtension;
-		internal const string FwDb4oExtension = "." + FwDb4oExtensionNoPeriod;
-		internal const string FwDb4oExtensionNoPeriod = "fwdb";
+		internal const string DictConfigSchemaFilename = "DictionaryConfiguration.xsd";
 
 		// General
 		internal const string Str = "Str";
@@ -62,6 +61,7 @@ namespace LibFLExBridgeChorusPlugin.Infrastructure
 		internal const string LanguageProject = "LanguageProject";
 		internal const string LanguageProjectFilename = LanguageProject + "." + langproj;
 		internal const string LangProject = "LangProject";
+		internal const string ConfigurationItem = "ConfigurationItem";
 		internal const string Label = "label";
 		internal const string Title = "Title";
 		internal const string NamedStyle = "namedStyle";
@@ -76,6 +76,7 @@ namespace LibFLExBridgeChorusPlugin.Infrastructure
 
 		// FW layouts
 		internal const string fwlayout = "fwlayout";
+		internal const string fwdictconfig = "fwdictconfig";
 
 		// Old style
 		internal const string RtTag = "rt";

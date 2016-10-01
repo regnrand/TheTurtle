@@ -20,7 +20,6 @@ namespace LibFLExBridgeChorusPlugin.Infrastructure
 			projectFolderConfiguration.ExcludePatterns.Add("**" + FlexBridgeConstants.FwXmlExtension);
 			projectFolderConfiguration.ExcludePatterns.Add("**" + FlexBridgeConstants.FwXmlExtension + "-replaced");
 			projectFolderConfiguration.ExcludePatterns.Add("**" + FlexBridgeConstants.FwXmlExtension + "-x");
-			projectFolderConfiguration.ExcludePatterns.Add("**" + FlexBridgeConstants.FwDb4oExtension);
 			projectFolderConfiguration.ExcludePatterns.Add("**.fwbackup");
 			projectFolderConfiguration.ExcludePatterns.Add("**.fwstub");
 			projectFolderConfiguration.ExcludePatterns.Add("**.orig");
@@ -61,6 +60,7 @@ namespace LibFLExBridgeChorusPlugin.Infrastructure
 
 			// Misc required files.
 			projectFolderConfiguration.IncludePatterns.Add(Path.Combine("ConfigurationSettings", "*.fwlayout"));
+			projectFolderConfiguration.IncludePatterns.Add(Path.Combine("ConfigurationSettings", "**.fwdictconfig"));
 			projectFolderConfiguration.IncludePatterns.Add(Path.Combine("WritingSystemStore", "*.ldml"));
 			projectFolderConfiguration.IncludePatterns.Add(Path.Combine("LinkedFiles", "AudioVisual", "**.*"));
 			projectFolderConfiguration.IncludePatterns.Add(Path.Combine("LinkedFiles", "Others", "**.*"));

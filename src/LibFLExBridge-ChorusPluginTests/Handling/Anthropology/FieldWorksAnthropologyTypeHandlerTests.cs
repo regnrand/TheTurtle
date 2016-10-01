@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using Chorus.FileTypeHandlers;
 using Chorus.FileTypeHandlers.xml;
 using Chorus.merge.xml.generic;
@@ -211,8 +210,7 @@ namespace LibFLExBridgeChorusPluginTests.Handling.Anthropology
 		[Test, Category("UnknownMonoIssue")]
 		public void ShouldNotHaveTwoTextElementsAfterMerge()
 		{
-			var baseDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase
-				.Substring(SIL.PlatformUtilities.Platform.IsLinux ? 7 : 8));
+			var baseDir = LibFLExBridgeUtilities.GetAppsDir();
 			var testDataDir = Path.Combine(baseDir, "TestData");
 			var common = File.ReadAllText(Path.Combine(testDataDir, "DataNotebook_Common.ntbk"));
 			var annOurs = File.ReadAllText(Path.Combine(testDataDir, "DataNotebook_Ann.ntbk"));

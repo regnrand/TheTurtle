@@ -110,7 +110,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Infrastructure\FlexBridgeSychronizerAdjunct.cs" />
+    <Compile Include="Handling\ConfigLayout\DictionaryConfigurationHandlerStrategy.cs" />
+    <Compile Include="Infrastructure\FlexBridgeSynchronizerAdjunct.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FLExProjectSplitter.cs" />
     <Compile Include="FLExProjectUnifier.cs" />

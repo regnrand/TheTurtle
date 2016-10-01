@@ -126,8 +126,8 @@ namespace LibFLExBridgeChorusPlugin.Infrastructure
 			// 7000044: FW 7.1 released.
 			// 7000051: FW 7.2 released.
 			// 700006x: FW 8.0.x released.
-			// 7000068: End FW 8 (released).
-			// 7000069: Start of upstream FW 9 (Be sure to change this to the next 9000000 series, whenever I merge it into fork.)
+			// 7000069: End FW 8 (released: config DM).
+			// 7000070: Start of upstream FW 9 (LDML: Be sure to change this to the next 9000001 series, whenever I merge it into fork.)
 			// 9000000: Start of RBR FW 9.
 			var currentVersion = ModelVersion;
 			var cmObject = GetClassInfo("CmObject");
@@ -330,6 +330,7 @@ namespace LibFLExBridgeChorusPlugin.Infrastructure
 						newClass.AddProperty(new FdoPropertyInfo("Subentries", DataType.OwningSequence));
 						break;
 					case 7000069:
+						// 69 was the ldml changes, but those aren't model changes.
 						currentVersion = 8999999; // Bump it up to be ready for FW 9.
 						break;
 					case 9000000:
@@ -377,6 +378,63 @@ namespace LibFLExBridgeChorusPlugin.Infrastructure
 						newClass = GetClassInfo("WfiWordform");
 						newClass.AddProperty(new FdoPropertyInfo("Certified", DataType.Boolean));
 						break;
+					case 9000001:
+						newClass = GetClassInfo("LexEntry");
+						// Change Restrictions from MultiUnicode to MultiString in LexEntry
+						newClass.RemoveProperty("Restrictions");
+						newClass.AddProperty(new FdoPropertyInfo("Restrictions", DataType.MultiString));
+						// Change Etymology from OwningAtomic to OwningSequence
+						newClass.RemoveProperty("Etymology");
+						newClass.AddProperty(new FdoPropertyInfo("Etymology", DataType.OwningSequence));
+						// Add DialectLabels to LexEntry
+						newClass.AddProperty(new FdoPropertyInfo("DialectLabels", DataType.ReferenceSequence));
+
+						newClass = GetClassInfo("LexSense");
+						// Change Restrictions from MultiUnicode to MultiString in LexSense
+						newClass.RemoveProperty("Restrictions");
+						newClass.AddProperty(new FdoPropertyInfo("Restrictions", DataType.MultiString));
+						// Add UsageNote, Exemplar, LexExtendendNotes, and DialectLabels to LexSense
+						newClass.AddProperty(new FdoPropertyInfo("UsageNote", DataType.MultiString));
+						newClass.AddProperty(new FdoPropertyInfo("Exemplar", DataType.MultiString));
+						newClass.AddProperty(new FdoPropertyInfo("ExtendedNote", DataType.OwningSequence));
+						newClass.AddProperty(new FdoPropertyInfo("DialectLabels", DataType.ReferenceSequence));
+
+						newClass = GetClassInfo("LexEntryType");
+						newClass.AddProperty(new FdoPropertyInfo("ReverseName", DataType.MultiUnicode));
+
+						newClass = GetClassInfo("LexEtymology");
+						newClass.RemoveProperty("Form");
+						newClass.AddProperty(new FdoPropertyInfo("Form", DataType.MultiString));
+						newClass.RemoveProperty("Gloss");
+						newClass.AddProperty(new FdoPropertyInfo("Gloss", DataType.MultiString));
+						newClass.RemoveProperty("Source");
+						newClass.AddProperty(new FdoPropertyInfo("LanguageNotes", DataType.MultiString));
+						newClass.AddProperty(new FdoPropertyInfo("PrecComment", DataType.MultiString));
+						newClass.AddProperty(new FdoPropertyInfo("Bibliography", DataType.MultiString));
+						newClass.AddProperty(new FdoPropertyInfo("Note", DataType.MultiString));
+						newClass.AddProperty(new FdoPropertyInfo("Language", DataType.ReferenceSequence));
+
+						// Add LexExtendedNote class.
+						newClass = CreateNewClass(GetClassInfo("CmObject"), "LexExtendedNote", false);
+						newClass.AddProperty(new FdoPropertyInfo("Discussion", DataType.MultiString));
+						newClass.AddProperty(new FdoPropertyInfo("ExtendedNoteType", DataType.ReferenceAtomic));
+						newClass.AddProperty(new FdoPropertyInfo("Examples", DataType.OwningSequence));
+
+						newClass = GetClassInfo("LexDb");
+						// Add Language list to LexDb.
+						newClass.AddProperty(new FdoPropertyInfo("Languages", DataType.OwningAtomic));
+						// Add ExtendedNoteTypes property to LexDb.
+						newClass.AddProperty(new FdoPropertyInfo("ExtendedNoteTypes", DataType.OwningAtomic));
+						// Add DialectLabels list to LexDb.
+						newClass.AddProperty(new FdoPropertyInfo("DialectLabels", DataType.OwningAtomic));
+
+						// Add DoNotPublishIn fields to CmPicture and LexPronunciation.
+						newClass = GetClassInfo("CmPicture");
+						newClass.AddProperty(new FdoPropertyInfo("DoNotPublishIn", DataType.ReferenceCollection));
+						newClass = GetClassInfo("LexPronunciation");
+						newClass.AddProperty(new FdoPropertyInfo("DoNotPublishIn", DataType.ReferenceCollection));
+
+						break;
 
 					//NB: Update MaximumModelVersion to highest supported number.
 				}
@@ -386,7 +444,7 @@ namespace LibFLExBridgeChorusPlugin.Infrastructure
 			ModelVersion = newVersion;
 			return ModelVersion;
 		}
-		public const int MaximumModelVersion = 9000000;
+		public const int MaximumModelVersion = 9000001;
 
 		///<summary>
 		/// Get the FDO class information for the given class.
