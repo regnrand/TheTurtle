@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------
-// Copyright (C) 2010-2016 SIL International. All rights reserved.
+// Copyright (C) 2010-2013 SIL International. All rights reserved.
 //
 // Distributable under the terms of the MIT License, as specified in the license.rtf file.
 // --------------------------------------------------------------------------------------------
@@ -10,17 +10,16 @@ using System.IO;
 using System.Linq;
 using Chorus.FileTypeHandlers.xml;
 using Chorus.merge.xml.generic;
-using LibFLExBridgeChorusPlugin;
-using LibFLExBridgeChorusPlugin.Infrastructure;
 using LibChorus.TestUtilities;
+using LibFLExBridgeChorusPlugin.Infrastructure;
 using NUnit.Framework;
 using SIL.IO;
 using SIL.Progress;
 
-namespace LibFLExBridgeChorusPluginTests.Handling.Common
+namespace LibFLExBridgeChorusPluginTests.Handling.Scripture
 {
 	[TestFixture]
-	public class FieldWorksStylesTypeHandlerTests : BaseFieldWorksTypeHandlerTests
+	public class FieldWorksImportSettingsTypeHandlerTests : BaseFieldWorksTypeHandlerTests
 	{
 		private TempFile _ourFile;
 		private TempFile _theirFile;
@@ -30,15 +29,14 @@ namespace LibFLExBridgeChorusPluginTests.Handling.Common
 		public override void TestSetup()
 		{
 			base.TestSetup();
-			Mdc.UpgradeToVersion(7000065);
-			FieldWorksTestServices.SetupTempFilesWithExtension("." + FlexBridgeConstants.Style, out _ourFile, out _commonFile, out _theirFile);
+			FieldWorksTestServices.SetupTempFilesWithName(FlexBridgeConstants.ImportSettingsFilename, out _ourFile, out _commonFile, out _theirFile);
 		}
 
 		[TearDown]
 		public override void TestTearDown()
 		{
 			base.TestTearDown();
-			FieldWorksTestServices.RemoveTempFiles(ref _ourFile, ref _commonFile, ref _theirFile);
+			FieldWorksTestServices.RemoveTempFilesAndParentDir(ref _ourFile, ref _commonFile, ref _theirFile);
 		}
 
 		[Test]
@@ -51,23 +49,11 @@ namespace LibFLExBridgeChorusPluginTests.Handling.Common
 		}
 
 		[Test]
-		public void ExtensionOfKnownFileTypesShouldBeStyle()
+		public void ExtensionOfKnownFileTypesShouldBeImportSetting()
 		{
 			var extensions = FileHandler.GetExtensionsOfKnownTextFileTypes().ToArray();
 			Assert.AreEqual(FieldWorksTestServices.ExpectedExtensionCount, extensions.Count(), "Wrong number of extensions.");
-			Assert.IsTrue(extensions.Contains(FlexBridgeConstants.Style));
-		}
-
-		[Test]
-		public void ShouldBeAbleToValidateIncorrectFormatFileIfFilenameIsRight()
-		{
-			using (var tempModelVersionFile = new TempFile("<classdata />"))
-			{
-				var newpath = Path.ChangeExtension(tempModelVersionFile.Path, FlexBridgeConstants.Style);
-				File.Copy(tempModelVersionFile.Path, newpath, true);
-				Assert.IsTrue(FileHandler.CanValidateFile(newpath));
-				File.Delete(newpath);
-			}
+			Assert.IsTrue(extensions.Contains(FlexBridgeConstants.ImportSetting));
 		}
 
 		[Test]
@@ -75,9 +61,9 @@ namespace LibFLExBridgeChorusPluginTests.Handling.Common
 		{
 			const string data =
 @"<?xml version='1.0' encoding='utf-8'?>
-<Styles>
-<StStyle guid='06425922-3258-4094-a9ec-3c2fe5b52b39' />
-</Styles>";
+<ImportSettings>
+<ScrImportSet guid='0a0be0c1-39c4-44d4-842e-231680c7cd56' />
+</ImportSettings>";
 
 			File.WriteAllText(_ourFile.Path, data);
 			Assert.IsTrue(FileHandler.CanValidateFile(_ourFile.Path));
@@ -88,9 +74,9 @@ namespace LibFLExBridgeChorusPluginTests.Handling.Common
 		{
 			const string data =
 @"<?xml version='1.0' encoding='utf-8'?>
-<Styles>
-<StStyle guid='06425922-3258-4094-a9ec-3c2fe5b52b39' />
-</Styles>";
+<ImportSettings>
+<ScrImportSet guid='0a0be0c1-39c4-44d4-842e-231680c7cd56' />
+</ImportSettings>";
 
 			File.WriteAllText(_ourFile.Path, data);
 			Assert.IsTrue(FileHandler.CanValidateFile(_ourFile.Path));
@@ -113,13 +99,11 @@ namespace LibFLExBridgeChorusPluginTests.Handling.Common
 		{
 			const string data =
 @"<?xml version='1.0' encoding='utf-8'?>
-<Styles>
-<StStyle guid='06425922-3258-4094-a9ec-3c2fe5b52b39'>
-		<Name>
-			<Uni>Line3</Uni>
-		</Name>
-</StStyle>
-</Styles>";
+<ImportSettings>
+<ScrImportSet guid='0a0be0c1-39c4-44d4-842e-231680c7cd56' >
+</ScrImportSet>
+</ImportSettings>";
+
 			File.WriteAllText(_ourFile.Path, data);
 			Assert.IsNull(FileHandler.ValidateFile(_ourFile.Path, new NullProgress()));
 		}
@@ -129,20 +113,18 @@ namespace LibFLExBridgeChorusPluginTests.Handling.Common
 		{
 			const string parent =
 @"<?xml version='1.0' encoding='utf-8'?>
-<Styles>
-<StStyle guid='06425922-3258-4094-a9ec-3c2fe5b52b39'>
-		<Name>
-			<Uni>Line3</Uni>
-		</Name>
-</StStyle>
-</Styles>";
+<ImportSettings>
+<ScrImportSet guid='0a0be0c1-39c4-44d4-842e-231680c7cd56' >
+<ImportType val='2' />
+</ScrImportSet>
+</ImportSettings>";
 
-			var child = parent.Replace("Line3", "Line4");
+			var child = parent.Replace("val='2'", "val='3'");
 
 			using (var repositorySetup = new RepositorySetup("randy"))
 			{
-				repositorySetup.AddAndCheckinFile("sample." + FlexBridgeConstants.Style, parent);
-				repositorySetup.ChangeFileAndCommit("sample." + FlexBridgeConstants.Style, child, "change it");
+				repositorySetup.AddAndCheckinFile(FlexBridgeConstants.ImportSettingsFilename, parent);
+				repositorySetup.ChangeFileAndCommit(FlexBridgeConstants.ImportSettingsFilename, child, "change it");
 				var hgRepository = repositorySetup.Repository;
 				var allRevisions = (from rev in hgRepository.GetAllRevisions()
 									orderby rev.Number.LocalRevisionNumber
@@ -164,26 +146,28 @@ namespace LibFLExBridgeChorusPluginTests.Handling.Common
 		{
 			const string commonAncestor =
 @"<?xml version='1.0' encoding='utf-8'?>
-<Styles>
-<StStyle guid='06425922-3258-4094-a9ec-3c2fe5b52b39'>
-		<Name>
-			<Uni>Line3</Uni>
-		</Name>
-</StStyle>
-</Styles>";
+<ImportSettings>
+<ScrImportSet guid='0a0be0c1-39c4-44d4-842e-231680c7cd56' >
+<ImportType val='2' />
+<Name>
+<AUni
+ws='en'>Default</AUni>
+</Name>
+</ScrImportSet>
+</ImportSettings>";
 
-			var ourContent = commonAncestor.Replace("Line3", "Line4");
-			const string theirContent = commonAncestor;
+			var ourContent = commonAncestor.Replace("val='2'", "val='3'");
+			var theirContent = commonAncestor.Replace("Default", "Basic");
 
 			var results = FieldWorksTestServices.DoMerge(
 				FileHandler,
 				_ourFile, ourContent,
 				_commonFile, commonAncestor,
 				_theirFile, theirContent,
-				null, null,
+				new List<string> { @"ImportSettings/ScrImportSet/ImportType[@val=""3""]" }, null,
 				0, new List<Type>(),
-				1, new List<Type> { typeof(XmlTextChangedReport) });
-			Assert.IsTrue(results.Contains("Line4"));
+				2, new List<Type> { typeof(XmlAttributeChangedReport), typeof(XmlTextChangedReport) });
+			Assert.IsTrue(results.Contains("Basic"));
 		}
 
 		[Test]
@@ -191,16 +175,18 @@ namespace LibFLExBridgeChorusPluginTests.Handling.Common
 		{
 			const string commonAncestor =
 @"<?xml version='1.0' encoding='utf-8'?>
-<Styles>
-<StStyle guid='06425922-3258-4094-a9ec-3c2fe5b52b39'>
-		<Name>
-			<Uni>Line3</Uni>
-		</Name>
-</StStyle>
-</Styles>";
+<ImportSettings>
+<ScrImportSet guid='0a0be0c1-39c4-44d4-842e-231680c7cd56' >
+<ImportType val='2' />
+<Name>
+<AUni
+ws='en'>Default</AUni>
+</Name>
+</ScrImportSet>
+</ImportSettings>";
 
-			var ourContent = commonAncestor.Replace("Line3", "Line4");
-			var theirContent = commonAncestor.Replace("Line3", "Line5");
+			var ourContent = commonAncestor.Replace("Default", "Complex");
+			var theirContent = commonAncestor.Replace("Default", "Basic");
 
 			var results = FieldWorksTestServices.DoMerge(
 				FileHandler,
@@ -210,39 +196,7 @@ namespace LibFLExBridgeChorusPluginTests.Handling.Common
 				null, null,
 				1, new List<Type> { typeof(XmlTextBothEditedTextConflict) },
 				0, new List<Type>());
-			Assert.IsTrue(results.Contains("Line4"));
-		}
-
-		[Test]
-		public void DuplicateStylesAreNotValid()
-		{
-			const string data =
-@"<?xml version='1.0' encoding='utf-8'?>
-<Styles>
-<StStyle guid='c1edbbe3-e382-11de-8a39-0800200c9a66'>
-		<Name>
-			<Uni>NoProblem</Uni>
-		</Name>
-	</StStyle>
-<StStyle guid='a3045a7c-9286-4fab-930c-53562c0cc3ec'>
-		<Name>
-			<Uni>Conflict</Uni>
-		</Name>
-	</StStyle>
-	<StStyle guid='8da1fa5b-096c-495f-8d37-2b046493db3c'>
-		<Name>
-			<Uni>Conflict</Uni>
-		</Name>
-	</StStyle>
-</Styles>";
-			File.WriteAllText(_ourFile.Path, data);
-			var result = FileHandler.ValidateFile(_ourFile.Path, new NullProgress());
-			Assert.IsNotNull(result);
-			Assert.IsTrue(result.Contains("Conflict"));
-			Assert.IsTrue(result.Contains("a3045a7c-9286-4fab-930c-53562c0cc3ec"));
-			Assert.IsTrue(result.Contains("8da1fa5b-096c-495f-8d37-2b046493db3c"));
-			Assert.IsFalse(result.Contains("NoProblem"));
-			Assert.IsFalse(result.Contains("c1edbbe3-e382-11de-8a39-0800200c9a66"));
+			Assert.IsTrue(results.Contains("Complex"));
 		}
 	}
 }

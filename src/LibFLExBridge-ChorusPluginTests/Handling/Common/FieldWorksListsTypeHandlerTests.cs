@@ -10,7 +10,6 @@ using System.IO;
 using System.Linq;
 using Chorus.FileTypeHandlers.xml;
 using Chorus.merge.xml.generic;
-using LibFLExBridgeChorusPlugin;
 using LibFLExBridgeChorusPlugin.Infrastructure;
 using LibChorus.TestUtilities;
 using NUnit.Framework;
@@ -30,6 +29,7 @@ namespace LibFLExBridgeChorusPluginTests.Handling.Common
 		public override void TestSetup()
 		{
 			base.TestSetup();
+			Mdc.UpgradeToVersion(7000065);
 			FieldWorksTestServices.SetupTempFilesWithExtension("." + FlexBridgeConstants.List, out _ourFile, out _commonFile, out _theirFile);
 		}
 

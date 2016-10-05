@@ -24,8 +24,7 @@ namespace LibFLExBridgeChorusPluginTests.Handling.Linguistics.MorphologyAndSynta
 		public override void TestSetup()
 		{
 			base.TestSetup();
-			FieldWorksTestServices.SetupTempFilesWithName(FlexBridgeConstants.AnalyzingAgentsFilename, out _ourFile,
-														  out _commonFile, out _theirFile);
+			FieldWorksTestServices.SetupTempFilesWithName(FlexBridgeConstants.AnalyzingAgentsFilename, out _ourFile, out _commonFile, out _theirFile);
 		}
 
 		[TearDown]

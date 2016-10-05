@@ -33,7 +33,7 @@ namespace LibFLExBridgeChorusPluginTests.Handling.Anthropology
 			base.TestSetup();
 			Mdc.UpgradeToVersion(MetadataCache.MaximumModelVersion);
 			_eventListener = new ListenerForUnitTests();
-			FieldWorksTestServices.SetupTempFilesWithName(FlexBridgeConstants.DataNotebookFilename, MetadataCache.MaximumModelVersion, out _ourFile, out _commonFile, out _theirFile);
+			FieldWorksTestServices.SetupTempFilesWithName(FlexBridgeConstants.DataNotebookFilename, out _ourFile, out _commonFile, out _theirFile);
 		}
 
 		[TearDown]

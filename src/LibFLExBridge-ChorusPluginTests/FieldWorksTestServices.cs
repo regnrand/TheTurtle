@@ -19,7 +19,13 @@ namespace LibFLExBridgeChorusPluginTests
 {
 	internal static class FieldWorksTestServices
 	{
-		internal const int ExpectedExtensionCount = 21;
+		internal static int ExpectedExtensionCount
+		{
+			get
+			{
+				return (MetadataCache.MdCache.ModelVersion < 9000000) ? 27 : 21;
+			}
+		}
 
 		internal static void RemoveTempFiles(ref TempFile ourFile, ref TempFile commonFile, ref TempFile theirFile)
 		{
@@ -53,17 +59,12 @@ namespace LibFLExBridgeChorusPluginTests
 
 		internal static void SetupTempFilesWithName(string filename, out TempFile ourFile, out TempFile commonFile, out TempFile theirFile)
 		{
-			SetupTempFilesWithName(filename, MetadataCache.MaximumModelVersion, out ourFile, out commonFile, out theirFile);
+			ourFile = TempFile.TrackExisting(CreateTempFileWithName(filename));
+			commonFile = TempFile.TrackExisting(CreateTempFileWithName(filename));
+			theirFile = TempFile.TrackExisting(CreateTempFileWithName(filename));
 		}
 
-		internal static void SetupTempFilesWithName(string filename, int modelVersion, out TempFile ourFile, out TempFile commonFile, out TempFile theirFile)
-		{
-			ourFile = TempFile.TrackExisting(CreateTempFileWithName(filename, modelVersion));
-			commonFile = TempFile.TrackExisting(CreateTempFileWithName(filename, modelVersion));
-			theirFile = TempFile.TrackExisting(CreateTempFileWithName(filename, modelVersion));
-		}
-
-		internal static string CreateTempFileWithName(string filename, int modelVersion)
+		internal static string CreateTempFileWithName(string filename)
 		{
 			var tempFileName = Path.GetTempFileName();
 			var tempPath = Path.GetTempPath();
@@ -78,7 +79,7 @@ namespace LibFLExBridgeChorusPluginTests
 				Path.GetExtension(filename) != "." + FlexBridgeConstants.ModelVersion)
 			{
 				// Add model version file with given version to 'newDirName'.
-				var newModelVersionFileContents = "{\"modelversion\": " + modelVersion + "}";
+				var newModelVersionFileContents = "{\"modelversion\": " + MetadataCache.MdCache.ModelVersion + "}";
 				File.WriteAllText(Path.Combine(newDirName, FlexBridgeConstants.ModelVersionFilename), newModelVersionFileContents);
 			}
 

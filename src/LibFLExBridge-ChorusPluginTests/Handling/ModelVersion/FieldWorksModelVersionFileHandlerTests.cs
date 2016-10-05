@@ -68,7 +68,7 @@ namespace LibFLExBridgeChorusPluginTests.Handling.ModelVersion
 		[Test]
 		public void ShouldBeAbleToValidateInProperlyFormattedFile()
 		{
-			File.WriteAllText(_ourFile.Path, "{\"modelversion\": 7000037}");
+			File.WriteAllText(_ourFile.Path, "{\"modelversion\": 7000065}");
 			Assert.IsTrue(FileHandler.CanValidateFile(_ourFile.Path));
 		}
 
@@ -99,7 +99,7 @@ namespace LibFLExBridgeChorusPluginTests.Handling.ModelVersion
 		[Test]
 		public void ShouldBeAbleToValidateFile()
 		{
-			const string ourData = "{\"modelversion\": 7000037}";
+			const string ourData = "{\"modelversion\": 7000065}";
 			File.WriteAllText(_ourFile.Path, ourData);
 			Assert.IsNull(FileHandler.ValidateFile(_ourFile.Path, new NullProgress()));
 		}
@@ -107,9 +107,9 @@ namespace LibFLExBridgeChorusPluginTests.Handling.ModelVersion
 		[Test]
 		public void ShouldMergeTheirModelNumber()
 		{
-			const string commonData = "{\"modelversion\": 7000044}";
-			const string ourData = "{\"modelversion\": 7000045}";
-			const string theirData = "{\"modelversion\": 7000046}";
+			const string commonData = "{\"modelversion\": 7000065}";
+			const string ourData = "{\"modelversion\": 7000066}";
+			const string theirData = "{\"modelversion\": 7000067}";
 
 			File.WriteAllText(_commonFile.Path, commonData);
 			File.WriteAllText(_ourFile.Path, ourData);
@@ -128,9 +128,9 @@ namespace LibFLExBridgeChorusPluginTests.Handling.ModelVersion
 		[Test]
 		public void ShouldMergeOurModelNumber()
 		{
-			const string commonData = "{\"modelversion\": 7000044}";
-			const string ourData = "{\"modelversion\": 7000046}";
-			const string theirData = "{\"modelversion\": 7000045}";
+			const string commonData = "{\"modelversion\": 7000065}";
+			const string ourData = "{\"modelversion\": 7000067}";
+			const string theirData = "{\"modelversion\": 7000066}";
 
 			File.WriteAllText(_commonFile.Path, commonData);
 			File.WriteAllText(_ourFile.Path, ourData);
@@ -149,9 +149,9 @@ namespace LibFLExBridgeChorusPluginTests.Handling.ModelVersion
 		[Test]
 		public void BothDidSameUpgrade()
 		{
-			const string commonData = "{\"modelversion\": 7000044}";
-			const string ourData = "{\"modelversion\": 7000046}";
-			const string theirData = "{\"modelversion\": 7000046}";
+			const string commonData = "{\"modelversion\": 7000065}";
+			const string ourData = "{\"modelversion\": 7000066}";
+			const string theirData = "{\"modelversion\": 7000066}";
 
 			File.WriteAllText(_commonFile.Path, commonData);
 			File.WriteAllText(_ourFile.Path, ourData);
@@ -202,9 +202,9 @@ namespace LibFLExBridgeChorusPluginTests.Handling.ModelVersion
 		[Test]
 		public void ShouldHaveNoChanges()
 		{
-			const string commonData = "{\"modelversion\": 7000037}";
-			const string ourData = "{\"modelversion\": 7000037}";
-			const string theirData = "{\"modelversion\": 7000037}";
+			const string commonData = "{\"modelversion\": 7000065}";
+			const string ourData = "{\"modelversion\": 7000065}";
+			const string theirData = "{\"modelversion\": 7000065}";
 
 				File.WriteAllText(_commonFile.Path, commonData);
 				File.WriteAllText(_ourFile.Path, ourData);

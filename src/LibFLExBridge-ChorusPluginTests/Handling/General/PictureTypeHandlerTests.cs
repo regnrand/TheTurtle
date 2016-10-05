@@ -26,8 +26,7 @@ namespace LibFLExBridgeChorusPluginTests.Handling.General
 		public override void TestSetup()
 		{
 			base.TestSetup();
-			FieldWorksTestServices.SetupTempFilesWithName(FlexBridgeConstants.FLExUnownedPicturesFilename, out _ourFile, out _commonFile,
-														  out _theirFile);
+			FieldWorksTestServices.SetupTempFilesWithName(FlexBridgeConstants.FLExUnownedPicturesFilename, out _ourFile, out _commonFile, out _theirFile);
 		}
 
 		[TearDown]

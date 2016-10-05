@@ -24,9 +24,7 @@ namespace LibFLExBridgeChorusPluginTests.Handling.Linguistics.Discourse
 		public override void TestSetup()
 		{
 			base.TestSetup();
-			FieldWorksTestServices.SetupTempFilesWithName(FlexBridgeConstants.DiscourseChartFilename, out _ourFile, out _commonFile,
-															   out _theirFile);
-			Mdc = MetadataCache.TestOnlyNewCache;
+			FieldWorksTestServices.SetupTempFilesWithName(FlexBridgeConstants.DiscourseChartFilename, out _ourFile, out _commonFile, out _theirFile);
 		}
 
 		[TearDown]

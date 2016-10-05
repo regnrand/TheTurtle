@@ -29,8 +29,7 @@ namespace LibFLExBridgeChorusPluginTests.Handling.ConfigLayout
 		public override void TestSetup()
 		{
 			base.TestSetup();
-			FieldWorksTestServices.SetupTempFilesWithExtension("." + FlexBridgeConstants.fwlayout, out _ourFile, out _commonFile,
-															   out _theirFile);
+			FieldWorksTestServices.SetupTempFilesWithExtension("." + FlexBridgeConstants.fwlayout, out _ourFile, out _commonFile, out _theirFile);
 		}
 
 		[TearDown]

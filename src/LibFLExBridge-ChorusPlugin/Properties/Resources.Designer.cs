@@ -61,6 +61,15 @@ namespace LibFLExBridgeChorusPlugin.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Canonical book number is out of range..
+        /// </summary>
+        internal static string kCanonicalBookNumberOutOfRange {
+            get {
+                return ResourceManager.GetString("kCanonicalBookNumberOutOfRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to }.
         /// </summary>
         internal static string kCloseCurlyBrace {
@@ -138,6 +147,42 @@ namespace LibFLExBridgeChorusPlugin.Properties {
         internal static string kRnGenericRecLabel {
             get {
                 return ResourceManager.GetString("kRnGenericRecLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scripture Book.
+        /// </summary>
+        internal static string kScrBookClassLabel {
+            get {
+                return ResourceManager.GetString("kScrBookClassLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scripture Section.
+        /// </summary>
+        internal static string kScrSectionClassLabel {
+            get {
+                return ResourceManager.GetString("kScrSectionClassLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} {1}:{2}-{3}:{4}.
+        /// </summary>
+        internal static string kScrSectionMultiChapter {
+            get {
+                return ResourceManager.GetString("kScrSectionMultiChapter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} {1}:{2}-{3}.
+        /// </summary>
+        internal static string kScrSectionOneChapter {
+            get {
+                return ResourceManager.GetString("kScrSectionOneChapter", resourceCulture);
             }
         }
         

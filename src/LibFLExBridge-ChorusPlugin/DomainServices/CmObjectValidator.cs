@@ -166,7 +166,7 @@ namespace LibFLExBridgeChorusPlugin.DomainServices
 						case DataType.Integer:
 							if (BasicValueTypeAttributeCheckIsValid(propertyElement, isCustomProperty, out result))
 							{
-								Int32.Parse(result);
+								int.Parse(result);
 								result = null;
 							}
 							else

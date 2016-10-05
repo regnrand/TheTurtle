@@ -5,8 +5,8 @@
 // --------------------------------------------------------------------------------------------
 
 using System.Collections.Generic;
-using System.Linq;
 using Chorus.FileTypeHandlers;
+using LibFLExBridgeChorusPlugin.Handling;
 using LibFLExBridgeChorusPlugin.Infrastructure;
 using NUnit.Framework;
 
@@ -20,8 +20,7 @@ namespace LibFLExBridgeChorusPluginTests.Handling
 		[TestFixtureSetUp]
 		public void FixtureSetup()
 		{
-			_commonHandler = ChorusFileTypeHandlerCollection.CreateWithInstalledHandlers().Handlers
-				.FirstOrDefault(h => h.GetType().Name == "FieldWorksCommonFileHandler");
+			_commonHandler = new FieldWorksCommonFileHandler();
 		}
 
 		[TestFixtureTearDown]
@@ -67,6 +66,14 @@ namespace LibFLExBridgeChorusPluginTests.Handling
 				FlexBridgeConstants.Phondata,			// 'phondata'
 				FlexBridgeConstants.Morphdata,			// 'morphdata'
 				FlexBridgeConstants.Agents,				// 'agents'
+
+				// Scripture
+				FlexBridgeConstants.ArchivedDraft,		// ArchivedDraft
+				FlexBridgeConstants.ImportSetting,		// ImportSetting
+				FlexBridgeConstants.bookannotations,	// bookannotations
+				FlexBridgeConstants.book,				// book
+				FlexBridgeConstants.Srs,				// srs
+				FlexBridgeConstants.Trans,				// trans
 
 				// FW layouts
 				FlexBridgeConstants.fwlayout,			// 'fwlayout'

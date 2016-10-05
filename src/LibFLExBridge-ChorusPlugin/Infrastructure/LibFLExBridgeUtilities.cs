@@ -36,7 +36,7 @@ namespace LibFLExBridgeChorusPlugin.Infrastructure
 			var pathRoot = Path.GetDirectoryName(mainFilePathname);
 			var version = FieldWorksProjectServices.GetVersionNumber(mainFilePathname);
 			FileWriterService.WriteVersionNumberFile(pathRoot, version);
-			MetadataCache.MdCache.UpgradeToVersion(Int32.Parse(version));
+			MetadataCache.MdCache.UpgradeToVersion(int.Parse(version));
 		}
 
 		internal static void CheckForUserCancelRequested(IProgress progress)

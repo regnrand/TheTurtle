@@ -28,8 +28,7 @@ namespace LibFLExBridgeChorusPluginTests.Handling.General
 		public override void TestSetup()
 		{
 			base.TestSetup();
-			FieldWorksTestServices.SetupTempFilesWithName(FlexBridgeConstants.LanguageProjectFilename, out _ourFile, out _commonFile,
-														  out _theirFile);
+			FieldWorksTestServices.SetupTempFilesWithName(FlexBridgeConstants.LanguageProjectFilename, out _ourFile, out _commonFile, out _theirFile);
 		}
 
 		[TearDown]

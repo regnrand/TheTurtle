@@ -27,13 +27,17 @@ namespace LibFLExBridgeChorusPluginTests.Handling.ReportsByDataType
 		private TempFile _ourFile;
 		private TempFile _theirFile;
 		private TempFile _commonFile;
-		private MetadataCache _mdc;
 		private XmlMerger _merger;
 
 		[SetUp]
 		public override void TestSetup()
 		{
 			base.TestSetup();
+			var mergeOrder = new MergeOrder(null, null, null, new NullMergeSituation())
+			{
+				EventListener = new NullMergeEventListener()
+			};
+			_merger = FieldWorksMergeServices.CreateXmlMergerForFieldWorksData(mergeOrder, Mdc);
 			FieldWorksTestServices.SetupTempFilesWithName(FlexBridgeConstants.MorphTypesListFilename, out _ourFile, out _commonFile, out _theirFile);
 		}
 
@@ -44,23 +48,10 @@ namespace LibFLExBridgeChorusPluginTests.Handling.ReportsByDataType
 			FieldWorksTestServices.RemoveTempFilesAndParentDir(ref _ourFile, ref _commonFile, ref _theirFile);
 		}
 
-		[TestFixtureSetUp]
-		public override void FixtureSetup()
-		{
-			base.FixtureSetup();
-
-			_mdc = MetadataCache.TestOnlyNewCache;
-			var mergeOrder = new MergeOrder(null, null, null, new NullMergeSituation())
-			{
-				EventListener = new NullMergeEventListener()
-			};
-			_merger = FieldWorksMergeServices.CreateXmlMergerForFieldWorksData(mergeOrder, _mdc);
-		}
-
 		[Test]
 		public void EnsureAllBooleanPropertiesAreSetUpCorrectly()
 		{
-			foreach (var classInfo in _mdc.AllConcreteClasses)
+			foreach (var classInfo in Mdc.AllConcreteClasses)
 			{
 				var clsInfo = classInfo;
 				foreach (var elementStrategy in classInfo.AllProperties

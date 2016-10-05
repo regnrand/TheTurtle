@@ -170,6 +170,12 @@
     <Compile Include="Handling\Linguistics\Reversal\FieldWorksReversalTypeHandlerTests.cs" />
     <Compile Include="Handling\Linguistics\TextCorpus\FieldWorksTextCorpusTypeHandlerTests.cs" />
     <Compile Include="Handling\Linguistics\WordformInventory\FieldWorksWordformInventoryTypeHandlerTests.cs" />
+    <Compile Include="Handling\Scripture\FieldWorksArchivedDraftsTypeHandlerTests.cs" />
+    <Compile Include="Handling\Scripture\FieldWorksImportSettingsTypeHandlerTests.cs" />
+    <Compile Include="Handling\Scripture\FieldWorksScrBookAnnotationsTypeHandlerTests.cs" />
+    <Compile Include="Handling\Scripture\FieldWorksScrBooksTypeHandlerTests.cs" />
+    <Compile Include="Handling\Scripture\FieldWorksScriptureReferenceSystemTypeHandlerTests.cs" />
+    <Compile Include="Handling\Scripture\FieldWorksScriptureTranslationTypeHandlerTests.cs" />
     <Compile Include="Handling\ModelVersion\FieldWorksModelVersionFileHandlerTests.cs" />
     <Compile Include="Handling\ReportsByDataType\BinaryDataTypeReportTests.cs" />
     <Compile Include="Handling\ReportsByDataType\BooleanDataTypeReportTests.cs" />

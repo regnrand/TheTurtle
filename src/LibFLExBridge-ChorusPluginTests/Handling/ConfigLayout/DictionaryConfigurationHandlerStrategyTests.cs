@@ -19,10 +19,12 @@ namespace LibFLExBridgeChorusPluginTests.Handling.ConfigLayout
 		private TempFile _configFile;
 		private TemporaryFolder _tempFolder;
 
-		[TestFixtureSetUp]
-		public override void FixtureSetup()
+		[SetUp]
+		public override void TestSetup()
 		{
-			base.FixtureSetup();
+			base.TestSetup();
+			Mdc.UpgradeToVersion(MetadataCache.MaximumModelVersion);
+			_configFile = TempFile.WithExtension("." + FlexBridgeConstants.fwdictconfig);
 			// Copy the schema file to where the Strategy looks
 			var appsDir = LibFLExBridgeUtilities.GetAppsDir();
 			var xsdPath = Path.Combine(appsDir, "TestData", "Language Explorer", "Configuration", FlexBridgeConstants.DictConfigSchemaFilename);
@@ -31,25 +33,12 @@ namespace LibFLExBridgeChorusPluginTests.Handling.ConfigLayout
 			File.Copy(xsdPath, xsdPathInProj, true);
 		}
 
-		[TestFixtureTearDown]
-		public override void FixtureTearDown()
-		{
-			base.FixtureTearDown();
-			_tempFolder.Dispose();
-			_tempFolder = null;
-		}
-
-		[SetUp]
-		public override void TestSetup()
-		{
-			base.TestSetup();
-			_configFile = TempFile.WithExtension("." + FlexBridgeConstants.fwdictconfig);
-		}
-
 		[TearDown]
 		public override void TestTearDown()
 		{
 			base.TestTearDown();
+			_tempFolder.Dispose();
+			_tempFolder = null;
 			_configFile.Dispose();
 			_configFile = null;
 		}

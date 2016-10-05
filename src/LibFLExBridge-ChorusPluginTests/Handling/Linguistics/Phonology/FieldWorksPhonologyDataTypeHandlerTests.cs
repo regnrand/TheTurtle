@@ -24,8 +24,7 @@ namespace LibFLExBridgeChorusPluginTests.Handling.Linguistics.Phonology
 		public override void TestSetup()
 		{
 			base.TestSetup();
-			FieldWorksTestServices.SetupTempFilesWithName(FlexBridgeConstants.PhonologicalDataFilename, out _ourFile,
-														  out _commonFile, out _theirFile);
+			FieldWorksTestServices.SetupTempFilesWithName(FlexBridgeConstants.PhonologicalDataFilename, out _ourFile, out _commonFile, out _theirFile);
 		}
 
 		[TearDown]

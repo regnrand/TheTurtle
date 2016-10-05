@@ -28,7 +28,7 @@ namespace LibFLExBridgeChorusPluginTests.Handling
 		public override void TestSetup()
 		{
 			base.TestSetup();
-			FieldWorksTestServices.SetupTempFilesWithName(FlexBridgeConstants.DataNotebookFilename, MetadataCache.MaximumModelVersion, out _ourFile, out _commonFile, out _theirFile);
+			FieldWorksTestServices.SetupTempFilesWithName(FlexBridgeConstants.DataNotebookFilename, out _ourFile, out _commonFile, out _theirFile);
 		}
 
 		[TearDown]

@@ -4,8 +4,8 @@
 // Distributable under the terms of the MIT License, as specified in the license.rtf file.
 // --------------------------------------------------------------------------------------------
 
-using System.Linq;
 using Chorus.FileTypeHandlers;
+using LibFLExBridgeChorusPlugin.Handling;
 using LibFLExBridgeChorusPlugin.Infrastructure;
 using NUnit.Framework;
 
@@ -16,29 +16,18 @@ namespace LibFLExBridgeChorusPluginTests.Handling
 		protected IChorusFileTypeHandler FileHandler;
 		internal MetadataCache Mdc;
 
-		[TestFixtureSetUp]
-		public virtual void FixtureSetup()
-		{
-			FileHandler = (from handler in ChorusFileTypeHandlerCollection.CreateWithInstalledHandlers().Handlers
-						   where handler.GetType().Name == "FieldWorksCommonFileHandler"
-						   select handler).First();
-		}
-
-		[TestFixtureTearDown]
-		public virtual void FixtureTearDown()
-		{
-			FileHandler = null;
-		}
-
 		[SetUp]
 		public virtual void TestSetup()
 		{
+			FileHandler = new FieldWorksCommonFileHandler();
 			Mdc = MetadataCache.TestOnlyNewCache;
+			Mdc.UpgradeToVersion(7000065); // 66 and higher require all basic data types to be in test code.
 		}
 
 		[TearDown]
 		public virtual void TestTearDown()
 		{
+			FileHandler = null;
 			Mdc = null;
 		}
 	}

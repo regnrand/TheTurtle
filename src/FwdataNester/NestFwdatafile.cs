@@ -14,7 +14,6 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
-using Chorus.FileTypeHandlers;
 using Chorus.VcsDrivers.Mercurial;
 using Chorus.merge;
 using Chorus.merge.xml.generic;
@@ -24,6 +23,7 @@ using SIL.Progress;
 using SIL.Xml;
 using LibFLExBridgeChorusPlugin;
 using LibFLExBridgeChorusPlugin.DomainServices;
+using LibFLExBridgeChorusPlugin.Handling;
 using SIL.Extensions;
 
 namespace FwdataTestApp
@@ -131,7 +131,7 @@ namespace FwdataTestApp
 				}
 				else if (_rebuildDataFile.Checked)
 				{
-					if (!String.IsNullOrWhiteSpace(revisionBox.Text))
+					if (!string.IsNullOrWhiteSpace(revisionBox.Text))
 					{
 						HgRunner.Run("hg update -r " + revisionBox.Text, _workingDir, 300, new NullProgress());
 					}
@@ -289,7 +289,7 @@ namespace FwdataTestApp
 				}
 			}
 			var modelData = File.ReadAllText(modelVersionPathname);
-			mdc.UpgradeToVersion(Int32.Parse(modelData.Split(new[] { "{", ":", "}" }, StringSplitOptions.RemoveEmptyEntries)[1]));
+			mdc.UpgradeToVersion(int.Parse(modelData.Split(new[] { "{", ":", "}" }, StringSplitOptions.RemoveEmptyEntries)[1]));
 			var customPropPathname = Path.Combine(_workingDir, FlexBridgeConstants.CustomPropertiesFilename);
 			mdc.AddCustomPropInfo(new MergeOrder(
 					customPropPathname, customPropPathname, customPropPathname,
@@ -395,6 +395,17 @@ namespace FwdataTestApp
 										   where !pathname.ToLowerInvariant().EndsWith("chorusnotes")
 										   select pathname);
 				}
+				if (MetadataCache.MdCache.ModelVersion < 9000000)
+				{
+					currentDir = Path.Combine(_workingDir, "Scripture");
+					if (Directory.Exists(currentDir))
+					{
+						allDataFiles.UnionWith(
+							from pathname in Directory.GetFiles(currentDir, "*.*", SearchOption.AllDirectories)
+							where !pathname.ToLowerInvariant().EndsWith("chorusnotes")
+							select pathname);
+					}
+				}
 				currentDir = Path.Combine(_workingDir, "Other");
 				if (Directory.Exists(currentDir))
 				{
@@ -479,6 +490,21 @@ namespace FwdataTestApp
 						case FlexBridgeConstants.Agents:
 							mainRecordName = FlexBridgeConstants.CmAgent;
 							break;
+						case FlexBridgeConstants.ImportSetting:
+							mainRecordName = FlexBridgeConstants.ScrImportSet;
+							break;
+						case FlexBridgeConstants.Srs:
+							mainRecordName = FlexBridgeConstants.ScrRefSystem;
+							break;
+						case FlexBridgeConstants.Trans:
+							mainRecordName = FlexBridgeConstants.Scripture;
+							break;
+						case FlexBridgeConstants.bookannotations:
+							mainRecordName = FlexBridgeConstants.ScrBookAnnotations;
+							break;
+						case FlexBridgeConstants.book:
+							mainRecordName = FlexBridgeConstants.ScrBook;
+							break;
 					}
 					using (var fastSplitter = new FastXmlElementSplitter(dataFile))
 					{
@@ -521,9 +547,7 @@ namespace FwdataTestApp
 			GetFreshMdc(); // Want it fresh.
 			// Validate all files.
 			validateTimer.Start();
-			var fbHandler = (from handler in ChorusFileTypeHandlerCollection.CreateWithInstalledHandlers().Handlers
-							 where handler.GetType().Name == "FieldWorksCommonFileHandler"
-							 select handler).First();
+			var fbHandler = new FieldWorksCommonFileHandler();
 			// Custom properties file.
 			var currentPathname = Path.Combine(_workingDir, FlexBridgeConstants.CustomPropertiesFilename);
 			var validationError = fbHandler.ValidateFile(currentPathname, new NullProgress());

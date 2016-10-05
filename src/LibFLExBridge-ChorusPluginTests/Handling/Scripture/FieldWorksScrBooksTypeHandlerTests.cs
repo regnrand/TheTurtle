@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------
-// Copyright (C) 2010-2016 SIL International. All rights reserved.
+// Copyright (C) 2010-2013 SIL International. All rights reserved.
 //
 // Distributable under the terms of the MIT License, as specified in the license.rtf file.
 // --------------------------------------------------------------------------------------------
@@ -11,10 +11,10 @@ using NUnit.Framework;
 using SIL.IO;
 using SIL.Progress;
 
-namespace LibFLExBridgeChorusPluginTests.Handling.General
+namespace LibFLExBridgeChorusPluginTests.Handling.Scripture
 {
 	[TestFixture]
-	public class FieldWorksFilterTypeHandlerTests : BaseFieldWorksTypeHandlerTests
+	public class FieldWorksScrBooksTypeHandlerTests : BaseFieldWorksTypeHandlerTests
 	{
 		private TempFile _ourFile;
 		private TempFile _theirFile;
@@ -24,16 +24,14 @@ namespace LibFLExBridgeChorusPluginTests.Handling.General
 		public override void TestSetup()
 		{
 			base.TestSetup();
-			Mdc.UpgradeToVersion(7000065);
-			FieldWorksTestServices.SetupTempFilesWithName(FlexBridgeConstants.FLExFiltersFilename, out _ourFile, out _commonFile,
-														  out _theirFile);
+			FieldWorksTestServices.SetupTempFilesWithExtension("." + FlexBridgeConstants.book, out _ourFile, out _commonFile, out _theirFile);
 		}
 
 		[TearDown]
 		public override void TestTearDown()
 		{
 			base.TestTearDown();
-			FieldWorksTestServices.RemoveTempFilesAndParentDir(ref _ourFile, ref _commonFile, ref _theirFile);
+			FieldWorksTestServices.RemoveTempFiles(ref _ourFile, ref _commonFile, ref _theirFile);
 		}
 
 		[Test]
@@ -46,32 +44,21 @@ namespace LibFLExBridgeChorusPluginTests.Handling.General
 		}
 
 		[Test]
-		public void ExtensionOfKnownFileTypesShouldBeTrans()
+		public void ExtensionOfKnownFileTypesShouldBeBook()
 		{
 			var extensions = FileHandler.GetExtensionsOfKnownTextFileTypes().ToArray();
 			Assert.AreEqual(FieldWorksTestServices.ExpectedExtensionCount, extensions.Count(), "Wrong number of extensions.");
-			Assert.IsTrue(extensions.Contains(FlexBridgeConstants.Filter));
-		}
-
-		[Test]
-		public void ShouldNotBeAbleToValidateIncorrectFormatFile()
-		{
-			using (var tempModelVersionFile = new TempFile("<classdata />"))
-			{
-				var newpath = Path.ChangeExtension(tempModelVersionFile.Path, FlexBridgeConstants.Filter);
-				File.Copy(tempModelVersionFile.Path, newpath, true);
-				Assert.IsFalse(FileHandler.CanValidateFile(newpath));
-				File.Delete(newpath);
-			}
+			Assert.IsTrue(extensions.Contains(FlexBridgeConstants.book));
 		}
 
 		[Test]
 		public void ShouldBeAbleToValidateInProperlyFormattedFile()
 		{
 			const string data =
-@"<Filters>
-<CmFilter guid='fff03918-9674-4401-8bb1-efe6502985a7' />
-</Filters>";
+@"<?xml version='1.0' encoding='utf-8'?>
+<Book>
+<ScrBook guid='0a0be0c1-39c4-44d4-842e-231680c7cd56' />
+</Book>";
 			File.WriteAllText(_ourFile.Path, data);
 			Assert.IsTrue(FileHandler.CanValidateFile(_ourFile.Path));
 		}
@@ -80,9 +67,10 @@ namespace LibFLExBridgeChorusPluginTests.Handling.General
 		public void ShouldBeAbleToDoAllCanOperations()
 		{
 			const string data =
-@"<Filters>
-<CmFilter guid='fff03918-9674-4401-8bb1-efe6502985a7' />
-</Filters>";
+@"<?xml version='1.0' encoding='utf-8'?>
+<Book>
+<ScrBook guid='0a0be0c1-39c4-44d4-842e-231680c7cd56' />
+</Book>";
 			File.WriteAllText(_ourFile.Path, data);
 			Assert.IsTrue(FileHandler.CanValidateFile(_ourFile.Path));
 			Assert.IsTrue(FileHandler.CanDiffFile(_ourFile.Path));
@@ -91,52 +79,24 @@ namespace LibFLExBridgeChorusPluginTests.Handling.General
 		}
 
 		[Test]
-		public void ShouldNotBeAbleToValidateFile1()
+		public void ShouldNotBeAbleToValidateFile()
 		{
-			const string data = "<classdata />";
+			const string data = "<?xml version='1.0' encoding='utf-8'?><classdata />";
 			File.WriteAllText(_ourFile.Path, data);
 			Assert.IsNotNull(FileHandler.ValidateFile(_ourFile.Path, new NullProgress()));
 		}
 
 		[Test]
-		public void ShouldNotBeAbleToValidateFile2()
+		public void ShouldBeAbleToValidateFile()
 		{
 			const string data =
-@"<Filters>
-<header>
-</header>
-</Filters>";
-
-			File.WriteAllText(_ourFile.Path, data);
-			Assert.IsNotNull(FileHandler.ValidateFile(_ourFile.Path, new NullProgress()));
-		}
-
-		[Test]
-		public void ShouldBeAbleToValidateFile3()
-		{
-			const string data =
-@"<Filters>
-<CmFilter guid='fff03918-9674-4401-8bb1-efe6502985a7' >
-<ClassId val='1' />
-</CmFilter>
-<CmFilter guid='fff03918-9674-4401-8bb1-efe6502985a8' >
-<ClassId val='1' />
-</CmFilter>
-</Filters>";
-
-			File.WriteAllText(_ourFile.Path, data);
-			Assert.IsNull(FileHandler.ValidateFile(_ourFile.Path, new NullProgress()));
-		}
-
-		[Test]
-		public void ShouldBeAbleToValidateFile1()
-		{
-			const string data =
-@"<Filters>
-<CmFilter guid='fff03918-9674-4401-8bb1-efe6502985a7' >
-<ClassId val='1' />
-</CmFilter>
-</Filters>";
+@"<?xml version='1.0' encoding='utf-8'?>
+<Book>
+<ScrBook guid='0a0be0c1-39c4-44d4-842e-231680c7cd56' >
+<CanonicalNum val='0' />
+<UseChapterNumHeading val='False' />
+</ScrBook>
+</Book>";
 			File.WriteAllText(_ourFile.Path, data);
 			Assert.IsNull(FileHandler.ValidateFile(_ourFile.Path, new NullProgress()));
 		}

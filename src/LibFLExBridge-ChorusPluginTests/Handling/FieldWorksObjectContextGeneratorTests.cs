@@ -15,6 +15,7 @@ using LibFLExBridgeChorusPlugin.Handling.Linguistics.Phonology;
 using LibFLExBridgeChorusPlugin.Handling.Linguistics.Reversal;
 using LibFLExBridgeChorusPlugin.Handling.Linguistics.TextCorpus;
 using LibFLExBridgeChorusPlugin.Handling.Linguistics.WordformInventory;
+using LibFLExBridgeChorusPlugin.Handling.Scripture;
 using NUnit.Framework;
 
 namespace LibFLExBridgeChorusPluginTests.Handling
@@ -42,6 +43,11 @@ namespace LibFLExBridgeChorusPluginTests.Handling
 			strategies.SetStrategy("FsClosedFeature", MakeClassStrategy(new MultiLingualStringsContextGenerator("Phonological Features", "Name", "Abbreviation"), strategies));
 			strategies.SetStrategy("Text", MakeClassStrategy(new TextContextGenerator(), strategies));
 			strategies.SetStrategy("RnGenericRec", MakeClassStrategy(new RnGenericRecContextGenerator(), strategies));
+			if (MetadataCache.MdCache.ModelVersion < 9000000)
+			{
+				strategies.SetStrategy("ScrBook", MakeClassStrategy(new ScrBookContextGenerator(), strategies));
+				strategies.SetStrategy("ScrSection", MakeClassStrategy(new ScrSectionContextGenerator(), strategies));
+			}
 			return result;
 		}
 

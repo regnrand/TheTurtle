@@ -10,6 +10,7 @@ using System.Linq;
 using Chorus.FileTypeHandlers;
 using Chorus.merge;
 using LibChorus.TestUtilities;
+using LibFLExBridgeChorusPlugin.Handling;
 using NUnit.Framework;
 using SIL.IO;
 using LibFLExBridgeChorusPlugin.Infrastructure;
@@ -31,12 +32,11 @@ namespace LibFLExBridgeChorusPluginTests.Integration
 		[Test]
 		public void MetaDataCacheIsUpdated()
 		{
-			var mdc = MetadataCache.TestOnlyNewCache; // Ensures it is reset to start with 7000037.
-			var fileHandler = (from handler in ChorusFileTypeHandlerCollection.CreateWithInstalledHandlers().Handlers
-							   where handler.GetType().Name == "FieldWorksCommonFileHandler"
-							   select handler).First();
-
+			// Ensures it is reset to start with 7000037.
+			var mdc = MetadataCache.TestOnlyNewCache;
 			Assert.AreEqual(7000037, mdc.ModelVersion);
+			var fileHandler = new FieldWorksCommonFileHandler();
+
 
 			// 7000038:
 			CheckClassDoesNotExistBeforeUpGrade(mdc, "VirtualOrdering");
@@ -412,8 +412,8 @@ namespace LibFLExBridgeChorusPluginTests.Integration
 		[Test]
 		public void UnsupportedUpdateThrows()
 		{
-			var mdc = MetadataCache.TestOnlyNewCache; // Ensures it is reset to start with 7000044.
-			Assert.Throws<ArgumentOutOfRangeException>(() => mdc.UpgradeToVersion(Int32.MaxValue));
+			var mdc = MetadataCache.TestOnlyNewCache; // Ensures it is reset to start with 7000037.
+			Assert.Throws<ArgumentOutOfRangeException>(() => mdc.UpgradeToVersion(int.MaxValue));
 		}
 
 		private static FdoClassInfo CheckClassDoesExistAfterUpGrade(MetadataCache mdc, FdoClassInfo superclass, string newClassname)

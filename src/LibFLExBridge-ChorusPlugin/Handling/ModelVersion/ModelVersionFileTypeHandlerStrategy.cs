@@ -36,7 +36,7 @@ namespace LibFLExBridgeChorusPlugin.Handling.ModelVersion
 				// Uses JSON: {"modelversion": #####}
 				var data = File.ReadAllText(pathToFile);
 				var splitData = SplitData(data);
-				if (splitData.Length == 2 && splitData[0] == "\"modelversion\"" && Int32.Parse(splitData[1].Trim()) >= 7000000)
+				if (splitData.Length == 2 && splitData[0] == "\"modelversion\"" && int.Parse(splitData[1].Trim()) >= 7000000)
 					return null;
 				return "Not a valid JSON model version file.";
 			}
@@ -65,7 +65,7 @@ namespace LibFLExBridgeChorusPlugin.Handling.ModelVersion
 			// The only relevant change to report is the version number.
 			var childData = child.GetFileContents(repository);
 			var splitData = SplitData(childData);
-			var childModelNumber = Int32.Parse(splitData[1]);
+			var childModelNumber = int.Parse(splitData[1]);
 			if (parent == null)
 			{
 				diffReports.Add(new FieldWorksModelVersionAdditionChangeReport(child, childModelNumber));
@@ -74,7 +74,7 @@ namespace LibFLExBridgeChorusPlugin.Handling.ModelVersion
 			{
 				var parentData = parent.GetFileContents(repository);
 				splitData = SplitData(parentData);
-				var parentModelNumber = Int32.Parse(splitData[1]);
+				var parentModelNumber = int.Parse(splitData[1]);
 				if (parentModelNumber != childModelNumber)
 					diffReports.Add(new FieldWorksModelVersionUpdatedReport(parent, child, parentModelNumber, childModelNumber));
 				else
@@ -92,13 +92,13 @@ namespace LibFLExBridgeChorusPlugin.Handling.ModelVersion
 
 			// The bigger model number wins, no matter if it came in ours or theirs.
 			var commonData = File.ReadAllText(mergeOrder.pathToCommonAncestor);
-			var commonNumber = Int32.Parse(SplitData(commonData)[1]);
+			var commonNumber = int.Parse(SplitData(commonData)[1]);
 
 			var ourData = File.ReadAllText(mergeOrder.pathToOurs);
-			var ourNumber = Int32.Parse(SplitData(ourData)[1]);
+			var ourNumber = int.Parse(SplitData(ourData)[1]);
 
 			var theirData = File.ReadAllText(mergeOrder.pathToTheirs);
-			var theirNumber = Int32.Parse(SplitData(theirData)[1]);
+			var theirNumber = int.Parse(SplitData(theirData)[1]);
 
 			if (commonNumber == ourNumber && commonNumber == theirNumber)
 				return; // No changes.

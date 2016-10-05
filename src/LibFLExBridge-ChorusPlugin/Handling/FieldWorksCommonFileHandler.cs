@@ -5,6 +5,7 @@
 // --------------------------------------------------------------------------------------------
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -30,22 +31,54 @@ namespace LibFLExBridgeChorusPlugin.Handling
 		private IFieldWorksFileHandler _unknownFileTypeHandler;
 
 		[ImportMany]
-		private IEnumerable<IFieldWorksFileHandler> _handlers;
+		private List<IFieldWorksFileHandler> _handlers = new List<IFieldWorksFileHandler>();
+
+		private readonly List<IFieldWorksFileHandler> _obsoleteFieldWorksFileHandlers = new List<IFieldWorksFileHandler>();
+
+		private bool _haveCheckedForObsoleteHandlers = false;
 
 		internal FieldWorksCommonFileHandler()
 		{
 			using (var catalog = new AssemblyCatalog(Assembly.GetExecutingAssembly()))
+			using (var container = new CompositionContainer(catalog))
 			{
-				using (var container = new CompositionContainer(catalog))
+				container.ComposeParts(this);
+			}
+
+			var obsoleteHandlerExtensions = new HashSet<string>
 			{
-					container.ComposeParts(this);
+				FlexBridgeConstants.ArchivedDraft,
+				FlexBridgeConstants.ImportSetting,
+				FlexBridgeConstants.bookannotations,
+				FlexBridgeConstants.book,
+				FlexBridgeConstants.Srs,
+				FlexBridgeConstants.Trans
+			};
+			foreach (var handler in _handlers)
+			{
+				if (obsoleteHandlerExtensions.Contains(handler.Extension))
+				{
+					_obsoleteFieldWorksFileHandlers.Add(handler);
 				}
+			}
+		}
+
+		private IEnumerable<IFieldWorksFileHandler> WorkingSetOfHandlers
+		{
+			get
+			{
+				IEnumerable<IFieldWorksFileHandler> workingSetOfHandlers = new HashSet<IFieldWorksFileHandler>(_handlers);
+				if (MetadataCache.MdCache.ModelVersion >= 9000000)
+				{
+					workingSetOfHandlers = _handlers.Except(_obsoleteFieldWorksFileHandlers);
+				}
+				return workingSetOfHandlers;
 			}
 		}
 
 		private IFieldWorksFileHandler GetHandlerfromExtension(string extension)
 		{
-			return _handlers.FirstOrDefault(handlerCandidate => handlerCandidate.Extension == extension) ?? _unknownFileTypeHandler;
+			return WorkingSetOfHandlers.FirstOrDefault(handlerCandidate => handlerCandidate.Extension == extension) ?? _unknownFileTypeHandler;
 		}
 
 		/// <summary>
@@ -121,13 +154,14 @@ namespace LibFLExBridgeChorusPlugin.Handling
 						break;
 				}
 				// 'folder' should now have the required model version file in it, or null for some tests.
-				var desiredModelNumber = MetadataCache.MaximumModelVersion;
 				if (folder != null)
 				{
+					// Folder will never be null in the wild.
+					// It may be null for some tests, but then they should have set the mobel number, if it is important to the test.
 					var ourModelFileData = File.ReadAllText(Path.Combine(folder, FlexBridgeConstants.ModelVersionFilename));
-					desiredModelNumber = Int32.Parse(ModelVersionFileTypeHandlerStrategy.SplitData(ourModelFileData)[1]);
+					var desiredModelNumber = int.Parse(ModelVersionFileTypeHandlerStrategy.SplitData(ourModelFileData)[1]);
+					MetadataCache.MdCache.UpgradeToVersion(desiredModelNumber);
 				}
-				MetadataCache.MdCache.UpgradeToVersion(desiredModelNumber);
 			}
 
 			XmlMergeService.RemoveAmbiguousChildNodes = false; // Live on the edge. Opt out of that expensive code.
@@ -199,7 +233,7 @@ namespace LibFLExBridgeChorusPlugin.Handling
 
 		public IEnumerable<string> GetExtensionsOfKnownTextFileTypes()
 		{
-			return _handlers.Select(handlerStrategy => handlerStrategy.Extension);
+			return WorkingSetOfHandlers.Select(handlerStrategy => handlerStrategy.Extension);
 		}
 
 		public uint MaximumFileSize

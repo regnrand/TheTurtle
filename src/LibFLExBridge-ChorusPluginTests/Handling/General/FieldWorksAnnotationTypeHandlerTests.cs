@@ -24,6 +24,7 @@ namespace LibFLExBridgeChorusPluginTests.Handling.General
 		public override void TestSetup()
 		{
 			base.TestSetup();
+			Mdc.UpgradeToVersion(7000065);
 			FieldWorksTestServices.SetupTempFilesWithName(FlexBridgeConstants.FLExAnnotationsFilename, out _ourFile, out _commonFile,
 														  out _theirFile);
 		}
