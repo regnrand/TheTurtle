@@ -38,7 +38,6 @@ namespace LibFLExBridgeChorusPluginTests.Handling.ReportsByDataType
 		public override void TestSetup()
 		{
 			base.TestSetup();
-			Mdc.UpgradeToVersion(MetadataCache.MaximumModelVersion);
 			var mergeOrder = new MergeOrder(null, null, null, new NullMergeSituation())
 			{
 				EventListener = new ListenerForUnitTests()

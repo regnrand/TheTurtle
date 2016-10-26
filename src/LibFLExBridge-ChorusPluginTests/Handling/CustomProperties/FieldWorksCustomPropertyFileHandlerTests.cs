@@ -60,22 +60,26 @@ namespace LibFLExBridgeChorusPluginTests.Handling.CustomProperties
 		public void ExtensionOfKnownFileTypesShouldBeCustomProperties()
 		{
 			var extensions = FileHandler.GetExtensionsOfKnownTextFileTypes().ToArray();
-			Assert.AreEqual(FieldWorksTestServices.ExpectedExtensionCount, extensions.Count(), "Wrong number of extensions.");
+			Assert.AreEqual(FieldWorksTestServices.ExpectedExtensionCount, extensions.Length, "Wrong number of extensions.");
 			Assert.IsTrue(extensions.Contains(FlexBridgeConstants.CustomProperties));
 		}
 
 		[Test]
-		public void ShouldBeAbleToValidateIncorrectFormatFile()
+		public void ShouldBeAbleTryToValidateIncorrectFormatFile()
 		{
-			const string data = "<classdata />";
+			const string data =
+@"<?xml version='1.0' encoding='utf-8'?>
+<classdata />";
 			File.WriteAllText(_ourFile.Path, data);
 			Assert.IsTrue(FileHandler.CanValidateFile(_ourFile.Path));
 		}
 
 		[Test]
-		public void ShouldNotBeAbleToValidateIncorrectFormatFile()
+		public void ShouldNotBeAbleToActuallyValidateIncorrectFormatFile()
 		{
-			const string data = "<classdata />";
+			const string data =
+@"<?xml version='1.0' encoding='utf-8'?>
+<classdata />";
 			File.WriteAllText(_ourFile.Path, data);
 			Assert.IsNotNull(FileHandler.ValidateFile(_ourFile.Path, new NullProgress()));
 		}
@@ -83,8 +87,10 @@ namespace LibFLExBridgeChorusPluginTests.Handling.CustomProperties
 		[Test]
 		public void ShouldBeAbleToValidateImproperlyFormattedFile()
 		{
-			const string data = @"<AdditionalFields>
-<CustomField name='Certified' class='WfiWordform' key='WfiWordformCertified' type='Boolean' />
+			const string data =
+@"<?xml version='1.0' encoding='utf-8'?>
+<AdditionalFields>
+	<CustomField name='Certified' class='WfiWordform' key='WfiWordformCertified' type='Boolean' />
 </AdditionalFields>";
 			File.WriteAllText(_ourFile.Path, data);
 			Assert.IsTrue(FileHandler.CanValidateFile(_ourFile.Path));
@@ -93,8 +99,10 @@ namespace LibFLExBridgeChorusPluginTests.Handling.CustomProperties
 		[Test]
 		public void ShouldBeAbleToValidateFileWithOnlyRequiredAttributes()
 		{
-			const string data = @"<AdditionalFields>
-<CustomField name='Certified' class='WfiWordform' key='WfiWordformCertified' type='Boolean' />
+			const string data =
+@"<?xml version='1.0' encoding='utf-8'?>
+<AdditionalFields>
+	<CustomField name='Certified' class='WfiWordform' key='WfiWordformCertified' type='Boolean' />
 </AdditionalFields>";
 			File.WriteAllText(_ourFile.Path, data);
 			Assert.IsNull(FileHandler.ValidateFile(_ourFile.Path, new NullProgress()));
@@ -103,8 +111,10 @@ namespace LibFLExBridgeChorusPluginTests.Handling.CustomProperties
 		[Test]
 		public void ShouldBeAbleToValidateFileWithAllPossibleAttributes()
 		{
-			const string data = @"<AdditionalFields>
-<CustomField name='Certified' class='WfiWordform' key='WfiWordformCertified' type='Boolean' destclass='LexSense' wsSelector='0' helpString='WhatHelp' listRoot='mylist' label='MyLabel' />
+			const string data =
+@"<?xml version='1.0' encoding='utf-8'?>
+<AdditionalFields>
+	<CustomField name='Certified' class='WfiWordform' key='WfiWordformCertified' type='Boolean' destclass='LexSense' wsSelector='0' helpString='WhatHelp' listRoot='mylist' label='MyLabel' />
 </AdditionalFields>";
 			File.WriteAllText(_ourFile.Path, data);
 			Assert.IsNull(FileHandler.ValidateFile(_ourFile.Path, new NullProgress()));
@@ -113,8 +123,10 @@ namespace LibFLExBridgeChorusPluginTests.Handling.CustomProperties
 		[Test]
 		public void ShouldNotBeAbleToValidateFileWithUnknownAttribute()
 		{
-			const string data = @"<AdditionalFields>
-<CustomField name='Certified' class='WfiWordform' key='WfiWordformCertified' type='Boolean' unknown='mystery' />
+			const string data =
+@"<?xml version='1.0' encoding='utf-8'?>
+<AdditionalFields>
+	<CustomField name='Certified' class='WfiWordform' key='WfiWordformCertified' type='Boolean' unknown='mystery' />
 </AdditionalFields>";
 			File.WriteAllText(_ourFile.Path, data);
 			Assert.IsNotNull(FileHandler.ValidateFile(_ourFile.Path, new NullProgress()));
@@ -123,8 +135,10 @@ namespace LibFLExBridgeChorusPluginTests.Handling.CustomProperties
 		[Test]
 		public void ShouldNotBeAbleToValidateFileWithNonameAttribute()
 		{
-			const string data = @"<AdditionalFields>
-<CustomField class='WfiWordform' key='WfiWordformCertified' type='Boolean' />
+			const string data =
+@"<?xml version='1.0' encoding='utf-8'?>
+<AdditionalFields>
+	<CustomField class='WfiWordform' key='WfiWordformCertified' type='Boolean' />
 </AdditionalFields>";
 			File.WriteAllText(_ourFile.Path, data);
 			Assert.IsNotNull(FileHandler.ValidateFile(_ourFile.Path, new NullProgress()));
@@ -133,8 +147,10 @@ namespace LibFLExBridgeChorusPluginTests.Handling.CustomProperties
 		[Test]
 		public void ShouldNotBeAbleToValidateFileWithNoClassAttribute()
 		{
-			const string data = @"<AdditionalFields>
-<CustomField name='Certified' key='WfiWordformCertified' type='Boolean' />
+			const string data =
+@"<?xml version='1.0' encoding='utf-8'?>
+<AdditionalFields>
+	<CustomField name='Certified' key='WfiWordformCertified' type='Boolean' />
 </AdditionalFields>";
 			File.WriteAllText(_ourFile.Path, data);
 			Assert.IsNotNull(FileHandler.ValidateFile(_ourFile.Path, new NullProgress()));
@@ -143,8 +159,10 @@ namespace LibFLExBridgeChorusPluginTests.Handling.CustomProperties
 		[Test]
 		public void ShouldNotBeAbleToValidateFileWithNoKeyAttribute()
 		{
-			const string data = @"<AdditionalFields>
-<CustomField name='Certified' class='WfiWordform' type='Boolean' />
+			const string data =
+@"<?xml version='1.0' encoding='utf-8'?>
+<AdditionalFields>
+	<CustomField name='Certified' class='WfiWordform' type='Boolean' />
 </AdditionalFields>";
 			File.WriteAllText(_ourFile.Path, data);
 			Assert.IsNotNull(FileHandler.ValidateFile(_ourFile.Path, new NullProgress()));
@@ -153,8 +171,10 @@ namespace LibFLExBridgeChorusPluginTests.Handling.CustomProperties
 		[Test]
 		public void ShouldNotBeAbleToValidateFileWithNoTypeAttribute()
 		{
-			const string data = @"<AdditionalFields>
-<CustomField name='Certified' class='WfiWordform' key='WfiWordformCertified' />
+			const string data =
+@"<?xml version='1.0' encoding='utf-8'?>
+<AdditionalFields>
+	<CustomField name='Certified' class='WfiWordform' key='WfiWordformCertified' />
 </AdditionalFields>";
 			File.WriteAllText(_ourFile.Path, data);
 			Assert.IsNotNull(FileHandler.ValidateFile(_ourFile.Path, new NullProgress()));
@@ -163,8 +183,10 @@ namespace LibFLExBridgeChorusPluginTests.Handling.CustomProperties
 		[Test]
 		public void ShouldNotBeAbleToValidateFileWithKeyAttrMisMatch()
 		{
-			const string data = @"<AdditionalFields>
-<CustomField name='Certified' class='WfiWordform' key='LexEntryCertified' type='Boolean' />
+			const string data =
+@"<?xml version='1.0' encoding='utf-8'?>
+<AdditionalFields>
+	<CustomField name='Certified' class='WfiWordform' key='LexEntryCertified' type='Boolean' />
 </AdditionalFields>";
 			File.WriteAllText(_ourFile.Path, data);
 			Assert.IsNotNull(FileHandler.ValidateFile(_ourFile.Path, new NullProgress()));
@@ -176,17 +198,17 @@ namespace LibFLExBridgeChorusPluginTests.Handling.CustomProperties
 			const string parent =
 @"<?xml version='1.0' encoding='utf-8'?>
 <AdditionalFields>
-<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
-<CustomField class='WfiWordform' key='WfiWordformGoner' name='Goner' type='Boolean' />
-<CustomField class='WfiWordform' key='WfiWordformDirtball' name='Dirtball' type='Boolean' />
+	<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
+	<CustomField class='WfiWordform' key='WfiWordformGoner' name='Goner' type='Boolean' />
+	<CustomField class='WfiWordform' key='WfiWordformDirtball' name='Dirtball' type='Boolean' />
 </AdditionalFields>";
 			// One deletion, one change, and one insertion, and one unchanged.
 			const string child =
 @"<?xml version='1.0' encoding='utf-8'?>
 <AdditionalFields>
-<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
-<CustomField class='WfiWordform' key='WfiWordformDirtball' name='Dirtball' type='Integer' />
-<CustomField class='WfiWordform' key='WfiWordformNewby' name='Newby' type='Boolean' />
+	<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
+	<CustomField class='WfiWordform' key='WfiWordformDirtball' name='Dirtball' type='Integer' />
+	<CustomField class='WfiWordform' key='WfiWordformNewby' name='Newby' type='Boolean' />
 </AdditionalFields>";
 			using (var repositorySetup = new RepositorySetup("randy"))
 			{
@@ -211,14 +233,14 @@ namespace LibFLExBridgeChorusPluginTests.Handling.CustomProperties
 			const string parent =
 @"<?xml version='1.0' encoding='utf-8'?>
 <AdditionalFields>
-<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
-<CustomField class='WfiWordform' key='WfiWordformGoner' name='Goner' type='Boolean' />
+	<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
+	<CustomField class='WfiWordform' key='WfiWordformGoner' name='Goner' type='Boolean' />
 </AdditionalFields>";
 			// One deletion, one change, and one insertion, and one unchanged.
 			const string child =
 @"<?xml version='1.0' encoding='utf-8'?>
 <AdditionalFields>
-<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
+	<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
 </AdditionalFields>";
 			using (var parentTempFile = new TempFile(parent))
 			using (var childTempFile = new TempFile(child))
@@ -241,15 +263,15 @@ namespace LibFLExBridgeChorusPluginTests.Handling.CustomProperties
 			const string parent =
 @"<?xml version='1.0' encoding='utf-8'?>
 <AdditionalFields>
-<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
-<CustomField class='WfiWordform' key='WfiWordformDirtball' name='Dirtball' type='Boolean' />
+	<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
+	<CustomField class='WfiWordform' key='WfiWordformDirtball' name='Dirtball' type='Boolean' />
 </AdditionalFields>";
 			// One deletion, one change, and one insertion, and one unchanged.
 			const string child =
 @"<?xml version='1.0' encoding='utf-8'?>
 <AdditionalFields>
-<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
-<CustomField class='WfiWordform' key='WfiWordformDirtball' name='Dirtball' type='Integer' />
+	<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
+	<CustomField class='WfiWordform' key='WfiWordformDirtball' name='Dirtball' type='Integer' />
 </AdditionalFields>";
 			using (var parentTempFile = new TempFile(parent))
 			using (var childTempFile = new TempFile(child))
@@ -272,13 +294,13 @@ namespace LibFLExBridgeChorusPluginTests.Handling.CustomProperties
 			const string parent =
 @"<?xml version='1.0' encoding='utf-8'?>
 <AdditionalFields>
-<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
+	<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
 </AdditionalFields>";
 			// One deletion, one change, and one insertion, and one unchanged.
 			const string child =
 @"<?xml version='1.0' encoding='utf-8'?>
 <AdditionalFields>
-<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
+	<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
 </AdditionalFields>";
 			using (var parentTempFile = new TempFile(parent))
 			using (var childTempFile = new TempFile(child))
@@ -300,7 +322,7 @@ namespace LibFLExBridgeChorusPluginTests.Handling.CustomProperties
 			const string commonAncestor =
 @"<?xml version='1.0' encoding='utf-8'?>
 <AdditionalFields>
-<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
+	<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
 </AdditionalFields>";
 			var ourContent = commonAncestor.Replace("</AdditionalFields>", "<CustomField class='WfiWordform' key='WfiWordformOurCertified' name='OurCertified' type='Boolean' /></AdditionalFields>");
 			var theirContent = commonAncestor.Replace("</AdditionalFields>", "<CustomField class='WfiWordform' key='WfiWordformTheirCertified' name='TheirCertified' type='Boolean' /></AdditionalFields>");
@@ -327,7 +349,7 @@ namespace LibFLExBridgeChorusPluginTests.Handling.CustomProperties
 			const string commonAncestor =
 @"<?xml version='1.0' encoding='utf-8'?>
 <AdditionalFields>
-<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
+	<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
 </AdditionalFields>";
 			var ourContent = commonAncestor.Replace("</AdditionalFields>", "<CustomField class='WfiWordform' key='WfiWordformAttested' name='Attested' type='Boolean' /></AdditionalFields>");
 			const string theirContent = commonAncestor;
@@ -349,7 +371,7 @@ namespace LibFLExBridgeChorusPluginTests.Handling.CustomProperties
 			const string commonAncestor =
 @"<?xml version='1.0' encoding='utf-8'?>
 <AdditionalFields>
-<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
+	<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
 </AdditionalFields>";
 			const string ourContent = commonAncestor;
 			var theirContent = commonAncestor.Replace("</AdditionalFields>", "<CustomField class='WfiWordform' key='WfiWordformAttested' name='Attested' type='Boolean' /></AdditionalFields>");
@@ -371,8 +393,8 @@ namespace LibFLExBridgeChorusPluginTests.Handling.CustomProperties
 			const string commonAncestor =
 @"<?xml version='1.0' encoding='utf-8'?>
 <AdditionalFields>
-<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
-<CustomField class='WfiWordform' key='WfiWordformAttested' name='Attested' type='Boolean' />
+	<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
+	<CustomField class='WfiWordform' key='WfiWordformAttested' name='Attested' type='Boolean' />
 </AdditionalFields>";
 			var ourContent = commonAncestor.Replace("<CustomField class='WfiWordform' key='WfiWordformAttested' name='Attested' type='Boolean' />", null);
 			const string theirContent = commonAncestor;
@@ -394,8 +416,8 @@ namespace LibFLExBridgeChorusPluginTests.Handling.CustomProperties
 			const string commonAncestor =
 @"<?xml version='1.0' encoding='utf-8'?>
 <AdditionalFields>
-<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
-<CustomField class='WfiWordform' key='WfiWordformAttested' name='Attested' type='Boolean' />
+	<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
+	<CustomField class='WfiWordform' key='WfiWordformAttested' name='Attested' type='Boolean' />
 </AdditionalFields>";
 			const string ourContent = commonAncestor;
 			var theirContent = commonAncestor.Replace("<CustomField class='WfiWordform' key='WfiWordformAttested' name='Attested' type='Boolean' />", null);
@@ -417,8 +439,8 @@ namespace LibFLExBridgeChorusPluginTests.Handling.CustomProperties
 			const string commonAncestor =
 @"<?xml version='1.0' encoding='utf-8'?>
 <AdditionalFields>
-<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
-<CustomField class='WfiWordform' key='WfiWordformAttested' name='Attested' type='Boolean' />
+	<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
+	<CustomField class='WfiWordform' key='WfiWordformAttested' name='Attested' type='Boolean' />
 </AdditionalFields>";
 			var ourContent = commonAncestor.Replace("<CustomField class='WfiWordform' key='WfiWordformAttested' name='Attested' type='Boolean' />", null);
 			var theirContent = commonAncestor.Replace("<CustomField class='WfiWordform' key='WfiWordformAttested' name='Attested' type='Boolean' />", null);
@@ -440,7 +462,7 @@ namespace LibFLExBridgeChorusPluginTests.Handling.CustomProperties
 			const string commonAncestor =
 @"<?xml version='1.0' encoding='utf-8'?>
 <AdditionalFields>
-<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
+	<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
 </AdditionalFields>";
 			var ourContent = commonAncestor.Replace("Boolean", "Integer");
 			var theirContent = commonAncestor.Replace("Boolean", "Integer");
@@ -462,7 +484,7 @@ namespace LibFLExBridgeChorusPluginTests.Handling.CustomProperties
 			const string commonAncestor =
 @"<?xml version='1.0' encoding='utf-8'?>
 <AdditionalFields>
-<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
+	<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
 </AdditionalFields>";
 			var ourContent = commonAncestor.Replace("Boolean", "Integer");
 			var theirContent = commonAncestor.Replace("Boolean", "Binary");
@@ -484,7 +506,7 @@ namespace LibFLExBridgeChorusPluginTests.Handling.CustomProperties
 			const string commonAncestor =
 @"<?xml version='1.0' encoding='utf-8'?>
 <AdditionalFields>
-<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
+	<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
 </AdditionalFields>";
 			var ourContent = commonAncestor.Replace("Boolean", "Integer");
 			const string theirContent = commonAncestor;
@@ -506,7 +528,7 @@ namespace LibFLExBridgeChorusPluginTests.Handling.CustomProperties
 			const string commonAncestor =
 @"<?xml version='1.0' encoding='utf-8'?>
 <AdditionalFields>
-<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
+	<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
 </AdditionalFields>";
 			const string ourContent = commonAncestor;
 			var theirContent = commonAncestor.Replace("Boolean", "Integer");
@@ -528,8 +550,8 @@ namespace LibFLExBridgeChorusPluginTests.Handling.CustomProperties
 			const string commonAncestor =
 @"<?xml version='1.0' encoding='utf-8'?>
 <AdditionalFields>
-<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
-<CustomField class='WfiWordform' key='WfiWordformAttested' name='Attested' type='Binary' />
+	<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
+	<CustomField class='WfiWordform' key='WfiWordformAttested' name='Attested' type='Binary' />
 </AdditionalFields>";
 			var ourContent = commonAncestor.Replace("Binary", "Integer");
 			var theirContent = commonAncestor.Replace("<CustomField class='WfiWordform' key='WfiWordformAttested' name='Attested' type='Binary' />", null);
@@ -551,8 +573,8 @@ namespace LibFLExBridgeChorusPluginTests.Handling.CustomProperties
 			const string commonAncestor =
 @"<?xml version='1.0' encoding='utf-8'?>
 <AdditionalFields>
-<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
-<CustomField class='WfiWordform' key='WfiWordformAttested' name='Attested' type='Binary' />
+	<CustomField class='WfiWordform' key='WfiWordformCertified' name='Certified' type='Boolean' />
+	<CustomField class='WfiWordform' key='WfiWordformAttested' name='Attested' type='Binary' />
 </AdditionalFields>";
 			var ourContent = commonAncestor.Replace("<CustomField class='WfiWordform' key='WfiWordformAttested' name='Attested' type='Binary' />", null);
 			var theirContent = commonAncestor.Replace("Binary", "Integer");
@@ -572,7 +594,8 @@ namespace LibFLExBridgeChorusPluginTests.Handling.CustomProperties
 		public void CustomFileHasKeyAttributeForEachCustomProperty()
 		{
 			const string originalCustomData =
-@"<AdditionalFields>
+@"<?xml version='1.0' encoding='utf-8'?>
+<AdditionalFields>
 	<CustomField class='LexEntry' destclass='7' listRoot='53241fd4-72ae-4082-af55-6b659657083c' name='Tone' type='RC' />
 	<CustomField class='LexSense' name='Paradigm' type='String' wsSelector='-2' />
 	<CustomField class='WfiWordform' name='Certified' type='Boolean' />

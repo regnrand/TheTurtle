@@ -30,6 +30,7 @@ namespace LibFLExBridgeChorusPluginTests.Handling.Common
 		public override void TestSetup()
 		{
 			base.TestSetup();
+			Mdc = MetadataCache.TestOnlyNewCache;
 			Mdc.UpgradeToVersion(7000065);
 			FieldWorksTestServices.SetupTempFilesWithExtension("." + FlexBridgeConstants.Style, out _ourFile, out _commonFile, out _theirFile);
 		}
@@ -45,7 +46,7 @@ namespace LibFLExBridgeChorusPluginTests.Handling.Common
 		public void DescribeInitialContentsShouldHaveAddedForLabel()
 		{
 			var initialContents = FileHandler.DescribeInitialContents(null, null).ToList();
-			Assert.AreEqual(1, initialContents.Count());
+			Assert.AreEqual(1, initialContents.Count);
 			var onlyOne = initialContents.First();
 			Assert.AreEqual("Added", onlyOne.ActionLabel);
 		}
@@ -54,7 +55,7 @@ namespace LibFLExBridgeChorusPluginTests.Handling.Common
 		public void ExtensionOfKnownFileTypesShouldBeStyle()
 		{
 			var extensions = FileHandler.GetExtensionsOfKnownTextFileTypes().ToArray();
-			Assert.AreEqual(FieldWorksTestServices.ExpectedExtensionCount, extensions.Count(), "Wrong number of extensions.");
+			Assert.AreEqual(FieldWorksTestServices.ExpectedExtensionCount, extensions.Length, "Wrong number of extensions.");
 			Assert.IsTrue(extensions.Contains(FlexBridgeConstants.Style));
 		}
 

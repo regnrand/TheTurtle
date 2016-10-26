@@ -534,11 +534,22 @@ namespace LibFLExBridgeChorusPlugin.Infrastructure
 				dirPath = GetAdjustedCustomPropDirName(altCustomPropPathname, customPropOffsetFolder);
 				customPropPathname = Path.Combine(dirPath, FlexBridgeConstants.CustomPropertiesFilename);
 			}
+			AddCustomPropInfo(customPropPathname);
+		}
+
+		internal void AddCustomPropInfo(string customPropPathname)
+		{
 			if (!File.Exists(customPropPathname))
 				return;
 
 			var doc = XDocument.Load(customPropPathname);
-			foreach (var customFieldElement in doc.Element(FlexBridgeConstants.AdditionalFieldsTag).Elements(FlexBridgeConstants.CustomField))
+			var rootElement = doc.Element(FlexBridgeConstants.AdditionalFieldsTag);
+			if (rootElement == null)
+			{
+				// Some tests use invalid data, so don't bother trying to load custom properties for them.
+				return;
+			}
+			foreach (var customFieldElement in rootElement.Elements(FlexBridgeConstants.CustomField))
 			{
 				var className = customFieldElement.Attribute(FlexBridgeConstants.Class).Value;
 				FdoClassInfo classInfo;
@@ -548,7 +559,9 @@ namespace LibFLExBridgeChorusPlugin.Infrastructure
 				var propertyName = customFieldElement.Attribute(FlexBridgeConstants.Name).Value;
 				var propInfo = classInfo.GetProperty(propertyName);
 				if (propInfo == null)
+				{
 					AddCustomPropInfo(className, new FdoPropertyInfo(customFieldElement));
+				}
 			}
 			ResetCaches();
 		}

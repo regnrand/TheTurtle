@@ -196,15 +196,12 @@ namespace LibFLExBridgeChorusPlugin
 
 		internal static string GetExtensionFromPathname(string pathname)
 		{
-			if (String.IsNullOrEmpty(pathname))
+			if (string.IsNullOrEmpty(pathname))
 				throw new ArgumentNullException("pathname");
 
 			var extension = Path.GetExtension(pathname);
-			return String.IsNullOrEmpty(extension)
-					? null
-					: (extension.Length == 1
-						? extension
-						: extension.Substring(1));
+			// Removes the '.', if present.
+			return string.IsNullOrEmpty(extension) ? null : ((extension.Length == 1) ? extension : extension.Substring(1));
 		}
 
 		internal static void WriteNestedListFileIfItExists(IDictionary<string,

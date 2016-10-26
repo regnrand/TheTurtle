@@ -21,7 +21,7 @@ namespace LibFLExBridgeChorusPluginTests.Handling
 		{
 			FileHandler = new FieldWorksCommonFileHandler();
 			Mdc = MetadataCache.TestOnlyNewCache;
-			Mdc.UpgradeToVersion(7000065); // 66 and higher require all basic data types to be in test code.
+			Mdc.UpgradeToVersion(MetadataCache.MaximumModelVersion); // 66 and higher require all basic data types to be in test code.
 		}
 
 		[TearDown]

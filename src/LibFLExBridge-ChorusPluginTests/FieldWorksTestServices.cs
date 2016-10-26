@@ -23,7 +23,20 @@ namespace LibFLExBridgeChorusPluginTests
 		{
 			get
 			{
-				return (MetadataCache.MdCache.ModelVersion < 9000000) ? 27 : 21;
+				var modelVersion = MetadataCache.MdCache.ModelVersion;
+				if (modelVersion < 9000000)
+				{
+					return 26;
+				}
+				if (modelVersion == 9000000)
+				{
+					return 20;
+				}
+				if (modelVersion > 9000000)
+				{
+					return 21;
+				}
+				throw new InvalidOperationException(string.Format("Huh? Model version is: {0}", MetadataCache.MdCache.ModelVersion));
 			}
 		}
 

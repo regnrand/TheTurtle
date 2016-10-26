@@ -24,6 +24,8 @@ namespace LibFLExBridgeChorusPluginTests.Handling.Linguistics.Discourse
 		public override void TestSetup()
 		{
 			base.TestSetup();
+			Mdc = MetadataCache.TestOnlyNewCache;
+			Mdc.UpgradeToVersion(7000065);
 			FieldWorksTestServices.SetupTempFilesWithName(FlexBridgeConstants.DiscourseChartFilename, out _ourFile, out _commonFile, out _theirFile);
 		}
 
@@ -47,7 +49,7 @@ namespace LibFLExBridgeChorusPluginTests.Handling.Linguistics.Discourse
 		public void ExtensionOfKnownFileTypesShouldBeReversal()
 		{
 			var extensions = FileHandler.GetExtensionsOfKnownTextFileTypes().ToArray();
-			Assert.AreEqual(FieldWorksTestServices.ExpectedExtensionCount, extensions.Count(), "Wrong number of extensions.");
+			Assert.AreEqual(FieldWorksTestServices.ExpectedExtensionCount, extensions.Length, "Wrong number of extensions.");
 			Assert.IsTrue(extensions.Contains(FlexBridgeConstants.DiscourseExt));
 		}
 

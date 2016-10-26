@@ -10,6 +10,7 @@ using System.Xml.Linq;
 using Chorus.merge.xml.generic;
 using Chorus.Properties;
 using LibChorus.TestUtilities;
+using LibFLExBridgeChorusPlugin;
 using LibFLExBridgeChorusPlugin.Infrastructure;
 using NUnit.Framework;
 using SIL.TestUtilities;
@@ -124,13 +125,17 @@ namespace LibFLExBridgeChorusPluginTests.Integration
 		wsSelector='-2' />
 </AdditionalFields>";
 
+
 			var mdc = MetadataCache.TestOnlyNewCache;
+			var tempCustomPropsPathname = Path.Combine(Path.GetTempPath(), FlexBridgeConstants.CustomPropertiesFilename);
+			File.WriteAllText(tempCustomPropsPathname, customPropData);
+			mdc.AddCustomPropInfo(tempCustomPropsPathname);
 			using (var sueRepo = new RepositoryWithFilesSetup("Sue", string.Format("{0}_01.{1}", FlexBridgeConstants.Lexicon, FlexBridgeConstants.Lexdb), commonAncestor))
 			{
 				var sueProjPath = sueRepo.ProjectFolder.Path;
 				// Add model version number file.
 				var modelVersionPathname = Path.Combine(sueProjPath, FlexBridgeConstants.ModelVersionFilename);
-				File.WriteAllText(modelVersionPathname, AnnotationImages.kModelVersion);
+				FileWriterService.WriteVersionNumberFile(sueProjPath, "7000037");
 				sueRepo.Repository.TestOnlyAddSansCommit(modelVersionPathname);
 				// Add custom property data file.
 				var customPropsPathname = Path.Combine(sueProjPath, FlexBridgeConstants.CustomPropertiesFilename);
@@ -232,43 +237,51 @@ namespace LibFLExBridgeChorusPluginTests.Integration
 	</ConfigurationItem>
   </ConfigurationItem>
 </DictionaryConfiguration>";
-			
-			using ( var tempFolder = new TemporaryFolder("Temp"))
+
+			using (var tempFolder = new TemporaryFolder("Temp"))
 			{
-				// Copy the Dictionary Configuration Schema to where the Dictionary Configuration Handler Strategy looks
+				// Copy the Dictionary Configuration Schema to where the Dictionary Configuration Handler Strategy looks.
 				var appsDir = LibFLExBridgeUtilities.GetAppsDir();
 				var xsdPath = Path.Combine(appsDir, "TestData", "Language Explorer", "Configuration", FlexBridgeConstants.DictConfigSchemaFilename);
 				var xsdPathInProj = Path.Combine(tempFolder.Path, FlexBridgeConstants.DictConfigSchemaFilename);
 				File.Copy(xsdPath, xsdPathInProj, true);
 
 				using (var sueRepo = new RepositoryWithFilesSetup("Sue", string.Format("root.{0}", FlexBridgeConstants.fwdictconfig), commonAncestor))
-				using (var randyRepo = RepositoryWithFilesSetup.CreateByCloning("Randy", sueRepo))
 				{
-					// By doing the clone before making Sue's changes, we get the common starting state in both repos.
-					sueRepo.WriteNewContentsToTestFile(sue);
+					var sueProjPath = sueRepo.ProjectFolder.Path;
+					// Add model version number file.
+					var modelVersionPathname = Path.Combine(sueProjPath, FlexBridgeConstants.ModelVersionFilename);
+					FileWriterService.WriteVersionNumberFile(sueProjPath, MetadataCache.MaximumModelVersion.ToString());
+					sueRepo.Repository.TestOnlyAddSansCommit(modelVersionPathname);
 					sueRepo.AddAndCheckIn();
+					using (var randyRepo = RepositoryWithFilesSetup.CreateByCloning("Randy", sueRepo))
+					{
+						// By doing the clone before making Sue's changes, we get the common starting state in both repos.
+						sueRepo.WriteNewContentsToTestFile(sue);
+						sueRepo.AddAndCheckIn();
 
-					var mergeConflictsNotesFile = ChorusNotesMergeEventListener.GetChorusNotesFilePath(randyRepo.UserFile.Path);
-					Assert.IsFalse(File.Exists(mergeConflictsNotesFile), "ChorusNotes file should NOT have been in working set.");
-					randyRepo.WriteNewContentsToTestFile(randy);
-					randyRepo.CheckinAndPullAndMerge(sueRepo);
-					Assert.IsTrue(File.Exists(mergeConflictsNotesFile), "ChorusNotes file should have been in working set.");
-					var notesContents = File.ReadAllText(mergeConflictsNotesFile);
-					Assert.IsNotNullOrEmpty(notesContents);
-					Assert.That(notesContents, Is.StringContaining("Randy and Sue edited the same part of this data."));
-					Assert.That(notesContents, Is.StringContaining("The merger kept the change made by Randy."));
-					Assert.That(notesContents, Is.StringContaining("alphaUserId=\"Randy\""));
-					Assert.That(notesContents, Is.StringContaining("betaUserId=\"Sue\""));
+						var mergeConflictsNotesFile = ChorusNotesMergeEventListener.GetChorusNotesFilePath(randyRepo.UserFile.Path);
+						Assert.IsFalse(File.Exists(mergeConflictsNotesFile), "ChorusNotes file should NOT have been in working set.");
+						randyRepo.WriteNewContentsToTestFile(randy);
+						randyRepo.CheckinAndPullAndMerge(sueRepo);
+						Assert.IsTrue(File.Exists(mergeConflictsNotesFile), "ChorusNotes file should have been in working set.");
+						var notesContents = File.ReadAllText(mergeConflictsNotesFile);
+						Assert.IsNotNullOrEmpty(notesContents);
+						Assert.That(notesContents, Is.StringContaining("Randy and Sue edited the same part of this data."));
+						Assert.That(notesContents, Is.StringContaining("The merger kept the change made by Randy."));
+						Assert.That(notesContents, Is.StringContaining("alphaUserId=\"Randy\""));
+						Assert.That(notesContents, Is.StringContaining("betaUserId=\"Sue\""));
 
-					// Make sure merged file has Randy's changes
-					var doc = XDocument.Load(randyRepo.UserFile.Path);
-					var options = doc.Root.Element("ConfigurationItem").Elements("ConfigurationItem").Last(/*Variant Forms*/)
-						.Element("ListTypeOptions").Elements("Option").ToList();
-					Assert.AreEqual(2, options.Count, "There should be two Variant Forms options");
-					Assert.AreEqual("b0000000-c40e-433e-80b5-31da08771344", options[0].Attribute("id").Value, "Options are out of order");
-					Assert.AreEqual("0c4663b3-4d9a-47af-b9a1-c8565d8112ed", options[1].Attribute("id").Value, "Options are out of order");
-					Assert.AreEqual("false", options[0].Attribute("isEnabled").Value, "First option should be disabled");
-					Assert.AreEqual("true", options[1].Attribute("isEnabled").Value, "Second option should be enabled");
+						// Make sure merged file has Randy's changes
+						var doc = XDocument.Load(randyRepo.UserFile.Path);
+						var options = doc.Root.Element("ConfigurationItem").Elements("ConfigurationItem").Last(/*Variant Forms*/)
+							.Element("ListTypeOptions").Elements("Option").ToList();
+						Assert.AreEqual(2, options.Count, "There should be two Variant Forms options");
+						Assert.AreEqual("b0000000-c40e-433e-80b5-31da08771344", options[0].Attribute("id").Value, "Options are out of order");
+						Assert.AreEqual("0c4663b3-4d9a-47af-b9a1-c8565d8112ed", options[1].Attribute("id").Value, "Options are out of order");
+						Assert.AreEqual("false", options[0].Attribute("isEnabled").Value, "First option should be disabled");
+						Assert.AreEqual("true", options[1].Attribute("isEnabled").Value, "Second option should be enabled");
+					}
 				}
 			}
 		}

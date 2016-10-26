@@ -32,7 +32,7 @@ namespace LibFLExBridgeChorusPlugin.Handling.ConfigLayout
 
 			var innerPath = Path.Combine("Temp", FlexBridgeConstants.DictConfigSchemaFilename);
 			var parentDir = Path.GetDirectoryName(configFilePathname);
-			while (parentDir != null)
+			while (!string.IsNullOrEmpty(parentDir))
 			{
 				if (File.Exists(_xsdPathname = Path.Combine(parentDir, innerPath)))
 					return _xsdPathname;

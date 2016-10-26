@@ -5,7 +5,6 @@
 // --------------------------------------------------------------------------------------------
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -31,35 +30,27 @@ namespace LibFLExBridgeChorusPlugin.Handling
 		private IFieldWorksFileHandler _unknownFileTypeHandler;
 
 		[ImportMany]
-		private List<IFieldWorksFileHandler> _handlers = new List<IFieldWorksFileHandler>();
-
-		private readonly List<IFieldWorksFileHandler> _obsoleteFieldWorksFileHandlers = new List<IFieldWorksFileHandler>();
-
-		private bool _haveCheckedForObsoleteHandlers = false;
+		private readonly List<IFieldWorksFileHandler> _completeFieldWorksFileHandlers_OldAndNew = new List<IFieldWorksFileHandler>();
+		/// <summary>
+		/// Holds the handlers for the current model version,
+		/// with obsolete ones removed and new ones added
+		/// (new and old are both relative to the current model version).
+		/// </summary>
+		private readonly List<IFieldWorksFileHandler> _currentWorkingSetOfFieldWorksFileHandlers = new List<IFieldWorksFileHandler>();
+		private int _currentlySetForModelVersion;
+		private bool _isChorusMergeTheExe = false;
 
 		internal FieldWorksCommonFileHandler()
 		{
+			var currentExe = Assembly.GetEntryAssembly();
+			if (currentExe != null && currentExe.ManifestModule.Name.ToLowerInvariant() == "chorusmerge.exe")
+			{
+				_isChorusMergeTheExe = true;
+			}
 			using (var catalog = new AssemblyCatalog(Assembly.GetExecutingAssembly()))
 			using (var container = new CompositionContainer(catalog))
 			{
 				container.ComposeParts(this);
-			}
-
-			var obsoleteHandlerExtensions = new HashSet<string>
-			{
-				FlexBridgeConstants.ArchivedDraft,
-				FlexBridgeConstants.ImportSetting,
-				FlexBridgeConstants.bookannotations,
-				FlexBridgeConstants.book,
-				FlexBridgeConstants.Srs,
-				FlexBridgeConstants.Trans
-			};
-			foreach (var handler in _handlers)
-			{
-				if (obsoleteHandlerExtensions.Contains(handler.Extension))
-				{
-					_obsoleteFieldWorksFileHandlers.Add(handler);
-				}
 			}
 		}
 
@@ -67,12 +58,59 @@ namespace LibFLExBridgeChorusPlugin.Handling
 		{
 			get
 			{
-				IEnumerable<IFieldWorksFileHandler> workingSetOfHandlers = new HashSet<IFieldWorksFileHandler>(_handlers);
-				if (MetadataCache.MdCache.ModelVersion >= 9000000)
+				if (_currentWorkingSetOfFieldWorksFileHandlers.Count > 0)
 				{
-					workingSetOfHandlers = _handlers.Except(_obsoleteFieldWorksFileHandlers);
+					if (_isChorusMergeTheExe)
+					{
+						if (_currentlySetForModelVersion != MetadataCache.MdCache.ModelVersion)
+						{
+							// Hmm. Got reset between first trip through this method and now.
+							throw new InvalidOperationException(string.Format("Model version was '{0}', but it is now '{1}'.", _currentlySetForModelVersion, MetadataCache.MdCache.ModelVersion));
+						}
+					}
+					else
+					{
+						// It is fine for tests to reset the model version more than once.
+					}
+					return _currentWorkingSetOfFieldWorksFileHandlers;
 				}
-				return workingSetOfHandlers;
+
+				// Start with all of them that are imported.
+				_currentWorkingSetOfFieldWorksFileHandlers.AddRange(_completeFieldWorksFileHandlers_OldAndNew);
+				_currentlySetForModelVersion = MetadataCache.MdCache.ModelVersion;
+				foreach (var handler in _completeFieldWorksFileHandlers_OldAndNew)
+				{
+					if (_currentlySetForModelVersion >= 9000000)
+					{
+						// Remove Scripture handlers, which went away in 9000000.
+						var goners9000000 = new HashSet<string>
+							{
+								FlexBridgeConstants.ArchivedDraft,
+								FlexBridgeConstants.ImportSetting,
+								FlexBridgeConstants.bookannotations,
+								FlexBridgeConstants.book,
+								FlexBridgeConstants.Srs,
+								FlexBridgeConstants.Trans
+							};
+						if (goners9000000.Contains(handler.Extension))
+						{
+							_currentWorkingSetOfFieldWorksFileHandlers.Remove(handler);
+						}
+					}
+					if (_currentlySetForModelVersion < 9000001)
+					{
+						// Leave out new dictionary configuration handler, which came in 9000001.
+						var newbies9000001 = new HashSet<string>
+							{
+								FlexBridgeConstants.fwdictconfig
+							};
+						if (newbies9000001.Contains(handler.Extension))
+						{
+							_currentWorkingSetOfFieldWorksFileHandlers.Remove(handler);
+						}
+					}
+				}
+				return _currentWorkingSetOfFieldWorksFileHandlers;
 			}
 		}
 
@@ -82,7 +120,7 @@ namespace LibFLExBridgeChorusPlugin.Handling
 		}
 
 		/// <summary>
-		/// All callers merging FieldWorks data need to pass 'true', so the MDC will know about  any custom properties for their classes.
+		/// All callers merging FieldWorks data need to pass 'true', so the MDC will know about any custom properties for their classes.
 		///
 		/// Non-object callers (currently only the merge of the custom property definitions themselves) should pass 'false'.
 		/// </summary>
@@ -91,7 +129,9 @@ namespace LibFLExBridgeChorusPlugin.Handling
 			// Skip doing this for the Custom property definiton file, since it has no real need for the custom prop definitions,
 			// which are being merged (when 'false' is provided).
 			if (addcustomPropertyInformation)
+			{
 				mdc.AddCustomPropInfo(mergeOrder); // NB: Must be done before FieldWorksCommonMergeStrategy is created, since it used the MDC.
+			}
 
 			var merger = FieldWorksMergeServices.CreateXmlMergerForFieldWorksData(mergeOrder, mdc);
 			merger.EventListener = mergeOrder.EventListener;
@@ -129,6 +169,7 @@ namespace LibFLExBridgeChorusPlugin.Handling
 			if (extension[0] != '.')
 				return false;
 
+			DoOptionalInitialization(pathToFile);
 			var handler = GetHandlerfromExtension(extension.Substring(1));
 			return handler.CanValidateFile(pathToFile);
 		}
@@ -141,32 +182,71 @@ namespace LibFLExBridgeChorusPlugin.Handling
 			// Make sure MDC is updated.
 			// Since this method is called in another process by ChorusMerge,
 			// the MDC that was set up for splitting the file is not available.
-			var extension = FileWriterService.GetExtensionFromPathname(mergeOrder.pathToOurs);
-			if (extension != FlexBridgeConstants.ModelVersion)
-			{
-				var pathToOurs = mergeOrder.pathToOurs;
-				var folder = Path.GetDirectoryName(pathToOurs);
-				while (!File.Exists(Path.Combine(folder, FlexBridgeConstants.ModelVersionFilename)))
-				{
-					var parent = Directory.GetParent(folder);
-					folder = parent != null ? parent.ToString() : null;
-					if (folder == null)
-						break;
-				}
-				// 'folder' should now have the required model version file in it, or null for some tests.
-				if (folder != null)
-				{
-					// Folder will never be null in the wild.
-					// It may be null for some tests, but then they should have set the mobel number, if it is important to the test.
-					var ourModelFileData = File.ReadAllText(Path.Combine(folder, FlexBridgeConstants.ModelVersionFilename));
-					var desiredModelNumber = int.Parse(ModelVersionFileTypeHandlerStrategy.SplitData(ourModelFileData)[1]);
-					MetadataCache.MdCache.UpgradeToVersion(desiredModelNumber);
-				}
-			}
+			var extension = DoOptionalInitialization(mergeOrder.pathToOurs);
 
 			XmlMergeService.RemoveAmbiguousChildNodes = false; // Live on the edge. Opt out of that expensive code.
 
 			GetHandlerfromExtension(extension).Do3WayMerge(MetadataCache.MdCache, mergeOrder);
+		}
+
+		private static string DoOptionalInitialization(string pathname)
+		{
+			var extension = FileWriterService.GetExtensionFromPathname(pathname);
+			DoOptionalModelVersionUpdate(pathname, extension);
+			DoOptionalLoadOfCustomProperties(pathname, extension);
+			return extension;
+		}
+
+		private static void DoOptionalModelVersionUpdate(string pathname, string extension)
+		{
+			if (extension == FlexBridgeConstants.ModelVersion)
+			{
+				return;
+			}
+			var folder = Path.GetDirectoryName(pathname);
+			while (!File.Exists(Path.Combine(folder, FlexBridgeConstants.ModelVersionFilename)))
+			{
+				var parent = Directory.GetParent(folder);
+				folder = parent != null ? parent.ToString() : null;
+				if (folder == null)
+					break;
+			}
+			// 'folder' should now have the required model version file in it, or null for some tests.
+			if (!string.IsNullOrEmpty(folder))
+			{
+				// Folder will never be null in the wild.
+				// It may be null for some tests, but then they should have set the model number, if it is important to the test.
+				var ourModelFileData = File.ReadAllText(Path.Combine(folder, FlexBridgeConstants.ModelVersionFilename));
+				var desiredModelNumber = int.Parse(ModelVersionFileTypeHandlerStrategy.SplitData(ourModelFileData)[1]);
+				MetadataCache.MdCache.UpgradeToVersion(desiredModelNumber);
+			}
+		}
+
+		private static void DoOptionalLoadOfCustomProperties(string pathname, string extension)
+		{
+			if (extension != FlexBridgeConstants.CustomProperties)
+			{
+				return;
+			}
+			// Find the optional custom prop file in current folder or some parent.
+			var folder = Path.GetDirectoryName(pathname);
+			var customPropertyPathname = Path.Combine(folder, FlexBridgeConstants.CustomPropertiesFilename);
+			while (!File.Exists(customPropertyPathname))
+			{
+				var parent = Directory.GetParent(folder);
+				folder = parent != null ? parent.ToString() : null;
+				if (folder == null)
+				{
+					customPropertyPathname = null;
+					break;
+				}
+				customPropertyPathname = Path.Combine(folder, FlexBridgeConstants.CustomPropertiesFilename);
+			}
+			// 'customPropertyPathname' should now have the required custom property file in it, or null for some tests.
+			if (customPropertyPathname != null)
+			{
+				MetadataCache.MdCache.AddCustomPropInfo(customPropertyPathname);
+			}
 		}
 
 		public IEnumerable<IChangeReport> Find2WayDifferences(FileInRevision parent, FileInRevision child, HgRepository repository)

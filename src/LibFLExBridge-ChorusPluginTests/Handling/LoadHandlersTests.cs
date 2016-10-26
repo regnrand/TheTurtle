@@ -17,14 +17,14 @@ namespace LibFLExBridgeChorusPluginTests.Handling
 	{
 		private IChorusFileTypeHandler _commonHandler;
 
-		[TestFixtureSetUp]
-		public void FixtureSetup()
+		[SetUp]
+		public void TestSetup()
 		{
 			_commonHandler = new FieldWorksCommonFileHandler();
 		}
 
-		[TestFixtureTearDown]
-		public void FixtureTearDown()
+		[TearDown]
+		public void TestTearDown()
 		{
 			_commonHandler = null;
 		}
@@ -36,7 +36,7 @@ namespace LibFLExBridgeChorusPluginTests.Handling
 		}
 
 		[Test]
-		public void EnsureAllSupportedExtensionsAreReturned()
+		public void EnsureAllSupportedExtensionsAreReturnedBelow9000000()
 		{
 			var supportedExtensions = new HashSet<string>
 			{
@@ -76,10 +76,93 @@ namespace LibFLExBridgeChorusPluginTests.Handling
 				FlexBridgeConstants.Trans,				// trans
 
 				// FW layouts
+				FlexBridgeConstants.fwlayout			// 'fwlayout'
+			};
+
+			MetadataCache.TestOnlyNewCache.UpgradeToVersion(7000065);
+			var knownExtensions = new HashSet<string>(_commonHandler.GetExtensionsOfKnownTextFileTypes());
+			Assert.IsTrue(knownExtensions.SetEquals(supportedExtensions));
+		}
+
+		[Test]
+		public void EnsureAllSupportedExtensionsAreReturnedAt9000000()
+		{
+			var supportedExtensions = new HashSet<string>
+			{
+				// Common
+				FlexBridgeConstants.ModelVersion,		// 'ModelVersion' Better validation done.
+				FlexBridgeConstants.CustomProperties,	// 'CustomProperties' Better validation done.
+				FlexBridgeConstants.Style,				// 'style'
+				FlexBridgeConstants.List,				// 'list'
+
+				// General
+				FlexBridgeConstants.langproj,			// 'langproj'
+				FlexBridgeConstants.Annotation,			// 'annotation'
+				FlexBridgeConstants.Filter,				// 'filter'
+				FlexBridgeConstants.orderings,			// 'orderings'
+				FlexBridgeConstants.pictures,			// 'pictures'
+
+				// Anthropology
+				FlexBridgeConstants.Ntbk,				// 'ntbk'
+
+				// Linguistics
+				FlexBridgeConstants.Reversal,			// 'reversal'
+				FlexBridgeConstants.Lexdb,				// 'lexdb' The lexicon only added one new extension "lexdb", as the lists are already taken care of.
+				FlexBridgeConstants.TextInCorpus,		// 'textincorpus' Text corpus only added one new extension "textincorpus", as the list is already taken care of.
+				FlexBridgeConstants.Inventory,			// 'inventory' inventory
+				FlexBridgeConstants.DiscourseExt,		// 'discourse' discourse
+				FlexBridgeConstants.Featsys,			// 'featsys' Feature structure systems (Phon and Morph & Syn)
+				FlexBridgeConstants.Phondata,			// 'phondata'
+				FlexBridgeConstants.Morphdata,			// 'morphdata'
+				FlexBridgeConstants.Agents,				// 'agents'
+
+				// FW layouts
+				FlexBridgeConstants.fwlayout			// 'fwlayout'
+			};
+
+			MetadataCache.TestOnlyNewCache.UpgradeToVersion(9000000);
+			var knownExtensions = new HashSet<string>(_commonHandler.GetExtensionsOfKnownTextFileTypes());
+			Assert.IsTrue(knownExtensions.SetEquals(supportedExtensions));
+		}
+
+		[Test]
+		public void EnsureAllSupportedExtensionsAreReturnedAtOrAbove9000001()
+		{
+			var supportedExtensions = new HashSet<string>
+			{
+				// Common
+				FlexBridgeConstants.ModelVersion,		// 'ModelVersion' Better validation done.
+				FlexBridgeConstants.CustomProperties,	// 'CustomProperties' Better validation done.
+				FlexBridgeConstants.Style,				// 'style'
+				FlexBridgeConstants.List,				// 'list'
+
+				// General
+				FlexBridgeConstants.langproj,			// 'langproj'
+				FlexBridgeConstants.Annotation,			// 'annotation'
+				FlexBridgeConstants.Filter,				// 'filter'
+				FlexBridgeConstants.orderings,			// 'orderings'
+				FlexBridgeConstants.pictures,			// 'pictures'
+
+				// Anthropology
+				FlexBridgeConstants.Ntbk,				// 'ntbk'
+
+				// Linguistics
+				FlexBridgeConstants.Reversal,			// 'reversal'
+				FlexBridgeConstants.Lexdb,				// 'lexdb' The lexicon only added one new extension "lexdb", as the lists are already taken care of.
+				FlexBridgeConstants.TextInCorpus,		// 'textincorpus' Text corpus only added one new extension "textincorpus", as the list is already taken care of.
+				FlexBridgeConstants.Inventory,			// 'inventory' inventory
+				FlexBridgeConstants.DiscourseExt,		// 'discourse' discourse
+				FlexBridgeConstants.Featsys,			// 'featsys' Feature structure systems (Phon and Morph & Syn)
+				FlexBridgeConstants.Phondata,			// 'phondata'
+				FlexBridgeConstants.Morphdata,			// 'morphdata'
+				FlexBridgeConstants.Agents,				// 'agents'
+
+				// FW layouts
 				FlexBridgeConstants.fwlayout,			// 'fwlayout'
 				FlexBridgeConstants.fwdictconfig		// 'fwdictconfig'
 			};
 
+			MetadataCache.TestOnlyNewCache.UpgradeToVersion(MetadataCache.MaximumModelVersion);
 			var knownExtensions = new HashSet<string>(_commonHandler.GetExtensionsOfKnownTextFileTypes());
 			Assert.IsTrue(knownExtensions.SetEquals(supportedExtensions));
 		}

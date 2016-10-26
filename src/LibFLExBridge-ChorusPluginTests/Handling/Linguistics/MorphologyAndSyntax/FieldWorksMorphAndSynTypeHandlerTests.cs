@@ -47,7 +47,7 @@ namespace LibFLExBridgeChorusPluginTests.Handling.Linguistics.MorphologyAndSynta
 		public void ExtensionOfKnownFileTypesShouldBeMorphdata()
 		{
 			var extensions = FileHandler.GetExtensionsOfKnownTextFileTypes().ToArray();
-			Assert.AreEqual(FieldWorksTestServices.ExpectedExtensionCount, extensions.Count(), "Wrong number of extensions.");
+			Assert.AreEqual(FieldWorksTestServices.ExpectedExtensionCount, extensions.Length, "Wrong number of extensions.");
 			Assert.IsTrue(extensions.Contains(FlexBridgeConstants.Morphdata));
 		}
 

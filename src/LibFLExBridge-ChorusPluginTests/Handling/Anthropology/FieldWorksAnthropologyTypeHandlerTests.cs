@@ -31,7 +31,6 @@ namespace LibFLExBridgeChorusPluginTests.Handling.Anthropology
 		public override void TestSetup()
 		{
 			base.TestSetup();
-			Mdc.UpgradeToVersion(MetadataCache.MaximumModelVersion);
 			_eventListener = new ListenerForUnitTests();
 			FieldWorksTestServices.SetupTempFilesWithName(FlexBridgeConstants.DataNotebookFilename, out _ourFile, out _commonFile, out _theirFile);
 		}
@@ -57,7 +56,7 @@ namespace LibFLExBridgeChorusPluginTests.Handling.Anthropology
 		public void ExtensionOfKnownFileTypesShouldBeReversal()
 		{
 			var extensions = FileHandler.GetExtensionsOfKnownTextFileTypes().ToArray();
-			Assert.AreEqual(FieldWorksTestServices.ExpectedExtensionCount, extensions.Count(), "Wrong number of extensions.");
+			Assert.AreEqual(FieldWorksTestServices.ExpectedExtensionCount, extensions.Length, "Wrong number of extensions.");
 			Assert.IsTrue(extensions.Contains(FlexBridgeConstants.Ntbk));
 		}
 
